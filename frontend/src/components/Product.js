@@ -1,4 +1,5 @@
 import formatValue from '../utils/formatValue'
+import Rating from './Rating'
 
 export default function Products({product}) {
   return (
@@ -10,6 +11,8 @@ export default function Products({product}) {
         <a href={`/products/${product._id}`}>
           <h2>{product.name}</h2>
         </a>
+
+        <Rating rating={product.rating} numReviews={product.numReviews} />
 
         <div className='price'>
           {formatValue(product.price)}

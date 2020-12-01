@@ -128,3 +128,8 @@ img.medium {
   color: #f0c040;
   margin: .1rem;
 }
+.rating span:last-child {
+  color: #040404;
+  margin-left: .5rem;
+  font-size: 1.4rem;
+}
