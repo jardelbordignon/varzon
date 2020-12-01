@@ -1,13 +1,130 @@
+html {
+  /* font-size default é 16px,  16px * 62.5% = 10px,  10px = 1rem */
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  padding: 0;
+  height: 100vh;
+  font-size: 1.6rem;
+  font-family: Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+#root {
+  height: 100%;
+}
+
+/* Layout */
+.grid-container {
+  display: grid;
+  grid-template-areas: 
+  'header'
+  'main'
+  'footer';
+  grid-template-columns: 1fr;
+  grid-template-rows: 6rem 1fr 6rem;
+  height: 100%;
+}
+
+header {
+  grid-area: header;
+  background-color: #203040;
+}
+
+main {
+  grid-area: main;
+}
+
+footer {
+  grid-area: footer;
+  background-color: #203040;
+  color: #fff;
+  padding: 0 5.5rem;
+  text-align: center;
+}
+footer span {
+  color: crimson;
+  margin: 0 .5rem;
+  font-size: 1.4rem;
+}
+
+/*  Common */
+h1 {
+  font-size: 1.8rem;
+  padding: 1rem 0;
+}
+h2 {
+  font-size: 1.6rem;
+  padding: 1rem 0;
+}
+a {
+  text-decoration: none;
+}
+a:hover {
+  color: #ff8000;
+}
+button {
+  outline: 0;
+  border: 0;
+  background-color: #203040;
+  color: #fff;
+  padding: 4px 8px;
+}
+button:hover {
+  background-color: #ff8000;
+}
+
+header a {
+  color: #fff;
+  padding: 1rem;
+}
+header a.bold {
+  font-size: 3rem;
+  font-weight: bold;
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+.center {
+  justify-content: center;
+}
+
+/* Image */
+img {
+  border-radius: .5rem;
+}
+img.medium {
+  max-width: 29rem;
+  width: 100%;
+}
+
+/* Card */
+.card {
+  border: .1rem solid #c0c0c0;
+  background-color: #f8f8f8;
+  border-radius: .5rem;
+  margin: .7rem;
+  padding-top: .5rem;
+}
+.card-body {
+  padding: 1rem;
+}
+.card-body > * {
+  margin-bottom: .5rem;
+}
+.price {
+  font-size: 2rem;
+}
+
+/* Rating */
+.rating span {
+  color: #f0c040;
+  margin: .1rem;
 }
