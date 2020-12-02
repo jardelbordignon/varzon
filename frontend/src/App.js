@@ -1,8 +1,10 @@
-import {data} from './data'
-import Product from './components/Product'
+import { BrowserRouter, Route } from 'react-router-dom'
+import Home from './pages/Home'
+import Product from './pages/Product'
 
 export default function App() {
   return (
+    <BrowserRouter>
     <div className='grid-container'>
       <header className='row'>
         <div>
@@ -15,14 +17,14 @@ export default function App() {
       </header>
 
       <main>
-        <div className='row center'>
-          { data.products.map(product => <Product key={product._id} product={product} />) }
-        </div>
+        <Route path='/' exact component={Home} />
+        <Route path='/product/:id' component={Product} />
       </main>
 
       <footer className='row center'>
         Feito com <span><i className="fa fa-heart-o"></i></span> por Jardel Bordignon, &copy; 2020 Todos os direitos reservados.
       </footer>
     </div>
+    </BrowserRouter>
   )
 }
