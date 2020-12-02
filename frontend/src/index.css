@@ -33,17 +33,19 @@ body {
 header {
   grid-area: header;
   background-color: #203040;
+  padding: 1rem;
 }
 
 main {
   grid-area: main;
+  padding: 1rem;
 }
 
 footer {
   grid-area: footer;
   background-color: #203040;
   color: #fff;
-  padding: 0 5.5rem;
+  padding: .5rem 5.5rem;
   text-align: center;
 }
 footer span {
@@ -171,6 +173,19 @@ img.large {
 .success {
   color: #20a020;
 }
-.error {
+.danger {
   color: crimson;
+}
+.alert {
+  padding: 1rem;
+  border: .1rem solid transparent;
+  border-radius: .5rem;
+}
+.alert-info {
+  color: #2020a0;
+  background-color: #e0e0ff;
+}
+.alert-danger {
+  color: #a02020;
+  background-color: #ffe0e0;
 }

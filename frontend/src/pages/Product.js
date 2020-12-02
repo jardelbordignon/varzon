@@ -39,8 +39,8 @@ export default function Product(props) {
               <li>
                 <div className="row">
                   <div>Status</div>
-                  <div className={countInStock > 0 ? 'success' : 'error'}>
-                    { countInStock > 0 ? 'Em Estoque' : 'Indisponível' }
+                  <div className={countInStock ? 'success' : 'danger'}>
+                    { countInStock ? 'Em Estoque' : 'Indisponível' }
                   </div>
                 </div>
               </li>

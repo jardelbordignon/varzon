@@ -2,13 +2,14 @@ import formatValue from '../utils/formatValue'
 import Rating from './Rating'
 
 export default function Products({product}) {
+  console.log(product.images[0])
   return (
-    <div key={product._id} className='card'>
-      <a href={`/product/${product._id}`}>
-        <img className='medium' src={`./images/p${product._id}.jpg`} alt={product.name} />
+    <div key={product.id} className='card'>
+      <a href={`/product/${product.id}`}>
+        <img className='medium' src={product.images[0].url} alt={product.name} />
       </a>
       <div className='card-body'>
-        <a href={`/products/${product._id}`}>
+        <a href={`/products/${product.id}`}>
           <h2>{product.name}</h2>
         </a>
 
