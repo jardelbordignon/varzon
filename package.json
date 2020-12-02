@@ -1,0 +1,12 @@
+{
+  "name": "varzon",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/jardelbordignon/varzon.git",
+  "author": "Jardel <jardel1101@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^7.14.0",
+    "eslint-plugin-react": "^7.21.5"
+  }
+}
