@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { getRepository } from 'typeorm'
+import { getRepository, Repository } from 'typeorm'
 import * as Yup from 'yup'
 
 import Product from '../models/Product'
@@ -8,21 +8,22 @@ import institutions_view from '../views/producs_view'
 export default {
 
   async index(req: Request, res: Response) {
-    const repository = getRepository(Product)
+    const repository:Repository<Product> = getRepository(Product)
     const institutions = await repository.find({ relations: ['images'] })
 
     return res.json(institutions_view.renderMany(institutions))
   },
 
   async show(req: Request, res: Response) {
-    const { id } = req.params
-
     const repository = getRepository(Product)
-    const Product = await repository.findOneOrFail(id, {
-      relations: ['images']
-    })
+    const { id } = req.params    
+    //const product = await repository.findOneOrFail(id, { relations: ['images'] })
+    const product = await repository.findOne(id, { relations: ['images'] })
 
-    return res.json(institutions_view.renderOne(Product))
+    if(!product)
+      return res.status(404).json({ message: 'Produto não encontrado' })
+    
+    return res.json(institutions_view.renderOne(product))
   },
 
   async create(req: Request, res: Response) {
@@ -68,11 +69,11 @@ export default {
     // abortEarly: false não para a validação no primeiro erro, continua e mostra todos 
     await schema.validate(data, { abortEarly: false })
 
-    const Product = repository.create(data)
+    const product = repository.create(data)
   
-    await repository.save(Product)
+    await repository.save(product)
   
-    return res.status(201).json(Product)
+    return res.status(201).json(product)
   }
 
 }

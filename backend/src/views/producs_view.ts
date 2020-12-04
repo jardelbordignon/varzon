@@ -12,6 +12,7 @@ export default {
       countInStock: product.countInStock,
       brand: product.brand,
       rating: product.rating,
+      description: product.description, 
       numReviews: product.numReviews,
       images: images_view.renderMany(product.images)
     }
