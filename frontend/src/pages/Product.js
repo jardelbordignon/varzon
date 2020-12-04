@@ -1,23 +1,35 @@
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 
-import {data} from '../data'
+import { detailsProduct } from '../redux/product/productActions'
 import Rating from '../components/Rating'
 import formatValue from '../utils/formatValue'
+import LoadingBox from '../components/LoadingBox'
+import MessageBox from '../components/MessageBox'
 
 export default function Product(props) {
-  const product = data.products.find(product => product._id === props.match.params.id)
+  const dispatch = useDispatch()
+  const productDetails = useSelector( state => state.productDetails )
+  const { loading, error, product } = productDetails
+  const productId = props.match.params.id
+
+  useEffect(() => dispatch(detailsProduct(productId)), [productId])
+
+  if (loading) return <LoadingBox />
+  if (error) return <MessageBox variant='danger'>{error}</MessageBox>
 
   if (!product)
     return <div>Produto não encontrado</div>
 
-  const {image, name, rating, numReviews, price, description, countInStock} = product
+  const {images, name, rating, numReviews, price, description, countInStock} = product
 
   return (
     <div>
       <Link to='/'>Voltar</Link>
       <div className='row top'>
         <div className="col-2">
-          <img className='large' src={image} alt={name} />
+          <img className='large' src={images[0].url} alt={name} />
         </div>
         <div className="col-1">
           <ul>
