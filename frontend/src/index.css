@@ -119,6 +119,16 @@ header a.bold {
   font-size: 3rem;
   font-weight: bold;
 }
+.badge {
+  background-color: crimson;
+  color: #fff;
+  border-radius: 50%;
+  padding: .2rem .7rem;
+  font-size: 1.4rem;
+  position: relative;
+  bottom: .6rem;
+  left: .2rem;
+}
 .row {
   display: flex;
   flex-wrap: wrap;

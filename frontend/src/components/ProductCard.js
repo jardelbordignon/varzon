@@ -1,17 +1,18 @@
+import { Link } from 'react-router-dom'
+
 import formatValue from '../utils/formatValue'
 import Rating from './Rating'
 
-export default function Products({product}) {
-  console.log(product.images[0])
+export default function ProductCard({product}) {
   return (
     <div key={product.id} className='card'>
-      <a href={`/product/${product.id}`}>
+      <Link to={`/product/${product.id}`}>
         <img className='medium' src={product.images[0].url} alt={product.name} />
-      </a>
+      </Link>
       <div className='card-body'>
-        <a href={`/products/${product.id}`}>
+        <Link to={`/products/${product.id}`}>
           <h2>{product.name}</h2>
-        </a>
+        </Link>
 
         <Rating rating={product.rating} numReviews={product.numReviews} />
 

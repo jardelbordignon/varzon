@@ -1,20 +1,28 @@
-import { BrowserRouter, Route } from 'react-router-dom'
+import { BrowserRouter, Link, Route } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 import Home from './pages/Home'
 import Product from './pages/Product'
 import Cart from './pages/Cart'
 
 export default function App() {
+  const { cartItems } = useSelector( state => state.cart )
+
   return (
     <BrowserRouter>
     <div className='grid-container'>
       <header className='row'>
         <div>
-          <a className='bold' href='/'>varzon</a>
+          <Link to='/' className='bold'>varzon</Link>
         </div>
         <div>
-          <a href='/cart'>Carrinho</a>
-          <a href='/signin'>Entrar</a>
+          <Link to='/cart'>
+            Carrinho
+            { cartItems.length &&
+              <span className='badge'>{ cartItems.length }</span>
+            }
+          </Link>
+          <Link to='/signin'>Entrar</Link>
         </div>
       </header>
 
