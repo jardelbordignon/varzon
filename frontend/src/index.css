@@ -69,7 +69,8 @@ a {
 a:hover {
   color: #ff8000;
 }
-button {
+
+input, textarea, select, button {
   padding: 1rem;
   border-radius: .5rem;
   border: .1rem solid #a4a4a4;
@@ -78,19 +79,28 @@ button {
   font-family: Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  cursor: pointer;
-  transition: background-color .3s;
 }
+
+button {
+  cursor: pointer;
+}
+input:hover,
+select:hover,
+textarea:hover,
+button:hover {
+  border: .1rem solid #404040;
+  transition: background-color .2s ease-in-out;
+  transition: border-color .2s ease-in-out;
+}
+
 button.block {
   width: 100%;
 }
 button.primary {
   background-color: #f0c040;
-  border: .1rem solid #f0c040;
 }
 button.primary:hover {
   background-color: #f5b609;
-  border: .1rem solid #203040;
 }
 ul {
   padding: 0;
