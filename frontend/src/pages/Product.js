@@ -23,9 +23,7 @@ export default function Product(props) {
 
   if (loading) return <LoadingBox />
   if (error) return <MessageBox variant='danger'>{error}</MessageBox>
-
-  if (!product)
-    return <div>Produto não encontrado</div>
+  if (!product) return <div>Produto não encontrado</div>
 
   const {images, name, rating, numReviews, price, description, countInStock} = product
 
@@ -81,7 +79,9 @@ export default function Product(props) {
                     </button>
                   </li>
                 </>
-                : <button className="primary block">Me avise quando chegar</button>
+                : <li>
+                    <button className="primary block">Me avise quando chegar</button>
+                  </li>
               }
             </ul>
           </div>
