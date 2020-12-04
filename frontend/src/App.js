@@ -2,6 +2,7 @@ import { BrowserRouter, Route } from 'react-router-dom'
 
 import Home from './pages/Home'
 import Product from './pages/Product'
+import Cart from './pages/Cart'
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
       <main>
         <Route path='/' exact component={Home} />
         <Route path='/product/:id' component={Product} />
+        <Route path='/cart/:id?' component={Cart} />
       </main>
 
       <footer className='row center'>

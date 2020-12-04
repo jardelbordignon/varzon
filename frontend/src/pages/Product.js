@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -9,12 +9,17 @@ import LoadingBox from '../components/LoadingBox'
 import MessageBox from '../components/MessageBox'
 
 export default function Product(props) {
+  const [qty, setQty] = useState(1)
   const dispatch = useDispatch()
   const productDetails = useSelector( state => state.productDetails )
   const { loading, error, product } = productDetails
   const productId = props.match.params.id
 
-  useEffect(() => dispatch(detailsProduct(productId)), [productId])
+  useEffect(() => dispatch(detailsProduct(productId)), [dispatch, productId])
+
+  function handleAddToCart() {
+    props.history.push(`/cart/${productId}?qty=${qty}`)
+  }
 
   if (loading) return <LoadingBox />
   if (error) return <MessageBox variant='danger'>{error}</MessageBox>
@@ -56,12 +61,28 @@ export default function Product(props) {
                   </div>
                 </div>
               </li>
-              <li>
-                { countInStock
-                  ? <button className="primary block">Adicionar ao carrinho</button>
-                  : <button className="primary block">Me avise quando chegar</button>
-                }
-              </li>
+              { countInStock
+              ? <>
+                  <li>
+                    <div className='row'>
+                      <div>Quant.</div>
+                      <div>
+                        <select value={qty} onChange={e => setQty(e.target.value)}>
+                          { [...Array(countInStock).keys()].map( num => (
+                            <option key={num} value={num+1}>{num+1}</option>
+                          )) }
+                        </select>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <button className='primary block' onClick={handleAddToCart}>
+                      Adicionar ao carrinho
+                    </button>
+                  </li>
+                </>
+                : <button className="primary block">Me avise quando chegar</button>
+              }
             </ul>
           </div>
         </div>
