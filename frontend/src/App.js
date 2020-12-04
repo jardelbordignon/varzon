@@ -18,7 +18,7 @@ export default function App() {
         <div>
           <Link to='/cart'>
             Carrinho
-            { cartItems.length &&
+            { !!cartItems.length &&
               <span className='badge'>{ cartItems.length }</span>
             }
           </Link>
