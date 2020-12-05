@@ -1,0 +1,33 @@
+insert into users (name, email, password, isAdmin)
+values ('Jardel', 'jardel@email.com', '12345', true);
+
+insert into users (name, email, password, isAdmin)
+values ('Sabrina', 'sabrina@email.com', '12345', true);
+
+
+insert into products (name, category, price, countInStock, brand, rating, numReviews, description)
+values ('Nike Slim Shirt', 'Shirts', 80, 10, 'Nike', 4, 19, 'High quality product Nike');
+
+insert into products (name, category, price, countInStock, brand, rating, numReviews, description)
+values ('Adidas Fit Shirt', 'Shirts', 85, 0, 'Adidas', 4, 19, 'High quality product Adidas');
+
+insert into products (name, category, price, countInStock, brand, rating, numReviews, description)
+values ('Lacoste Fit Shirt', 'Shirts', 95, 10, 'Lacoste', 4, 19, 'High quality product Lacoste');
+
+
+insert into products (name, category, price, countInStock, brand, rating, numReviews, description)
+values ('Lacoste Free Pant', 'Pants', 105, 0, 'Lacoste', 4.5, 19, 'High quality product Lacoste');
+
+insert into products (name, category, price, countInStock, brand, rating, numReviews, description)
+values ('Nike Slim Pant', 'Pants', 90, 10, 'Nike', 4.5, 15, 'High quality product Nike');
+
+insert into products (name, category, price, countInStock, brand, rating, numReviews, description)
+values ('Puma Slim Pant', 'Pants', 99, 10, 'Puma', 4, 14, 'High quality product Puma');
+
+
+insert into images(productId, path) values (1, 'products/p1.jpg');
+insert into images(productId, path) values (2, 'products/p2.jpg');
+insert into images(productId, path) values (3, 'products/p3.jpg');
+insert into images(productId, path) values (4, 'products/p4.jpg');
+insert into images(productId, path) values (5, 'products/p5.jpg');
+insert into images(productId, path) values (6, 'products/p6.jpg');

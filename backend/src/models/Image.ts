@@ -11,6 +11,6 @@ export default class Image {
   path: string
 
   @ManyToOne(() => Product, product => product.images)
-  @JoinColumn({ name: 'product_id'})
+  @JoinColumn({ name: 'productId'})
   product: Product
 }

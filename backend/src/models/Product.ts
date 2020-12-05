@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 
 import Image from './Image'
 
@@ -35,6 +35,12 @@ export default class Product {
   @OneToMany(() => Image, image => image.product, {
     cascade: ['insert', 'update']
   })
-  @JoinColumn({ name: 'product_id'})
+  @JoinColumn({ name: 'productId'})
   images: Image[]
+
+  @CreateDateColumn()
+  createdAt: Date
+
+  @UpdateDateColumn()
+  updatedAt: Date
 }
