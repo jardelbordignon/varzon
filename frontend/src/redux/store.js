@@ -10,7 +10,8 @@ const initialState = {
     userInfo: JSON.parse(localStorage.getItem('userInfo')) || false
   },
   cart: {
-    cartItems: JSON.parse(localStorage.getItem('cartItems')) || []
+    cartItems: JSON.parse(localStorage.getItem('cartItems')) || [],
+    shippingAddress: JSON.parse(localStorage.getItem('shippingAddress')) || false      
   }
 }
 

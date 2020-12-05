@@ -255,3 +255,14 @@ img.large {
 .dropdown:hover .dropdown-content {
   opacity: 1;
 }
+
+/* Checkout Steps */
+.checkout-steps > div {
+  border-bottom: .3rem solid #c0c0c0;
+  flex: 1;
+  padding: 1rem;
+}
+.checkout-steps > div.active {
+  border-color: #f08000;
+  color: #f08000;
+}
