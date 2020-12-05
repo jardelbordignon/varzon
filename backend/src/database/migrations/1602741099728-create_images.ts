@@ -15,7 +15,7 @@ export class createImages1602741099728 implements MigrationInterface {
           generationStrategy: 'increment'
         },
         {
-          name: 'product_id',
+          name: 'productId',
           type: 'integer'
         },
         {
@@ -25,8 +25,8 @@ export class createImages1602741099728 implements MigrationInterface {
       ],
       foreignKeys: [
         {
-          name: 'fkImageInstitution',
-          columnNames: ['product_id'],
+          name: 'fkImageProduct',
+          columnNames: ['productId'],
           referencedTableName: 'products',
           referencedColumnNames: ['id'],
           onUpdate: 'CASCADE',

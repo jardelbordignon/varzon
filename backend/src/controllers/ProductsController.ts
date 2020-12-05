@@ -3,15 +3,15 @@ import { getRepository, Repository } from 'typeorm'
 import * as Yup from 'yup'
 
 import Product from '../models/Product'
-import institutions_view from '../views/producs_view'
+import products_view from '../views/producs_view'
 
 export default {
 
   async index(req: Request, res: Response) {
     const repository:Repository<Product> = getRepository(Product)
-    const institutions = await repository.find({ relations: ['images'] })
+    const products = await repository.find({ relations: ['images'] })
 
-    return res.json(institutions_view.renderMany(institutions))
+    return res.json(products_view.renderMany(products))
   },
 
   async show(req: Request, res: Response) {
@@ -23,7 +23,7 @@ export default {
     if(!product)
       return res.status(404).json({ message: 'Produto não encontrado' })
     
-    return res.json(institutions_view.renderOne(product))
+    return res.json(products_view.renderOne(product))
   },
 
   async create(req: Request, res: Response) {
