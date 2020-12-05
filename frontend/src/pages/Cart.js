@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { addToCart } from '../redux/cart/cartActions'
+import { addToCart, removeFromCart } from '../redux/cart/cartActions'
 import formatValue from '../utils/formatValue'
 import MessageBox from '../components/MessageBox'
 
@@ -18,7 +18,7 @@ export default function Cart(props) {
   }, [dispatch, productId, qty])
 
   function handleRemoveFromCart(productId) {
-    
+    dispatch(removeFromCart(productId))
   }
 
   function handleCheckout() {
