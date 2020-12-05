@@ -13,13 +13,15 @@ export default function Home() {
     
   useEffect(() => dispatch(listProducts()), [dispatch])
 
+  if (loading) return <LoadingBox />
+  if (error) return <MessageBox variant='danger'>{error}</MessageBox>
+  if (!products) return <div>Nenhum produto encontrado</div>
+
   return (
     <div>
-      { loading ? <LoadingBox /> : error ? <MessageBox variant='danger'>{error}</MessageBox> :
-        <div className='row center'>
-          { products.map(product => <ProductCard key={product.id} product={product} />) }
-        </div>
-      }
+      <div className='row center'>
+        { products.map(product => <ProductCard key={product.id} product={product} />) }
+      </div>
     </div>
   )
 }

@@ -64,14 +64,14 @@ export default {
     const repository = getRepository(User)
     const { email, password } = req.body    
     const user = await repository.findOne({ email })
-    
+    console.log(user)
     if (!user) {
       res.status(401).send({ message: 'E-mail e/ou senha inválidos' })
       return
     }
 
-    //if (password === user.password) {
-    if (bcrypt.compareSync(password, user.password)) {
+    if (password === user.password) {
+    //if (bcrypt.compareSync(password, user.password)) {
       const loggedData = {
         id: user.id,
         name: user.name,

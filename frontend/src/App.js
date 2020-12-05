@@ -1,13 +1,20 @@
 import { BrowserRouter, Link, Route } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 import Home from './pages/Home'
 import Product from './pages/Product'
 import Cart from './pages/Cart'
 import SignIn from './pages/SignIn'
+import { signout } from './redux/user/userActions'
 
 export default function App() {
   const { cartItems } = useSelector( state => state.cart )
+  const { userInfo } = useSelector( state => state.userSignin )
+  const dispatch = useDispatch()
+
+  function signoutHandler() {
+    dispatch(signout())
+  }
 
   return (
     <BrowserRouter>
@@ -23,7 +30,19 @@ export default function App() {
               <span className='badge'>{ cartItems.length }</span>
             }
           </Link>
-          <Link to='/signin'>Entrar</Link>
+          { userInfo 
+            ? (
+              <div className="dropdown">
+                <Link to='#'>
+                  { userInfo.name } <i className='fa fa-caret-down'></i>
+                </Link>
+                <ul className='dropdown-content'>
+                  <Link to='#' onClick={signoutHandler}>Sair</Link>
+                </ul>
+              </div>            
+            )
+            : <Link to='/signin'>Entrar</Link>
+          }
         </div>
       </header>
 

@@ -3,8 +3,12 @@ import thunk from 'redux-thunk'
 
 import { productDetailsReducer, productListReducer } from './product/productReducer'
 import { cartReducer } from './cart/cartReducer'
+import { userSigninReducer } from './user/userReducer'
 
 const initialState = {
+  userSignin: {
+    userInfo: JSON.parse(localStorage.getItem('userInfo')) || false
+  },
   cart: {
     cartItems: JSON.parse(localStorage.getItem('cartItems')) || []
   }
@@ -13,7 +17,8 @@ const initialState = {
 const reducers = combineReducers({
   productList: productListReducer,
   productDetails: productDetailsReducer,
-  cart: cartReducer
+  cart: cartReducer,
+  userSignin: userSigninReducer
 })
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
