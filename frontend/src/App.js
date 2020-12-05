@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import Home from './pages/Home'
 import Product from './pages/Product'
 import Cart from './pages/Cart'
+import SignIn from './pages/SignIn'
 
 export default function App() {
   const { cartItems } = useSelector( state => state.cart )
@@ -30,6 +31,7 @@ export default function App() {
         <Route path='/' exact component={Home} />
         <Route path='/product/:id' component={Product} />
         <Route path='/cart/:id?' component={Cart} />
+        <Route path='/signin' component={SignIn} />
       </main>
 
       <footer className='row center'>
