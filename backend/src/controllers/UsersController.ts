@@ -29,30 +29,24 @@ export default {
   },
 
   async create(req: Request, res: Response) {
-    const { name, email, password, isAdmin } = req.body
+    const { name, email, password, isAdmin=false } = req.body
 
-    // const reqImages = req.files as Express.Multer.File[]
-    // const images = reqImages.map(image => ({path: image.filename}))
     const repository = getRepository(User)
   
-    const data = { name, email, password, isAdmin }
+    const userData = { name, email, password, isAdmin }
 
     const schema = Yup.object().shape({
       name:     Yup.string().required(),
       email:    Yup.string().required(),
       password: Yup.string().required(),
       isAdmin:  Yup.boolean().required(),
-      // latitude:         Yup.number().required(),
-      // longitude:        Yup.number().required(),
-      // images:           Yup.array(
-      //   Yup.object().shape({ path: Yup.string().required() })
-      // ).required()
     })
 
-    // abortEarly: false não para a validação no primeiro erro, continua e mostra todos 
-    await schema.validate(data, { abortEarly: false })
+    await schema.validate(userData, { abortEarly: false })
+    
+    userData.password = bcrypt.hashSync(userData.password, 8)
 
-    const user = repository.create(data)
+    const user = repository.create(userData)
   
     await repository.save(user)
   
@@ -70,8 +64,8 @@ export default {
       return
     }
 
-    if (password === user.password) {
-    //if (bcrypt.compareSync(password, user.password)) {
+    //if (password === user.password) {
+    if (bcrypt.compareSync(password, user.password)) {
       const loggedData = {
         id: user.id,
         name: user.name,
