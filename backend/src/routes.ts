@@ -13,6 +13,7 @@ routes.get('/products', ProductsController.index)
 routes.get('/products/:id', ProductsController.show)
 routes.post('/products', upload.array('images'), ProductsController.create)
 
+routes.post('/users/signup', UsersController.create)
 routes.post('/users/signin', UsersController.signin)
 
 

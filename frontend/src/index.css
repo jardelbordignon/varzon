@@ -197,6 +197,9 @@ img.large {
 }
 
 /* Alert */
+.loading-box {
+  display: block !important;
+}
 .success {
   color: #20a020;
 }

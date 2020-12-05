@@ -1,6 +1,6 @@
 export default function LoadingBox() {
   return (
-    <div>
+    <div className='loading-box'>
       <i className='fa fa-spinner'>Carregando...</i>   
     </div>
   )

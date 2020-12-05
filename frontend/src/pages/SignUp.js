@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom'
 
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { signin } from '../redux/user/userActions';
+import { signup } from '../redux/user/userActions';
 
-export default function SignIn(props) {
-  const [obj, setObj] = useState({email: '', password: ''})
+export default function SignUp(props) {
+  const [obj, setObj] = useState({name: '', email: '', password: '', passwordConfirmation: ''})
   const { userInfo, loading, error } = useSelector( state => state.userSignin )
   const dispatch = useDispatch()
   const redirect = props.location.search.split('=')[1] || '/'
@@ -18,17 +18,28 @@ export default function SignIn(props) {
 
   function submitHandler(e) {
     e.preventDefault();
-    dispatch(signin(obj))
+
+    if (obj.password !== obj.passwordConfirmation) {
+      alert('Senha e confirmação não são iguais')
+      return 
+    } 
+
+    dispatch(signup(obj))
   }
 
   return (
     <div>
       <form className='form' onSubmit={submitHandler}>
         <div>
-          <h1>Autenticação</h1>
+          <h1>Cadastro</h1>
         </div>
         { loading && <LoadingBox /> }
         { error && <MessageBox variant='danger'>{error}</MessageBox> }
+        <div>
+          <label htmlFor='name'>Nome</label>
+          <input placeholder='Informe seu nome' required
+            onChange={e => setObj({...obj, name: e.target.value})} />
+        </div>
         <div>
           <label htmlFor='email'>E-mail</label>
           <input type='email' placeholder='Informe seu e-mail' required
@@ -40,13 +51,18 @@ export default function SignIn(props) {
             onChange={e => setObj({...obj, password: e.target.value})} />
         </div>
         <div>
+          <label htmlFor='passwordConfirmation'>Confirmar Senha</label>
+          <input type='password' placeholder='Confirme sua senha' required
+            onChange={e => setObj({...obj, passwordConfirmation: e.target.value})} />
+        </div>
+        <div>
           <br />
-          <button className='primary' type='submit'>Entrar</button>
+          <button className='primary' type='submit'>Criar conta</button>
         </div>
         <div>
           <br />
           <div>
-            Não é cadastrado? <Link to={`/signup?redirect=${redirect}`}>Crie sua conta</Link>
+            Já tem uma conta? <Link to={`/signin?redirect=${redirect}`}>Entrar</Link>
           </div>
         </div>
       </form>
