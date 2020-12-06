@@ -10,7 +10,6 @@ export default function ShippingAddress(props) {
 
   const dispatch = useDispatch()
   const { shippingAddress } = useSelector( state => state.cart )
-  console.log(shippingAddress)
 
   const [obj, setObj] = useState(shippingAddress)
 
@@ -76,7 +75,7 @@ export default function ShippingAddress(props) {
         <div>
           <br/>
           <button className='primary' type='submit'>
-            Salvar e continuar
+            Salvar endereço
           </button>
         </div>
       </form>
