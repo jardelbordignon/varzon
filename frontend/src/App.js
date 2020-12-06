@@ -6,7 +6,8 @@ import Product from './pages/Product'
 import Cart from './pages/Cart'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
-import ShippingAddress from './pages/ShippingAddress'
+import Shipping from './pages/Shipping'
+import Payment from './pages/Payment'
 import { signout } from './redux/user/userActions'
 
 export default function App() {
@@ -54,7 +55,8 @@ export default function App() {
         <Route path='/cart/:id?' component={Cart} />
         <Route path='/signin' component={SignIn} />
         <Route path='/signup' component={SignUp} />
-        <Route path='/shipping' component={ShippingAddress} />
+        <Route path='/shipping' component={Shipping} />
+        <Route path='/payment' component={Payment} />
       </main>
 
       <footer className='row center'>

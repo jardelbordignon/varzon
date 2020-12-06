@@ -11,7 +11,8 @@ const initialState = {
   },
   cart: {
     cartItems: JSON.parse(localStorage.getItem('cartItems')) || [],
-    shippingAddress: JSON.parse(localStorage.getItem('shippingAddress')) || false      
+    shippingAddress: JSON.parse(localStorage.getItem('shippingAddress')) || false,
+    paymentMethod: null //'PayPal'
   }
 }
 
