@@ -4,7 +4,7 @@ export default function CheckoutSteps(props) {
       <div className={props.step1 && 'active'}>Autenticação</div>
       <div className={props.step2 && 'active'}>Endereço de entrega</div>
       <div className={props.step3 && 'active'}>Pagamento</div>
-      <div className={props.step4 && 'active'}>Place Order</div>
+      <div className={props.step4 && 'active'}>Finalização do pedido</div>
     </div>
   )
 }
