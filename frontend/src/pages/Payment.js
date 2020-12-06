@@ -5,7 +5,7 @@ import CheckoutSteps from '../components/CheckoutSteps'
 import { savePaymentMethod } from '../redux/cart/cartActions'
 
 export default function Payment(props) {
-  const { shippingAddress } = useSelector( state => state.userSignin )
+  const { shippingAddress } = useSelector( state => state.cart )
   if (!shippingAddress) props.history.push('/shipping')
 
   const dispatch = useDispatch()
