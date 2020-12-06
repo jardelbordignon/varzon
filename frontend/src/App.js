@@ -8,6 +8,7 @@ import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import Shipping from './pages/Shipping'
 import Payment from './pages/Payment'
+import PlaceOrder from './pages/PlaceOrder'
 import { signout } from './redux/user/userActions'
 
 export default function App() {
@@ -57,6 +58,7 @@ export default function App() {
         <Route path='/signup' component={SignUp} />
         <Route path='/shipping' component={Shipping} />
         <Route path='/payment' component={Payment} />
+        <Route path='/placeorder' component={PlaceOrder} />
       </main>
 
       <footer className='row center'>

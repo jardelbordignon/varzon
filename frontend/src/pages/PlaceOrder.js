@@ -85,7 +85,7 @@ export default function PlaceOrder(props) {
           <div className='card card-body'>
             <ul>
               <li>
-                <h2>Order Summary</h2>
+                <h2>Resumo do Pedido</h2>
               </li>
               <li>
                 <div className='row'>
