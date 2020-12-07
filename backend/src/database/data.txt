@@ -1,9 +1,3 @@
-insert into users (name, email, password, isAdmin)
-values ('Jardel', 'jardel@email.com', '12345', true);
-
-insert into users (name, email, password, isAdmin)
-values ('Sabrina', 'sabrina@email.com', '12345', true);
-
 
 insert into products (name, category, price, countInStock, brand, rating, numReviews, description)
 values ('Nike Slim Shirt', 'Shirts', 80, 10, 'Nike', 4, 19, 'High quality product Nike');

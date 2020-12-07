@@ -20,7 +20,7 @@ export default function PlaceOrder(props) {
   cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice
 
   function placeOrderHandler() {
-
+    console.log(cart)
   }
 
   return (
@@ -68,10 +68,10 @@ export default function PlaceOrder(props) {
                           <Link to={`/product/${cartItem.productId}`}> {cartItem.name} </Link>
                         </div>
                         <div>
-                          { cartItem.qty > 1  
-                            ? `${cartItem.qty} X ${formatValue(cartItem.price)} = ${formatValue(cartItem.qty * cartItem.price)}`
-                            : `${formatValue(cartItem.price)}`
-                          }
+                        { cartItem.qty > 1 && (
+                          <small>{cartItem.qty} x {formatValue(cartItem.price)} = </small>) 
+                        }
+                        { formatValue(cartItem.qty * cartItem.price) }
                         </div>
                       </div>
                     </li>
