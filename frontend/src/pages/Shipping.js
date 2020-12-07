@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import CheckoutSteps from '../components/CheckoutSteps'
 import { saveShippingAddress } from '../redux/cart/cartActions'
 
-export default function ShippingAddress(props) {
+export default function Shipping(props) {
   const { userInfo } = useSelector( state => state.userSignin )
   if (!userInfo) props.history.push('/signin')
 
