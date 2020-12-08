@@ -1,7 +1,8 @@
-import { Entity, Column, OneToMany, ManyToOne, JoinColumn, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
+import { Entity, Column, OneToMany, ManyToOne, JoinColumn, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne } from 'typeorm'
 
 import User from './User'
 import OrderItem from './OrderItem'
+import Address from './Address'
 
 @Entity('orders')
 export default class Order {
@@ -13,9 +14,13 @@ export default class Order {
   @JoinColumn({ name: 'oderId'})
   orderItems: OrderItem[]
 
-  @ManyToOne(() => User, user => user.addresses)
+  @ManyToOne(() => User, user => user.orders)
   @JoinColumn({ name: 'userId'})
   user: User
+
+  @OneToOne(() => Address)
+  @JoinColumn()
+  address: Address
 
   @Column()
   paymentMethod: string

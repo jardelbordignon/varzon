@@ -4,7 +4,7 @@ import * as Yup from 'yup'
 
 import User from '../models/User'
 import Order from '../models/Order'
-import OrderItem from '../models/OrderItem'
+import Address from '../models/Address'
 //import orders_view from '../views/producs_view'
 
 export default {
@@ -19,7 +19,7 @@ export default {
   async show(req: Request, res: Response) {
     const repository = getRepository(Order)
     const { id } = req.params    
-    //const order = await repository.findOneOrFail(id, { relations: ['images'] })
+
     const order = await repository.findOne(id, { relations: ['orderItems', 'address'] })
 
     if(!order)
@@ -36,6 +36,7 @@ export default {
     }
     
     const userRepository = getRepository(User)
+    const addressRepository = getRepository(Address)
     const repository = getRepository(Order)
   
     // const schema = Yup.object().shape({
@@ -50,29 +51,34 @@ export default {
     //     Yup.object().shape({ path: Yup.string().required() })
     //   ).required()
     // })
-
+    
     // abortEarly: false não para a validação no primeiro erro, continua e mostra todos 
     // await schema.validate(data, { abortEarly: false })
-
+    
     const user = await userRepository.findOne(req.user.id)
-
-    const orderData = {
-      orderItems:      req.body.orderItems,
-      shippingAddress: req.body.shippingAddress,
-      paymentMethod:   req.body.paymentMethod,
-      itemsPrice:      req.body.itemsPrice,
-      shippingPrice:   req.body.shippingPrice,
-      taxPrice:        req.body.taxPrice,
-      user
+    
+    if (!user) {
+      res.status(400).json({ message: 'Usuário não encontrado'})
+      return
     }
 
-    console.log(orderData)
+    const newAddress = new Address()
+    newAddress.user = user
+    Object.assign(newAddress, req.body.shippingAddress)
+    const address = await addressRepository.save(newAddress)
+
+    const {orderItems, paymentMethod, itemsPrice, shippingPrice, taxPrice} = req.body
+    
+    const orderData = {
+      user, address, orderItems, paymentMethod, itemsPrice, shippingPrice, taxPrice
+    }
     
     const order = repository.create(orderData)
   
     await repository.save(order)
-  
-    return res.status(201).json({ message: 'Pedido criado com sucesso', order })
+    //const getOrder = await repository.findOne(order.id, { relations: ['orderItems', 'address'] })
+      
+    return res.status(201).json({ message: 'Pedido criado com sucesso', order})
   }
 
 }

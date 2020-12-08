@@ -18,7 +18,7 @@ export const signup = ({name, email, password}) => async dispatch => {
     dispatch({ type: USER_SIGNIN_SUCCESS, payload: data })
     localStorage.setItem('userInfo', JSON.stringify(data))
   } catch (error) {
-    dispatch({ type: USER_SIGNUP_FAIL, payload: error.response.data.message || error.message })
+    dispatch({ type: USER_SIGNUP_FAIL, payload: error.response?.data.message || error.message })
   }
 }
 
@@ -29,7 +29,7 @@ export const signin = ({email, password}) => async dispatch => {
     dispatch({ type: USER_SIGNIN_SUCCESS, payload: data })
     localStorage.setItem('userInfo', JSON.stringify(data))
   } catch (error) {
-    dispatch({ type: USER_SIGNIN_FAIL, payload: error.response.data.message || error.message })
+    dispatch({ type: USER_SIGNIN_FAIL, payload: error.response?.data.message || error.message })
   }
 }
 

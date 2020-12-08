@@ -12,4 +12,31 @@ export default class Address {
   @JoinColumn({ name: 'userId'})
   user: User
 
+  @Column()
+  fullName: string
+
+  @Column()
+  street: string
+  
+  @Column()
+  number: string
+
+  @Column()
+  complement: string
+
+  @Column()
+  neighborhood: string
+
+  @Column()
+  city: string
+
+  @Column()
+  state: string
+
+  @Column()
+  country: string
+
+  @Column()
+  postalCode: string
+
 }
