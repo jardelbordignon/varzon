@@ -3,6 +3,15 @@ import jwt from 'jsonwebtoken'
 import User from '../models/User'
 
 const jwt_secret_key = 'compadrecomprameucocoporquequempoucocococomprapoucocococome'
+ 
+interface DecodeProps {
+  id: number
+  name: string
+  email: string
+  isAdmin: boolean
+  iat: number
+  exp: number
+}
 
 const generateToken = (user: User) => {
   const { id, name, email, isAdmin } = user
@@ -25,7 +34,7 @@ export const isAuth = (req: Request, res: Response, next: NextFunction) => {
       if (error) {
         res.status(401).send({ message: 'Token inválido' })
       } else {
-        req.user = decode
+        req.user = decode as DecodeProps
         next()
       }
     })

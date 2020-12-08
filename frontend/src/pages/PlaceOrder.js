@@ -1,15 +1,20 @@
-import React from 'react'
+import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
+import LoadingBox from '../components/LoadingBox'
+import MessageBox from '../components/MessageBox'
 import CheckoutSteps from '../components/CheckoutSteps'
 import formatValue from '../utils/formatValue'
+import { createOrder } from '../redux/order/orderActions'
+import { ORDER_CREATE_RESET } from '../redux/order/orderConsts'
 
 export default function PlaceOrder(props) {
   const cart = useSelector(state => state.cart)
   if (!cart.paymentMethod) props.history.push('/payment')
 
   const dispatch = useDispatch()
+  const {loading, success, error, order} = useSelector( state => state.orderCreate )
 
   cart.itemsPrice = formatValue(
     cart.cartItems.reduce((total, item) => total + item.qty * item.price, 0), 'toF'
@@ -21,7 +26,15 @@ export default function PlaceOrder(props) {
 
   function placeOrderHandler() {
     console.log(cart)
+    dispatch(createOrder({...cart, orderItems: cart.cartItems}))
   }
+
+  useEffect(() => {
+    if (success) {
+      props.history.push('/order/'+ order.id)
+      dispatch({ type: ORDER_CREATE_RESET })
+    } 
+  }, [dispatch, order, props.history, success])
 
   return (
     <div>
@@ -118,6 +131,8 @@ export default function PlaceOrder(props) {
                   Finalizar Pedido
                 </button>
               </li>
+              { loading && <LoadingBox /> }
+              { error && <MessageBox variant='danger'>{error}</MessageBox> }
             </ul>
           </div>
         </div>

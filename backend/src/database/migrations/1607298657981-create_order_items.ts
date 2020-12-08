@@ -23,15 +23,15 @@ export class createOrderItems1607298657981 implements MigrationInterface {
           type: 'integer'
         },
         {
-          name: 'productName',
+          name: 'name',
           type: 'varchar'
         },
         {
-          name: 'productImg',
+          name: 'imageUrl',
           type: 'varchar'
         },
         {
-          name: 'productPrice',
+          name: 'price',
           type: 'decimal',
           scale: 10,
           precision: 2

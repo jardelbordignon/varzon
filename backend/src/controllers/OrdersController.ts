@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { getRepository, Repository } from 'typeorm'
 import * as Yup from 'yup'
 
+import User from '../models/User'
 import Order from '../models/Order'
 import OrderItem from '../models/OrderItem'
 //import orders_view from '../views/producs_view'
@@ -34,7 +35,7 @@ export default {
       return
     }
     
-
+    const userRepository = getRepository(User)
     const repository = getRepository(Order)
   
     // const schema = Yup.object().shape({
@@ -53,6 +54,8 @@ export default {
     // abortEarly: false não para a validação no primeiro erro, continua e mostra todos 
     // await schema.validate(data, { abortEarly: false })
 
+    const user = await userRepository.findOne(req.user.id)
+
     const orderData = {
       orderItems:      req.body.orderItems,
       shippingAddress: req.body.shippingAddress,
@@ -60,9 +63,11 @@ export default {
       itemsPrice:      req.body.itemsPrice,
       shippingPrice:   req.body.shippingPrice,
       taxPrice:        req.body.taxPrice,
-      user:            req.user.id
+      user
     }
 
+    console.log(orderData)
+    
     const order = repository.create(orderData)
   
     await repository.save(order)
