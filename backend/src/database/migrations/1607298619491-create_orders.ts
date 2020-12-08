@@ -42,11 +42,13 @@ export class createOrders1607298619491 implements MigrationInterface {
         },
         {
           name: 'paidAt',
-          type: 'timestamp'
+          type: 'datetime',
+          isNullable: true
         },
         {
           name: 'deliveredAt',
-          type: 'timestamp'
+          type: 'datetime',
+          isNullable: true
         },
         {
           name: 'createdAt',

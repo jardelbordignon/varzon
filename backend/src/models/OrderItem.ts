@@ -15,13 +15,13 @@ export default class OrderItem {
   productId: number
 
   @Column()
-  productName: string
+  name: string
 
   @Column()
-  productImg: string
+  imageUrl: string
 
   @Column()
-  productPrice: number
+  price: number
 
   @Column()
   qty: number
