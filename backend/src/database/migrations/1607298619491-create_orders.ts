@@ -19,6 +19,10 @@ export class createOrders1607298619491 implements MigrationInterface {
           type: 'integer'
         },
         {
+          name: 'addressId',
+          type: 'integer'
+        },        
+        {
           name: 'paymentMethod',
           type: 'varchar'
         },

@@ -4,7 +4,11 @@ import thunk from 'redux-thunk'
 import { productDetailsReducer, productListReducer } from './product/productReducer'
 import { cartReducer } from './cart/cartReducer'
 import { userSigninReducer, userSignupReducer } from './user/userReducer'
-import { orderCreateReducer } from './order/orderReducer'
+import { orderCreateReducer, orderDetailsReducer } from './order/orderReducer'
+
+const shippingAddressClean = {
+  fullName:'', street:'', number:'', complement:'', neighborhood:'', city:'', state:'', country:'', postalCode:''
+}
 
 const initialState = {
   userSignin: {
@@ -12,9 +16,7 @@ const initialState = {
   },
   cart: {
     cartItems: JSON.parse(localStorage.getItem('cartItems')) || [],
-    shippingAddress: JSON.parse(localStorage.getItem('shippingAddress')) || {
-      fullName:'', address:'', complement:'', neighborhood:'', city:'', state:'', country:'', postalCode:''
-    },
+    shippingAddress: JSON.parse(localStorage.getItem('shippingAddress')) || shippingAddressClean,
     paymentMethod: null //'PayPal'
   }
 }
@@ -25,7 +27,8 @@ const reducers = combineReducers({
   cart: cartReducer,
   userSignin: userSigninReducer,
   userSignup: userSignupReducer,
-  orderCreate: orderCreateReducer
+  orderCreate: orderCreateReducer,
+  orderDetails: orderDetailsReducer
 })
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose

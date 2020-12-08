@@ -31,10 +31,16 @@ export default function Shipping(props) {
             onChange={e => setObj({...obj, fullName: e.target.value})} />
         </div>
         <div>
-          <label htmlFor='address'>Endereço</label>
-          <input id='address' placeholder='Ex.: Avenida Flores da Cunha, 1234 - Apto 101' required
-            value={obj.address}
-            onChange={e => setObj({...obj, address: e.target.value})} />
+          <label htmlFor='street'>Logradouro</label>
+          <input id='street' placeholder='Ex.: Avenida Flores da Cunha' required
+            value={obj.street}
+            onChange={e => setObj({...obj, street: e.target.value})} />
+        </div>
+        <div>
+          <label htmlFor='number'>Numero</label>
+          <input id='number' placeholder='Ex.: 1234 A' required
+            value={obj.number}
+            onChange={e => setObj({...obj, number: e.target.value})} />
         </div>
         <div>
           <label htmlFor='complement'>Complemento</label>

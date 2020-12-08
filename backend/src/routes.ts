@@ -19,5 +19,6 @@ routes.post('/users/signup', UsersController.create)
 routes.post('/users/signin', UsersController.signin)
 
 routes.post('/orders', isAuth, OrdersController.create)
+routes.get('/orders/:id', isAuth, OrdersController.show)
 
 export default routes
