@@ -1,6 +1,8 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
+import Axios from 'axios'
+import { PayPalButton } from 'react-paypal-button-v2'
 
 import LoadingBox from '../components/LoadingBox'
 import MessageBox from '../components/MessageBox'
@@ -8,15 +10,39 @@ import formatValue from '../utils/formatValue'
 import { detailsOrder } from '../redux/order/orderActions'
 
 export default function Order(props) {
-
+  const [sdkReady, setSdkReady] = useState(false)
   const orderId = props.match.params.id
   const { order, loading, error } = useSelector( state => state.orderDetails )
   const dispatch = useDispatch()
 
-  useEffect(() => 
-    dispatch(detailsOrder(orderId)),
-    [dispatch, orderId]
+  useEffect(() => {
+      const addPayPalScript = async () => {
+        const { data } = await Axios.get('/config/paypal')
+        const script = document.createElement('script')
+        script.type = 'text/javascript'
+        script.src = `https://www.paypal.com/sdk/js?client-id=${data}&currency=BRL`
+        script.async = true
+        script.onload = () => setSdkReady(true)
+        document.body.appendChild(script)
+      }
+
+      if (!order?.data?.id)
+        dispatch(detailsOrder(orderId))
+      else {
+        if (!order.data?.paidAt) {
+          if (!window.paypal)
+            addPayPalScript()
+          else
+            setSdkReady(true)
+        }
+      }
+    },
+    [dispatch, orderId, order, sdkReady]
   )
+
+  function successPaymentHandler() {
+
+  }
 
   if (loading) return <LoadingBox />
   if (error) return <MessageBox variant='danger'>{error}</MessageBox>
@@ -116,6 +142,17 @@ export default function Order(props) {
                   <div><strong>{formatValue(itemsPrice + shippingPrice + taxPrice)}</strong></div>
                 </div>
               </li>
+              { !paidAt &&
+                <li>
+                  { !sdkReady 
+                    ? <LoadingBox />
+                    : <PayPalButton
+                      amount={itemsPrice + shippingPrice + taxPrice}
+                      options={{currency: 'BRL'}}
+                      onSuccess={successPaymentHandler} />
+                  }
+                </li>
+              }
             </ul>
           </div>
         </div>
