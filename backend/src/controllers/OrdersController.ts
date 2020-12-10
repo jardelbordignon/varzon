@@ -100,6 +100,13 @@ export default {
 
     const updatedOrder = await repository.save(order)
     return res.status(201).json({ message: 'Pedido pago com sucesso', order: updatedOrder })    
+  },
+
+  async mine(req: Request, res: Response) {
+    const repository = getRepository(Order)
+    const orders = await repository.find({where: { user: req.user.id }})
+
+    res.send(orders)
   }
 
 }
