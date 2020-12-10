@@ -79,6 +79,27 @@ export default {
     //const getOrder = await repository.findOne(order.id, { relations: ['orderItems', 'address'] })
       
     return res.status(201).json({ message: 'Pedido criado com sucesso', order})
+  },
+
+  async pay(req: Request, res: Response) {
+    const repository = getRepository(Order)
+    
+    const order = await repository.findOne(req.params.id)
+
+    if(!order)
+      return res.status(404).json({ message: 'Pedido não encontrado' })
+    
+    const { id, status, update_time } = req.body
+    const { email_address, payer_id } = req.body.payer
+
+    order.paidAt = new Date(Date.now())
+    order.paymentId = id
+    order.paymentStatus = status
+    order.paymentUpdateTime = update_time
+    order.paymentEmailAddress = email_address
+
+    const updatedOrder = await repository.save(order)
+    return res.status(201).json({ message: 'Pedido pago com sucesso', order: updatedOrder })    
   }
 
 }

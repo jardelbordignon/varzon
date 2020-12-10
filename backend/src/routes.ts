@@ -20,6 +20,7 @@ routes.post('/users/signin', UsersController.signin)
 
 routes.post('/orders', isAuth, OrdersController.create)
 routes.get('/orders/:id', isAuth, OrdersController.show)
+routes.put('/orders/:id/pay', isAuth, OrdersController.pay)
 
 routes.get('/config/paypal', (req, res) => {
   res.send(process.env.PAYPAL_CLIENT_ID || 'sb')

@@ -26,6 +26,18 @@ export default class Order {
   paymentMethod: string
 
   @Column()
+  paymentId: string
+
+  @Column()
+  paymentStatus: string
+
+  @Column()
+  paymentUpdateTime: string
+
+  @Column()
+  paymentEmailAddress: string
+  
+  @Column()
   itemsPrice: number
 
   @Column()
