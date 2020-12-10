@@ -11,7 +11,10 @@ import {
   ORDER_PAY_REQUEST,
   ORDER_PAY_SUCCESS,
   ORDER_PAY_FAIL,
-  ORDER_PAY_RESET
+  ORDER_PAY_RESET,
+  ORDER_MINE_LIST_REQUEST,
+  ORDER_MINE_LIST_FAIL,
+  ORDER_MINE_LIST_SUCCESS
 } from './orderConsts'
 import { CART_EMPTY } from '../cart/cartConsts'
 
@@ -41,7 +44,6 @@ export const detailsOrder = orderId => async (dispatch, getState) => {
         Authorization: 'Bearer ' + userInfo.token
       }
     })
-    console.log(order)
     dispatch({ type: ORDER_DETAILS_SUCCESS, payload: order })
   } catch (error) {
     dispatch({ type: ORDER_DETAILS_FAIL, payload: error.response?.data.message || error.message })
@@ -58,5 +60,20 @@ export const payOrder = (order, paymentResult) => async (dispatch, getState) => 
     dispatch({ type: ORDER_PAY_SUCCESS, payload: data })
   } catch (error) {
     dispatch({ type: ORDER_PAY_FAIL, payload: error.response?.data.message || error.message })
+  }
+}
+
+export const listOrderMine = () => async (dispatch, getState) => {
+  dispatch({ type: ORDER_MINE_LIST_REQUEST })
+  const { userSignin: { userInfo } } = getState()
+  try {
+    const { data } = await Axios.get(`/orders/mine`, { 
+      headers: {
+        Authorization: 'Bearer ' + userInfo.token
+      }
+    })
+    dispatch({ type: ORDER_MINE_LIST_SUCCESS, payload: data })
+  } catch (error) {
+    dispatch({ type: ORDER_MINE_LIST_FAIL, payload: error.response?.data.message || error.message })
   }
 }

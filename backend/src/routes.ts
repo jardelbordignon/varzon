@@ -19,6 +19,7 @@ routes.post('/users/signup', UsersController.create)
 routes.post('/users/signin', UsersController.signin)
 
 routes.post('/orders', isAuth, OrdersController.create)
+routes.get('/orders/mine', isAuth, OrdersController.mine)
 routes.get('/orders/:id', isAuth, OrdersController.show)
 routes.put('/orders/:id/pay', isAuth, OrdersController.pay)
 
