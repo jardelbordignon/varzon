@@ -27,6 +27,26 @@ export class createOrders1607298619491 implements MigrationInterface {
           type: 'varchar'
         },
         {
+          name: 'paymentId',
+          type: 'varchar',
+          isNullable: true
+        },
+        {
+          name: 'paymentStatus',
+          type: 'varchar',
+          isNullable: true
+        },
+        {
+          name: 'paymentUpdateTime',
+          type: 'varchar',
+          isNullable: true
+        },
+        {
+          name: 'paymentEmailAddress',
+          type: 'varchar',
+          isNullable: true
+        },
+        {
           name: 'itemsPrice',
           type: 'decimal',
           scale: 10,

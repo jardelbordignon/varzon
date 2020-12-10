@@ -7,12 +7,15 @@ import { PayPalButton } from 'react-paypal-button-v2'
 import LoadingBox from '../components/LoadingBox'
 import MessageBox from '../components/MessageBox'
 import formatValue from '../utils/formatValue'
-import { detailsOrder } from '../redux/order/orderActions'
+import formatDate from '../utils/formatDate'
+import { detailsOrder, payOrder } from '../redux/order/orderActions'
+import { ORDER_PAY_RESET } from '../redux/order/orderConsts'
 
 export default function Order(props) {
   const [sdkReady, setSdkReady] = useState(false)
   const orderId = props.match.params.id
   const { order, loading, error } = useSelector( state => state.orderDetails )
+  const { error: errorPay, loading: loadingPay, success: successPay } = useSelector( state => state.orderPay )
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -26,9 +29,10 @@ export default function Order(props) {
         document.body.appendChild(script)
       }
 
-      if (!order?.data?.id)
+      if (!order || successPay || (String(order.data?.id) !== orderId)) {
+        dispatch({ type: ORDER_PAY_RESET })
         dispatch(detailsOrder(orderId))
-      else {
+      } else {
         if (!order.data?.paidAt) {
           if (!window.paypal)
             addPayPalScript()
@@ -37,11 +41,12 @@ export default function Order(props) {
         }
       }
     },
-    [dispatch, orderId, order, sdkReady]
+    [dispatch, orderId, order, sdkReady, successPay]
   )
 
-  function successPaymentHandler() {
-
+  function successPaymentHandler(paymentResult) {
+    //console.log(paymentResult) // retorno do pagamento via paypal 
+    dispatch(payOrder(order, paymentResult))
   }
 
   if (loading) return <LoadingBox />
@@ -79,7 +84,7 @@ export default function Order(props) {
                   <strong>Via:</strong> {order.data.paymentMethod}
                 </p>
                 { !!paidAt
-                  ? <MessageBox variant='success'>Pagamento efetuado em {paidAt}</MessageBox>
+                  ? <MessageBox variant='success'>Pagamento efetuado <strong>{formatDate(paidAt, true)}</strong></MessageBox>
                   : <MessageBox variant='danger'>Aguardando pagamento</MessageBox>
                 }
               </div>
@@ -146,10 +151,16 @@ export default function Order(props) {
                 <li>
                   { !sdkReady 
                     ? <LoadingBox />
-                    : <PayPalButton
-                      amount={itemsPrice + shippingPrice + taxPrice}
-                      options={{currency: 'BRL'}}
-                      onSuccess={successPaymentHandler} />
+                    : (
+                      <>
+                        { errorPay && <MessageBox variant='danger'>{errorPay}</MessageBox> }
+                        { loadingPay && <LoadingBox /> }
+                        <PayPalButton
+                          amount={itemsPrice + shippingPrice + taxPrice}
+                          options={{currency: 'BRL'}}
+                          onSuccess={successPaymentHandler} />
+                      </>
+                    )
                   }
                 </li>
               }
