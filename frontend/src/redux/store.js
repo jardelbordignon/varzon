@@ -3,7 +3,7 @@ import thunk from 'redux-thunk'
 
 import { productDetailsReducer, productListReducer } from './product/productReducer'
 import { cartReducer } from './cart/cartReducer'
-import { userSigninReducer, userSignupReducer } from './user/userReducer'
+import { userDetailsReducer, userSigninReducer, userSignupReducer } from './user/userReducer'
 import { orderCreateReducer, orderDetailsReducer, orderMineListReducer, orderPayReducer } from './order/orderReducer'
 
 const shippingAddressClean = {
@@ -30,7 +30,8 @@ const reducers = combineReducers({
   orderCreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,
   orderPay: orderPayReducer,
-  orderMineList: orderMineListReducer
+  orderMineList: orderMineListReducer,
+  userDetails: userDetailsReducer
 })
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
