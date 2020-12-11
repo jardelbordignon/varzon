@@ -53,7 +53,6 @@ export default {
     return res.status(201).json(user)
   },
 
-
   async signin(req: Request, res: Response) {
     const repository = getRepository(User)
     const { email, password } = req.body    
@@ -66,18 +65,39 @@ export default {
 
     //if (password === user.password) {
     if (bcrypt.compareSync(password, user.password)) {
-      const loggedData = {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        isAdmin: user.isAdmin,
-        token: generateToken(user)
-      }
+      // const loggedData = {
+      //   id: user.id,
+      //   name: user.name,
+      //   email: user.email,
+      //   isAdmin: user.isAdmin,
+      //   token: generateToken(user)
+      // }
 
-      res.status(200).send(loggedData)
+      res.status(200).send(users_view.renderOne(user, true))
     } else {
       res.status(401).send({ message: 'E-mail e/ou senha inválidos' })
     }
+  },
+
+  async profile(req: Request, res: Response) {
+    const repository = getRepository(User)
+
+    console.log(req.user)
+
+    const user = await repository.findOne(req.user.id)
+
+    if(!user)
+      return res.status(404).json({ message: 'Usuário não encontrado' })
+    
+    user.name = req.body.name || user.name
+    user.email = req.body.email || user.email
+    if (req.body.password)
+      user.password = bcrypt.hashSync(req.body.password, 8)
+
+    const updatedUser = await repository.save(user)
+
+    res.status(200).send(users_view.renderOne(updatedUser, true)) 
   }
+
 
 }
