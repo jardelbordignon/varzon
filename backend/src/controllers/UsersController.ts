@@ -20,10 +20,10 @@ export default {
     const repository = getRepository(User)
     const { id } = req.params    
     //const user = await repository.findOneOrFail(id, { relations: ['images'] })
-    const user = await repository.findOne(id, { relations: ['images'] })
+    const user = await repository.findOne(id)
 
     if(!user)
-      return res.status(404).json({ message: 'Produto não encontrado' })
+      return res.status(404).json({ message: 'Usuário não encontrado' })
     
     return res.json(users_view.renderOne(user))
   },

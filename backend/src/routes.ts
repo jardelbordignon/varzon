@@ -17,6 +17,7 @@ routes.post('/products', upload.array('images'), ProductsController.create)
 
 routes.post('/users/signup', UsersController.create)
 routes.post('/users/signin', UsersController.signin)
+routes.get('/users/:id', UsersController.show)
 
 routes.post('/orders', isAuth, OrdersController.create)
 routes.get('/orders/mine', isAuth, OrdersController.mine)

@@ -11,6 +11,7 @@ import Payment from './pages/Payment'
 import PlaceOrder from './pages/PlaceOrder'
 import Order from './pages/Order'
 import OrderHistory from './pages/OrderHistory'
+import Profile from './pages/Profile'
 import { signout } from './redux/user/userActions'
 
 export default function App() {
@@ -43,6 +44,7 @@ export default function App() {
                   { userInfo.name } <i className='fa fa-caret-down'></i>
                 </Link>
                 <ul className='dropdown-content'>
+                  <li><Link to='/profile'>Meus Perfil</Link></li>
                   <li><Link to='/orderHistory'>Meus Pedidos</Link></li>
                   <li><Link to='#' onClick={signoutHandler}>Sair</Link></li>
                 </ul>
@@ -64,6 +66,7 @@ export default function App() {
         <Route path='/placeorder' component={PlaceOrder} />
         <Route path='/order/:id' component={Order} />
         <Route path='/orderHistory' component={OrderHistory} />
+        <Route path='/profile' component={Profile} />
       </main>
 
       <footer className='row center'>
