@@ -53,6 +53,19 @@ export default function App() {
             )
             : <Link to='/signin'>Entrar</Link>
           }
+          { userInfo && userInfo.isAdmin &&            
+            <div className="dropdown">
+              <Link to='#'>
+                Admin <i className='fa fa-caret-down'></i>
+              </Link>
+              <ul className='dropdown-content'>
+                <li><Link to='/dashboard'>Configurações</Link></li>
+                <li><Link to='/productList'>Produtos</Link></li>
+                <li><Link to='/orderList'>Pedidos</Link></li>
+                <li><Link to='/userList'>Usuários</Link></li>
+              </ul>
+            </div>
+          }
         </div>
       </header>
 

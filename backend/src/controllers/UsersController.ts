@@ -82,8 +82,6 @@ export default {
   async profile(req: Request, res: Response) {
     const repository = getRepository(User)
 
-    console.log(req.user)
-
     const user = await repository.findOne(req.user.id)
 
     if(!user)

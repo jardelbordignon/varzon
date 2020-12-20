@@ -7,11 +7,11 @@ import { detailsUser, updateUserProfile } from '../redux/user/userActions'
 import { USER_UPDATE_PROFILE_RESET } from '../redux/user/userConsts'
 
 export default function Profile(props) {
-  const [obj, setObj] = useState({ name: '', email: '' })
+  const [state, setState] = useState({ name: '', email: '' })
   const { userInfo } = useSelector(state => state.userSignin)
   const dispatch = useDispatch()
   const { loading, user, error } = useSelector(state => state.userDetails)
-  const { 
+  const {
     loading: loadingUpdate, success: successUpdate, error: errorUpdate
   } = useSelector(state => state.userUpdateProfile)
 
@@ -20,7 +20,7 @@ export default function Profile(props) {
       dispatch({ type: USER_UPDATE_PROFILE_RESET })
       dispatch(detailsUser(userInfo.id))
     } else
-      setObj(user)
+      setState(user)
   }, [dispatch, userInfo.id])
 
   // if (loading) return <LoadingBox />
@@ -30,12 +30,12 @@ export default function Profile(props) {
   function submitHandler(e) {
     e.preventDefault()
 
-    if (obj.password !== obj.confirmPassword) {
+    if (state.password !== state.confirmPassword) {
       alert('Senha e confirmação não são iguais')
       return
     }
 
-    dispatch(updateUserProfile(obj))
+    dispatch(updateUserProfile(state))
   }
 
   return (
@@ -57,27 +57,27 @@ export default function Profile(props) {
               <div>
                 <label htmlFor='name'>Nome</label>
                 <input id='name' placeholder='Informe seu nome'
-                  value={obj.name}
-                  onChange={e => setObj({ ...obj, name: e.target.value })} />
+                  value={state.name}
+                  onChange={e => setState({ ...state, name: e.target.value })} />
               </div>
               <div>
                 <label htmlFor='email'>E-mail</label>
                 <input id='email' placeholder='Informe seu e-mail'
                   type='email'
-                  value={obj.email}
-                  onChange={e => setObj({ ...obj, email: e.target.value })} />
+                  value={state.email}
+                  onChange={e => setState({ ...state, email: e.target.value })} />
               </div>
               <div>
                 <label htmlFor='password'>Senha</label>
                 <input id='password' placeholder='Informe sua senha'
                   type='password'
-                  onChange={e => setObj({ ...obj, password: e.target.value })} />
+                  onChange={e => setState({ ...state, password: e.target.value })} />
               </div>
               <div>
                 <label htmlFor='password-confirmation'>Confirmação da senha</label>
                 <input id='password-confirmation' placeholder='Confirme sua senha'
                   type='password'
-                  onChange={e => setObj({ ...obj, confirmPassword: e.target.value })} />
+                  onChange={e => setState({ ...state, confirmPassword: e.target.value })} />
               </div>
               <div>
                 <label />

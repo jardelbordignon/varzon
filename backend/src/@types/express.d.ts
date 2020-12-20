@@ -5,6 +5,7 @@ declare namespace Express {
     user: {
       id: number
       name: string
+      isAdmin: boolean
     }
   }
 }

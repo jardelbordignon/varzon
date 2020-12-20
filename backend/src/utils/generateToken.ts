@@ -42,3 +42,10 @@ export const isAuth = (req: Request, res: Response, next: NextFunction) => {
     res.status(401).send({ message: 'Token não existe'})
   }
 }
+
+export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
+  if (req.user && req.user.isAdmin)
+    next()
+  else
+    res.status(401).send({ message: 'Token não é de admin'})
+}
