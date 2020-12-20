@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import LoadingBox from '../components/LoadingBox'
 import MessageBox from '../components/MessageBox'
 import CheckoutSteps from '../components/CheckoutSteps'
-import formatValue from '../utils/formatValue'
+import { formatPrice } from '../utils/formatters'
 import { createOrder } from '../redux/order/orderActions'
 import { ORDER_CREATE_RESET } from '../redux/order/orderConsts'
 
@@ -16,12 +16,12 @@ export default function PlaceOrder(props) {
   const dispatch = useDispatch()
   const {loading, success, error, order} = useSelector( state => state.orderCreate )
 
-  cart.itemsPrice = formatValue(
+  cart.itemsPrice = formatPrice(
     cart.cartItems.reduce((total, item) => total + item.qty * item.price, 0), 'toF'
   )
 
-  cart.shippingPrice = cart.itemsPrice > 100 ? 0 : formatValue(10, 'toF')
-  cart.taxPrice = formatValue(.15 * cart.itemsPrice, 'toF')
+  cart.shippingPrice = cart.itemsPrice > 100 ? 0 : formatPrice(10, 'toF')
+  cart.taxPrice = formatPrice(.15 * cart.itemsPrice, 'toF')
   cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice
 
   function placeOrderHandler() {
@@ -82,9 +82,9 @@ export default function PlaceOrder(props) {
                         </div>
                         <div>
                         { cartItem.qty > 1 && (
-                          <small>{cartItem.qty} x {formatValue(cartItem.price)} = </small>) 
+                          <small>{cartItem.qty} x {formatPrice(cartItem.price)} = </small>) 
                         }
-                        { formatValue(cartItem.qty * cartItem.price) }
+                        { formatPrice(cartItem.qty * cartItem.price) }
                         </div>
                       </div>
                     </li>
@@ -103,25 +103,25 @@ export default function PlaceOrder(props) {
               <li>
                 <div className='row'>
                   <div>Valor dos itens</div>
-                  <div>{formatValue(cart.itemsPrice)}</div>
+                  <div>{formatPrice(cart.itemsPrice)}</div>
                 </div>
               </li>
               <li>
                 <div className='row'>
                   <div>Frete</div>
-                  <div>{formatValue(cart.shippingPrice)}</div>
+                  <div>{formatPrice(cart.shippingPrice)}</div>
                 </div>
               </li>
               <li>
                 <div className='row'>
                   <div>Taxas de serviço</div>
-                  <div>{formatValue(cart.taxPrice)}</div>
+                  <div>{formatPrice(cart.taxPrice)}</div>
                 </div>
               </li>
               <li>
                 <div className='row'>
                   <div><strong>Total</strong></div>
-                  <div><strong>{formatValue(cart.totalPrice)}</strong></div>
+                  <div><strong>{formatPrice(cart.totalPrice)}</strong></div>
                 </div>
               </li>
               <li>

@@ -6,8 +6,7 @@ import { PayPalButton } from 'react-paypal-button-v2'
 
 import LoadingBox from '../components/LoadingBox'
 import MessageBox from '../components/MessageBox'
-import formatValue from '../utils/formatValue'
-import formatDate from '../utils/formatDate'
+import { formatPrice, formatDate } from '../utils/formatters'
 import { detailsOrder, payOrder } from '../redux/order/orderActions'
 import { ORDER_PAY_RESET } from '../redux/order/orderConsts'
 
@@ -105,9 +104,9 @@ export default function Order(props) {
                         </div>
                         <div>
                         { item.qty > 1 && (
-                          <small>{item.qty} x {formatValue(item.price)} = </small>) 
+                          <small>{item.qty} x {formatPrice(item.price)} = </small>) 
                         }
-                        { formatValue(item.qty * item.price) }
+                        { formatPrice(item.qty * item.price) }
                         </div>
                       </div>
                     </li>
@@ -126,25 +125,25 @@ export default function Order(props) {
               <li>
                 <div className='row'>
                   <div>Valor dos itens</div>
-                  <div>{formatValue(itemsPrice)}</div>
+                  <div>{formatPrice(itemsPrice)}</div>
                 </div>
               </li>
               <li>
                 <div className='row'>
                   <div>Frete</div>
-                  <div>{formatValue(shippingPrice)}</div>
+                  <div>{formatPrice(shippingPrice)}</div>
                 </div>
               </li>
               <li>
                 <div className='row'>
                   <div>Taxas de serviço</div>
-                  <div>{formatValue(taxPrice)}</div>
+                  <div>{formatPrice(taxPrice)}</div>
                 </div>
               </li>
               <li>
                 <div className='row'>
                   <div><strong>Total</strong></div>
-                  <div><strong>{formatValue(itemsPrice + shippingPrice + taxPrice)}</strong></div>
+                  <div><strong>{formatPrice(itemsPrice + shippingPrice + taxPrice)}</strong></div>
                 </div>
               </li>
               { !paidAt &&

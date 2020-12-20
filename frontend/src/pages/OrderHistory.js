@@ -3,8 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import LoadingBox from '../components/LoadingBox'
 import MessageBox from '../components/MessageBox'
-import formatValue from '../utils/formatValue'
-import formatDate from '../utils/formatDate'
+import { formatPrice, formatDate } from '../utils/formatters'
 import { listOrderMine } from '../redux/order/orderActions'
 
 export default function OrderHistory(props) {
@@ -36,7 +35,7 @@ export default function OrderHistory(props) {
             <tr key={order.id}>
               <td>{order.id}</td>
               <td>{formatDate(order.createdAt)}</td>
-              <td>{formatValue(order.itemsPrice + order.shippingPrice + order.taxPrice)}</td>
+              <td>{formatPrice(order.itemsPrice + order.shippingPrice + order.taxPrice)}</td>
               <td>{order.paidAt ? formatDate(order.paidAt) : 'Aguardando'}</td>
               <td>{order.deliveredAt ? formatDate(order.deliveredAt) : 'Aguardando'}</td>
               <td>

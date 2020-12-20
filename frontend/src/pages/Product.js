@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { detailsProduct } from '../redux/product/productActions'
+import { formatPrice } from '../utils/formatters'
 import Rating from '../components/Rating'
-import formatValue from '../utils/formatValue'
 import LoadingBox from '../components/LoadingBox'
 import MessageBox from '../components/MessageBox'
 
@@ -38,7 +38,7 @@ export default function Product(props) {
           <ul>
             <li><h1>{name}</h1></li>
             <li><Rating rating={rating} numReviews={numReviews} /></li>
-            <li>Valor: {formatValue(price)}</li>
+            <li>Valor: {formatPrice(price)}</li>
             <li>Descrição: {description}</li>
           </ul>
         </div>
@@ -48,7 +48,7 @@ export default function Product(props) {
               <li>
                 <div className="row">
                   <div>Valor</div>
-                  <div className="price">{formatValue(price)}</div>
+                  <div className="price">{formatPrice(price)}</div>
                 </div>
               </li>
               <li>
