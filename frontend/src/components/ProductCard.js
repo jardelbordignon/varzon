@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-import formatValue from '../utils/formatValue'
+import { formatPrice } from '../utils/formatters'
 import Rating from './Rating'
 
 export default function ProductCard({product}) {
@@ -17,7 +17,7 @@ export default function ProductCard({product}) {
         <Rating rating={product.rating} numReviews={product.numReviews} />
 
         <div className='price'>
-          {formatValue(product.price)}
+          {formatPrice(product.price)}
         </div>
       </div>
     </div>

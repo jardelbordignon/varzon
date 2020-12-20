@@ -1,18 +1,7 @@
-import { BrowserRouter, Link, Route } from 'react-router-dom'
+import { BrowserRouter, Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
-import Home from './pages/Home'
-import Product from './pages/Product'
-import Cart from './pages/Cart'
-import SignIn from './pages/SignIn'
-import SignUp from './pages/SignUp'
-import Shipping from './pages/Shipping'
-import Payment from './pages/Payment'
-import PlaceOrder from './pages/PlaceOrder'
-import Order from './pages/Order'
-import OrderHistory from './pages/OrderHistory'
-import Profile from './pages/Profile'
-import PrivateRoute from './components/PrivateRoute'
+import Routes from './pages/_Routes'
 import { signout } from './redux/user/userActions'
 
 export default function App() {
@@ -60,9 +49,9 @@ export default function App() {
               </Link>
               <ul className='dropdown-content'>
                 <li><Link to='/dashboard'>Configurações</Link></li>
-                <li><Link to='/productList'>Produtos</Link></li>
-                <li><Link to='/orderList'>Pedidos</Link></li>
-                <li><Link to='/userList'>Usuários</Link></li>
+                <li><Link to='/admin/products'>Produtos</Link></li>
+                <li><Link to='/admin/orders'>Pedidos</Link></li>
+                <li><Link to='/admin/users'>Usuários</Link></li>
               </ul>
             </div>
           }
@@ -70,17 +59,7 @@ export default function App() {
       </header>
 
       <main>
-        <Route path='/' exact component={Home} />
-        <Route path='/product/:id' component={Product} />
-        <Route path='/cart/:id?' component={Cart} />
-        <Route path='/signin' component={SignIn} />
-        <Route path='/signup' component={SignUp} />
-        <Route path='/shipping' component={Shipping} />
-        <Route path='/payment' component={Payment} />
-        <Route path='/placeorder' component={PlaceOrder} />
-        <Route path='/order/:id' component={Order} />
-        <Route path='/orderHistory' component={OrderHistory} />
-        <PrivateRoute path='/profile' component={Profile} />
+        <Routes />
       </main>
 
       <footer className='row center'>

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { addToCart, removeFromCart } from '../redux/cart/cartActions'
-import formatValue from '../utils/formatValue'
+import { formatPrice } from '../utils/formatters'
 import MessageBox from '../components/MessageBox'
 
 export default function Cart(props) {
@@ -58,7 +58,7 @@ export default function Cart(props) {
                   </select>
                 </div>
                 <div>
-                  {formatValue(cartItem.price)}
+                  {formatPrice(cartItem.price)}
                 </div>
                 <div>
                   <button onClick={() => handleRemoveFromCart(cartItem.productId)}>
@@ -76,7 +76,7 @@ export default function Cart(props) {
             <li>
               <div className='row'>
                 <h2>Subtotal ({cartItems.reduce((a, item) => a + item.qty, 0)} itens)</h2>
-                <h2>{formatValue(cartItems.reduce((a, item) => a + item.qty * item.price, 0))}</h2>
+                <h2>{formatPrice(cartItems.reduce((a, item) => a + item.qty * item.price, 0))}</h2>
               </div>
             </li>
             <li>
