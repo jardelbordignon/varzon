@@ -1,17 +1,36 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { listProducts } from '../redux/product/productActions'
-import LoadingBox from '../components/LoadingBox'
-import MessageBox from '../components/MessageBox'
-import { formatPrice } from '../utils/formatters'
+import { listProducts, createProduct } from '../../redux/product/productActions'
+import LoadingBox from '../../components/LoadingBox'
+import MessageBox from '../../components/MessageBox'
+import { formatPrice } from '../../utils/formatters'
+import { PRODUCT_CREATE_RESET } from '../../redux/product/productConsts'
 
 export default function ProductList(props) {
 
   const { loading, error, products } = useSelector( state => state.productList )
+  const productCreate = useSelector( state => state.productCreate )
+  const { loading:loadingCreate, success:successCreate, error:errorCreate, product  } = productCreate
   const dispatch = useDispatch()
 
-  useEffect(() => dispatch(listProducts()), [dispatch])
+  useEffect(() => {
+    if (successCreate) {
+      dispatch({ type: PRODUCT_CREATE_RESET })
+      goToForm(product.id)
+    }
+    dispatch(listProducts())
+  }, [dispatch, props.history, product, successCreate])
+
+  function goToForm(prod) {
+    let url = '/admin/productForm'
+    if (prod) url += '/' + prod.id
+    props.history.push(url)
+  }
+
+  function createHandler() {
+    dispatch(createProduct())
+  }
 
   function deleteHandler(product) {
 
@@ -19,7 +38,14 @@ export default function ProductList(props) {
   
   return (
     <div>
-      <h1>Produtos</h1>
+      <div className="row">  
+        <h1>Produtos</h1>
+        <button className='primary' type='button' onClick={() => goToForm(null)}>
+          <i className="fa fa-plus-square"></i> Novo Produto
+        </button>
+      </div>
+      { loadingCreate && <LoadingBox />}
+      { errorCreate && <MessageBox variant='danger'>{errorCreate}</MessageBox> }
       {
         loading
         ? <LoadingBox />
@@ -47,7 +73,7 @@ export default function ProductList(props) {
                   <td>{product.brand}</td>
                   <td>
                     <button type='button' className='success'
-                      onClick={() => props.history.push('/product/form/'+product.id)}>
+                      onClick={() => goToForm(product)}>
                       <i className="fa fa-edit"></i>
                     </button>
                     <button type='button' className='danger'

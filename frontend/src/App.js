@@ -22,7 +22,7 @@ export default function App() {
         </div>
         <div>
           <Link to='/cart'>
-            Carrinho
+            <i className="fa fa-shopping-cart"></i>
             { !!cartItems.length &&
               <span className='badge'>{ cartItems.length }</span>
             }

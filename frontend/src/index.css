@@ -130,7 +130,7 @@ header a.bold {
   font-size: 1.4rem;
   position: relative;
   bottom: .6rem;
-  left: .2rem;
+  left: .5rem;
 }
 .row {
   display: flex;
@@ -256,9 +256,10 @@ img.large {
   margin: .4rem 0 0;
   border-radius: .5rem;
   opacity: 0;
-  transition: opacity .3s;
+  display: none;
 }
 .dropdown:hover .dropdown-content {
+  display:  block;
   opacity: 1;
 }
 
@@ -288,4 +289,33 @@ img.large {
 }
 .table button {
   margin: 0 .2rem;
+}
+
+/* Image Preview */
+label.new-image:hover { cursor: pointer; }
+label.new-image:hover i { color:#2020a0; }
+.images-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 6px;
+}
+.image-preview-container {
+  position: relative;
+}
+
+.image-preview-container img {
+  height: 108px;
+  width: 100%;
+  object-fit: cover;  /* cobre a area possível sem esticar a imagem */
+  border-radius: 5px;
+}
+.image-preview-container button {
+  position: absolute;
+  right: -5px;
+  top: -8px;
+  background: transparent;
+  border: 0;
+}
+.image-preview-container button:hover {
+  color: crimson;
 }
