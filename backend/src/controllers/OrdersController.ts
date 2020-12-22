@@ -107,6 +107,19 @@ export default {
     const orders = await repository.find({where: { user: req.user.id }})
 
     res.send(orders)
+  },
+
+  async delete(req: Request, res: Response) {
+    const repository = getRepository(Order)    
+
+    const order = await repository.findOne(req.params.id)
+
+    if(!order)
+      return res.status(404).json({ message: 'Pedido não encontrado' })
+    
+    await repository.remove(order)
+
+    return res.status(204).json({ message: 'Pedido deletado com sucesso'})
   }
 
 }

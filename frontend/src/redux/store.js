@@ -1,10 +1,31 @@
 import { applyMiddleware, createStore, compose, combineReducers } from 'redux'
 import thunk from 'redux-thunk'
 
-import { productDetailsReducer, productListReducer, productCreateReducer, productUpdateReducer, productDeleteReducer } from './product/productReducer'
+import { 
+  productDetailsReducer, 
+  productListReducer, 
+  productCreateReducer, 
+  productUpdateReducer, 
+  productDeleteReducer 
+} from './product/productReducer'
+
 import { cartReducer } from './cart/cartReducer'
-import { userDetailsReducer, userSigninReducer, userSignupReducer, userUpdateProfileReducer } from './user/userReducer'
-import { orderCreateReducer, orderDetailsReducer, orderListReducer, orderMineListReducer, orderPayReducer } from './order/orderReducer'
+
+import { 
+  userDetailsReducer, 
+  userSigninReducer, 
+  userSignupReducer, 
+  userUpdateProfileReducer
+} from './user/userReducer'
+
+import { 
+  orderCreateReducer, 
+  orderDetailsReducer, 
+  orderListReducer, 
+  orderMineListReducer, 
+  orderPayReducer, 
+  orderDeleteReducer
+} from './order/orderReducer'
 
 const shippingAddressClean = {
   fullName:'', street:'', number:'', complement:'', neighborhood:'', city:'', state:'', country:'', postalCode:''
@@ -32,6 +53,7 @@ const reducers = combineReducers({
   orderPay: orderPayReducer,
   orderMineList: orderMineListReducer,
   orderList: orderListReducer,
+  orderDelete: orderDeleteReducer,
   userDetails: userDetailsReducer,
   userUpdateProfile: userUpdateProfileReducer,
   productCreate: productCreateReducer,

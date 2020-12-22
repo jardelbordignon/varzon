@@ -3,28 +3,33 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import LoadingBox from '../../components/LoadingBox'
 import MessageBox from '../../components/MessageBox'
-import { listOrders } from '../../redux/order/orderActions'
 import { formatDate, formatPrice } from '../../utils/formatters'
+import { deleteOrder, listOrders } from '../../redux/order/orderActions'
+import { ORDER_DELETE_RESET } from '../../redux/order/orderConsts'
 
 
 export default function OrderList(props) {
   const orderList = useSelector( state => state.orderList )
   const { loading, error, orders } = orderList
+  const orderDelete = useSelector( state => state.orderDelete )
+  const { loading:loadingDelete, error:errorDelete, success:successDelete } = orderDelete
   const dispatch = useDispatch()
 
   useEffect(() => {
+    dispatch({ type: ORDER_DELETE_RESET })
     dispatch(listOrders())
-  }, [dispatch])
+  }, [dispatch, successDelete])
 
-  function deleteHandler(product) {
+  function deleteHandler(order) {
     if (window.confirm('Deseja mesmo excluir este registro?'))
-      console.log('DELETE ORDER')
-      //dispatch(deleteProduct(product.id))
+      dispatch(deleteOrder(order.id))
   }
 
   return (
     <div>
       <h1>Pedidos</h1>
+      { loadingDelete && <LoadingBox /> }
+      { errorDelete && <MessageBox variant='danger'>{errorDelete}</MessageBox> }
       { loading 
         ? <LoadingBox />
         : error
