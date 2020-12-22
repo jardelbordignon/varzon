@@ -15,6 +15,7 @@ import OrderHistory from './OrderHistory'
 import Profile from './Profile'
 import ProductList from './admin/ProductList'
 import ProductForm from './admin/ProductForm'
+import OrderList from './admin/OrderList'
 
 export default function Routes() {
   return (
@@ -28,10 +29,11 @@ export default function Routes() {
       <Route path='/placeorder' component={PlaceOrder} />
       <Route path='/order/:id' component={Order} />
       <Route path='/orderHistory' component={OrderHistory} />
-      <LoggedRoute path='/profile' component={Profile} />
       <Route path='/admin/productForm/:id?' component={ProductForm} />
-      <LoggedRoute onlyAdmin path='/admin/products' component={ProductList} />
       <Route path='/products/:id' component={Product} />
+      <LoggedRoute path='/profile' component={Profile} />
+      <LoggedRoute onlyAdmin path='/admin/products' component={ProductList} />
+      <LoggedRoute onlyAdmin path='/admin/orders' component={OrderList} />
     </>
   )
 }

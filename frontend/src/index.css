@@ -203,6 +203,9 @@ img.large {
 .loading-box {
   display: block !important;
 }
+.info {
+  color: #2020a0;
+}
 .success {
   color: #20a020;
 }

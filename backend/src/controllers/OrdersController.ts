@@ -11,7 +11,7 @@ export default {
 
   async index(req: Request, res: Response) {
     const repository:Repository<Order> = getRepository(Order)
-    const orders = await repository.find({ relations: ['orderItems', 'address'] })
+    const orders = await repository.find({ relations: ['user', 'orderItems', 'address'] })
 
     return res.json(orders)
   },
