@@ -26,16 +26,36 @@ export default {
     return res.json(products_view.renderOne(product))
   },
 
+  validate(data: Object){
+    const schema = Yup.object().shape({
+      name:         Yup.string().required(),
+      price:        Yup.number().required(),
+      category:     Yup.string().required(),
+      brand:        Yup.string().required(),
+      countInStock: Yup.number().required(),
+      rating:       Yup.number(),
+      numReviews:   Yup.number(),
+      description:  Yup.string().required().max(400),
+      images:       Yup.array(
+        Yup.object().shape({ path: Yup.string().required() })
+      )
+    })
+
+    return schema.validate(data, { abortEarly: false })
+  },
+
+  // precisa estar logado e ser admin
   async create(req: Request, res: Response) {
     //console.log(req.files)
     const { 
       name,
-      latitude,
-      longitude,
-      about,
-      instructions,
-      opening_hours,
-      open_on_weekends
+      price,
+      category,
+      brand,
+      countInStock,
+      rating,
+      numReviews,
+      description
     } = req.body
 
     const reqImages = req.files as Express.Multer.File[]
@@ -44,36 +64,53 @@ export default {
   
     const data = {
       name,
-      latitude,
-      longitude,
-      about,
-      instructions,
-      opening_hours,
-      open_on_weekends: open_on_weekends === 'true',
+      price,
+      category,
+      brand,
+      countInStock,
+      rating,
+      numReviews,
+      description,
       images
     }
 
-    const schema = Yup.object().shape({
-      name:             Yup.string().required(),
-      latitude:         Yup.number().required(),
-      longitude:        Yup.number().required(),
-      about:            Yup.string().required().max(300),
-      instructions:     Yup.string().required(),
-      opening_hours:    Yup.string().required(),
-      open_on_weekends: Yup.boolean().required(),
-      images:           Yup.array(
-        Yup.object().shape({ path: Yup.string().required() })
-      ).required()
-    })
-
-    // abortEarly: false não para a validação no primeiro erro, continua e mostra todos 
-    await schema.validate(data, { abortEarly: false })
+    //await this.validate(data)   
 
     const product = repository.create(data)
   
     await repository.save(product)
   
     return res.status(201).json(product)
+  },
+
+  
+  async update(req: Request, res: Response) {
+    const repository = getRepository(Product)
+
+    const product = await repository.findOne(req.body.id, { relations: ['images'] })
+    
+    if(!product)
+      return res.status(404).json({ message: 'Produto não encontrado' })
+    
+    //await this.validate(req.body)
+    
+    product.name = req.body.name
+    product.price = req.body.price
+    product.category = req.body.category
+    product.brand = req.body.brand
+    product.countInStock = req.body.countInStock
+    product.rating = req.body.rating
+    product.numReviews = req.body.numReviews
+    product.description = req.body.description
+
+    const reqImages = req.files as Express.Multer.File[]
+    const images = reqImages.map(image => ({path: image.filename}))
+    Object.assign(product, images)
+    
+    
+    const updatedProduct = await repository.save(product)
+    
+    return res.status(201).json(products_view.renderOne(updatedProduct))
   }
 
 }
