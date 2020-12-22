@@ -4,7 +4,7 @@ import thunk from 'redux-thunk'
 import { productDetailsReducer, productListReducer, productCreateReducer, productUpdateReducer, productDeleteReducer } from './product/productReducer'
 import { cartReducer } from './cart/cartReducer'
 import { userDetailsReducer, userSigninReducer, userSignupReducer, userUpdateProfileReducer } from './user/userReducer'
-import { orderCreateReducer, orderDetailsReducer, orderMineListReducer, orderPayReducer } from './order/orderReducer'
+import { orderCreateReducer, orderDetailsReducer, orderListReducer, orderMineListReducer, orderPayReducer } from './order/orderReducer'
 
 const shippingAddressClean = {
   fullName:'', street:'', number:'', complement:'', neighborhood:'', city:'', state:'', country:'', postalCode:''
@@ -31,6 +31,7 @@ const reducers = combineReducers({
   orderDetails: orderDetailsReducer,
   orderPay: orderPayReducer,
   orderMineList: orderMineListReducer,
+  orderList: orderListReducer,
   userDetails: userDetailsReducer,
   userUpdateProfile: userUpdateProfileReducer,
   productCreate: productCreateReducer,

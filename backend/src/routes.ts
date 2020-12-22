@@ -23,6 +23,7 @@ routes.post('/users/signin', UsersController.signin)
 routes.put('/users/profile', isAuth, UsersController.profile)
 routes.get('/users/:id', UsersController.show)
 
+routes.get('/orders', isAuth, isAdmin, OrdersController.index)
 routes.post('/orders', isAuth, OrdersController.create)
 routes.get('/orders/mine', isAuth, OrdersController.mine)
 routes.get('/orders/:id', isAuth, OrdersController.show)
