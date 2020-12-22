@@ -99,7 +99,7 @@ export default {
     order.paymentEmailAddress = email_address
 
     const updatedOrder = await repository.save(order)
-    return res.status(201).json({ message: 'Pedido pago com sucesso', order: updatedOrder })    
+    return res.status(201).json({ message: 'Pagamento efetuado com sucesso', order: updatedOrder })    
   },
 
   async mine(req: Request, res: Response) {
@@ -120,6 +120,22 @@ export default {
     await repository.remove(order)
 
     return res.status(204).json({ message: 'Pedido deletado com sucesso'})
-  }
+  },
+
+
+  async deliver(req: Request, res: Response) {
+    const repository = getRepository(Order)
+    
+    const order = await repository.findOne(req.params.id)
+
+    if(!order)
+      return res.status(404).json({ message: 'Pedido não encontrado' })
+    
+    order.deliveredAt = new Date(Date.now())
+
+    const updatedOrder = await repository.save(order)
+    return res.status(201).json({ message: 'Pedido enviado', order: updatedOrder })    
+  },
+
 
 }
