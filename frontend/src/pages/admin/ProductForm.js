@@ -53,7 +53,7 @@ export default function ProductForm(props) {
     // console.log(state, images)
     const data = new FormData()
 
-    data.append('id', String(state.id))
+    if (state.id) data.append('id', String(state.id))
     data.append('name', state.name)
     data.append('price', String(state.price))
     data.append('category', state.category)
@@ -74,14 +74,14 @@ export default function ProductForm(props) {
     <div>
       <form className='form' onSubmit={submitHandler}>
         <div>
-          <h1>{product ? 'Editando '+state.name : 'Registro de Produto'}</h1>
+          <h1>{product ? 'Editando '+state.id : 'Registro de Produto'}</h1>
       </div>
 
       { loadingUpdate && <LoadingBox /> }
       { errorUpdate && <MessageBox variant='danger'>{errorUpdate}</MessageBox> } 
 
       {
-        loading
+        productId && loading
         ? <LoadingBox />
         : error
         ? <MessageBox variant='danger'>{error}</MessageBox>
