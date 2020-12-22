@@ -24,6 +24,7 @@ routes.put('/users/profile', isAuth, UsersController.profile)
 routes.get('/users/:id', UsersController.show)
 
 routes.get('/orders', isAuth, isAdmin, OrdersController.index)
+routes.delete('/orders/:id', isAuth, isAdmin, OrdersController.delete)
 routes.post('/orders', isAuth, OrdersController.create)
 routes.get('/orders/mine', isAuth, OrdersController.mine)
 routes.get('/orders/:id', isAuth, OrdersController.show)
