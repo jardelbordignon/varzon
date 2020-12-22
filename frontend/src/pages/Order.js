@@ -7,14 +7,18 @@ import { PayPalButton } from 'react-paypal-button-v2'
 import LoadingBox from '../components/LoadingBox'
 import MessageBox from '../components/MessageBox'
 import { formatPrice, formatDate } from '../utils/formatters'
-import { detailsOrder, payOrder } from '../redux/order/orderActions'
-import { ORDER_PAY_RESET } from '../redux/order/orderConsts'
+import { deliverOrder, detailsOrder, payOrder } from '../redux/order/orderActions'
+import { ORDER_DELIVER_RESET, ORDER_PAY_RESET } from '../redux/order/orderConsts'
 
 export default function Order(props) {
   const [sdkReady, setSdkReady] = useState(false)
   const orderId = props.match.params.id
   const { order, loading, error } = useSelector( state => state.orderDetails )
-  const { error: errorPay, loading: loadingPay, success: successPay } = useSelector( state => state.orderPay )
+  const orderPay = useSelector( state => state.orderPay )
+  const { error: errorPay, loading: loadingPay, success: successPay } = orderPay
+  const orderDeliver = useSelector( state => state.orderDeliver )
+  const { error: errorDeliver, loading: loadingDeliver, success: successDeliver } = orderDeliver
+  const { userInfo } = useSelector( state => state.userSignin )
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -28,8 +32,9 @@ export default function Order(props) {
         document.body.appendChild(script)
       }
 
-      if (!order || successPay || (String(order.data?.id) !== orderId)) {
+      if (!order || successPay || successDeliver || (String(order?.id) !== orderId)) {
         dispatch({ type: ORDER_PAY_RESET })
+        dispatch({ type: ORDER_DELIVER_RESET })
         dispatch(detailsOrder(orderId))
       } else {
         if (!order.data?.paidAt) {
@@ -40,7 +45,7 @@ export default function Order(props) {
         }
       }
     },
-    [dispatch, orderId, order, sdkReady, successPay]
+    [dispatch, orderId, order, sdkReady, successPay, successDeliver]
   )
 
   function successPaymentHandler(paymentResult) {
@@ -48,16 +53,20 @@ export default function Order(props) {
     dispatch(payOrder(order, paymentResult))
   }
 
+  function deliverHandler() {
+    dispatch(deliverOrder(order.id))
+  }
+
   if (loading) return <LoadingBox />
   if (error) return <MessageBox variant='danger'>{error}</MessageBox>
   if (!order) return <div>Pedido não encontrado</div>
 
-  const { fullName, street, number, neighborhood, complement, city, state, postalCode } = order.data.address
-  const { itemsPrice, shippingPrice, taxPrice, deliveredAt, paidAt } = order.data
+  const { fullName, street, number, neighborhood, complement, city, state, postalCode } = order.address
+  const { itemsPrice, shippingPrice, taxPrice, deliveredAt, paidAt } = order
 
   return (
     <div>
-      <h1>Pedido - {order.data.id}</h1>
+      <h1>Pedido - {order.id}</h1>
       <div className='row top'>
         <div className='col-2'>
           <ul>
@@ -71,7 +80,7 @@ export default function Order(props) {
                   {` ${city}/${state} - ${postalCode}`}
                 </p>
                 { !!deliveredAt
-                 ? <MessageBox variant='success'>Pedido enviado em {deliveredAt}</MessageBox>
+                 ? <MessageBox variant='success'>Pedido enviado <strong>{formatDate(deliveredAt, true)}</strong></MessageBox>
                  : <MessageBox variant='danger'>Pedido não enviado</MessageBox>
                 }
               </div>
@@ -80,7 +89,7 @@ export default function Order(props) {
               <div className="card card-body">
                 <h2>Pagamento</h2>
                 <p>
-                  <strong>Via:</strong> {order.data.paymentMethod}
+                  <strong>Via:</strong> {order.paymentMethod}
                 </p>
                 { !!paidAt
                   ? <MessageBox variant='success'>Pagamento efetuado <strong>{formatDate(paidAt, true)}</strong></MessageBox>
@@ -92,7 +101,7 @@ export default function Order(props) {
               <div className="card card-body">
                 <h2>Itens</h2>
                 <ul>
-                  { order.data.orderItems.map(item => (
+                  { order.orderItems.map(item => (
                     <li key={item.productId}>
                       <div className='row'>
                         <div>
@@ -161,6 +170,15 @@ export default function Order(props) {
                       </>
                     )
                   }
+                </li>
+              }
+              { userInfo?.isAdmin && !!paidAt && !deliveredAt && 
+                <li>
+                  { loadingDeliver && <LoadingBox /> }
+                  { errorDeliver && <MessageBox variant='danger'>{errorDeliver}</MessageBox> }
+                  <button className='primary block' onClick={deliverHandler}>
+                    Enviar Pedido
+                  </button>
                 </li>
               }
             </ul>

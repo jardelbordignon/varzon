@@ -24,7 +24,8 @@ import {
   orderListReducer, 
   orderMineListReducer, 
   orderPayReducer, 
-  orderDeleteReducer
+  orderDeleteReducer,
+  orderDeliverReducer
 } from './order/orderReducer'
 
 const shippingAddressClean = {
@@ -54,6 +55,7 @@ const reducers = combineReducers({
   orderMineList: orderMineListReducer,
   orderList: orderListReducer,
   orderDelete: orderDeleteReducer,
+  orderDeliver: orderDeliverReducer,
   userDetails: userDetailsReducer,
   userUpdateProfile: userUpdateProfileReducer,
   productCreate: productCreateReducer,
