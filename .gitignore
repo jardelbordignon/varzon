@@ -25,3 +25,5 @@ NOTES.md
 
 *.sqlite3
 *.sqlite
+/uploads/*.jpg
+backend/src/database/database.sqlite

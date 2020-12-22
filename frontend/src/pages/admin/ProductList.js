@@ -1,17 +1,19 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { listProducts, createProduct } from '../../redux/product/productActions'
+import { listProducts, createProduct, deleteProduct } from '../../redux/product/productActions'
 import LoadingBox from '../../components/LoadingBox'
 import MessageBox from '../../components/MessageBox'
 import { formatPrice } from '../../utils/formatters'
-import { PRODUCT_CREATE_RESET } from '../../redux/product/productConsts'
+import { PRODUCT_CREATE_RESET, PRODUCT_DELETE_RESET } from '../../redux/product/productConsts'
 
 export default function ProductList(props) {
 
   const { loading, error, products } = useSelector( state => state.productList )
   const productCreate = useSelector( state => state.productCreate )
   const { loading:loadingCreate, success:successCreate, error:errorCreate, product  } = productCreate
+  const productDelete = useSelector( state => state.productDelete )
+  const { loading:loadingDelete, success:successDelete, error:errorDelete } = productDelete
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -19,8 +21,11 @@ export default function ProductList(props) {
       dispatch({ type: PRODUCT_CREATE_RESET })
       goToForm(product.id)
     }
+    if (successDelete) {
+      dispatch({ type: PRODUCT_DELETE_RESET })
+    }
     dispatch(listProducts())
-  }, [dispatch, props.history, product, successCreate])
+  }, [dispatch, props.history, product, successCreate, successDelete])
 
   function goToForm(prod) {
     let url = '/admin/productForm'
@@ -33,7 +38,8 @@ export default function ProductList(props) {
   }
 
   function deleteHandler(product) {
-
+    if (window.confirm('Deseja mesmo excluir este registro?'))
+      dispatch(deleteProduct(product.id))
   }
   
   return (
@@ -44,8 +50,9 @@ export default function ProductList(props) {
           <i className="fa fa-plus-square"></i> Novo Produto
         </button>
       </div>
-      { loadingCreate && <LoadingBox />}
+      { loadingCreate || loadingDelete && <LoadingBox />}
       { errorCreate && <MessageBox variant='danger'>{errorCreate}</MessageBox> }
+      { errorDelete && <MessageBox variant='danger'>{errorDelete}</MessageBox> }
       {
         loading
         ? <LoadingBox />

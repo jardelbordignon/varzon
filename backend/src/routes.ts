@@ -15,6 +15,8 @@ routes.get('/products', ProductsController.index)
 routes.get('/products/:id', ProductsController.show)
 routes.post('/products', isAuth, isAdmin, upload.array('images'), ProductsController.create)
 routes.put('/products', isAuth, isAdmin, upload.array('images'), ProductsController.update)
+routes.delete('/products/:id', isAuth, isAdmin, ProductsController.delete)
+
 
 routes.post('/users/signup', UsersController.create)
 routes.post('/users/signin', UsersController.signin)

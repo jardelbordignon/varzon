@@ -87,12 +87,18 @@ export default {
   async update(req: Request, res: Response) {
     const repository = getRepository(Product)
 
-    const product = await repository.findOne(req.body.id, { relations: ['images'] })
+    const product = req.body.id 
+      ? await repository.findOne(req.body.id, { relations: ['images'] })
+      : new Product()
     
-    if(!product)
-      return res.status(404).json({ message: 'Produto não encontrado' })
+    // if(!product)
+    //   return res.status(404).json({ message: 'Produto não encontrado' })
     
     //await this.validate(req.body)
+    //const product = new Product()
+    
+    if(!product)
+       return res.status(404).json({ message: 'Produto não encontrado' })
     
     product.name = req.body.name
     product.price = req.body.price
@@ -103,14 +109,29 @@ export default {
     product.numReviews = req.body.numReviews
     product.description = req.body.description
 
-    const reqImages = req.files as Express.Multer.File[]
-    const images = reqImages.map(image => ({path: image.filename}))
-    Object.assign(product, images)
-    
+    if (req.files) {
+      const reqImages = req.files as Express.Multer.File[]
+      const images = reqImages.map(image => ({path: image.filename}))
+      Object.assign(product, images)
+    }
     
     const updatedProduct = await repository.save(product)
     
     return res.status(201).json(products_view.renderOne(updatedProduct))
-  }
+  },
+
+
+  async delete(req: Request, res: Response) {
+    const repository = getRepository(Product)
+
+    const product = await repository.findOne(req.params.id)
+
+    if(!product)
+      return res.status(404).json({ message: 'Produto não encontrado' })
+
+    await repository.remove(product)
+
+    return res.status(204).json({ message: 'Produto deletado com sucesso'}) 
+  }  
 
 }

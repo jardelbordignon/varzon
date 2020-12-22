@@ -41,12 +41,14 @@ export class createProducts1602732215767 implements MigrationInterface {
           type: 'decimal',
           scale: 2,
           precision: 1,
-          isNullable: true
+          isNullable: true,
+          default: 0
         },
         {
           name: 'numReviews',
           type: 'integer',
-          isNullable: true
+          isNullable: true,
+          default: 0
         },
         {
           name: 'description',
