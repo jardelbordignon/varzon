@@ -79,13 +79,11 @@ export default function ProductList(props) {
                   <td>{product.category}</td>
                   <td>{product.brand}</td>
                   <td>
-                    <button type='button' className='success'
-                      onClick={() => goToForm(product)}>
-                      <i className="fa fa-edit"></i>
+                    <button type='button' onClick={() => goToForm(product)}>
+                      <i className="fa fa-edit success"></i>
                     </button>
-                    <button type='button' className='danger'
-                      onClick={() => deleteHandler(product)}>
-                      <i className="fa fa-trash"></i>
+                    <button type='button' onClick={() => deleteHandler(product)}>
+                      <i className="fa fa-trash danger"></i>
                     </button>
                   </td>
                 </tr>
