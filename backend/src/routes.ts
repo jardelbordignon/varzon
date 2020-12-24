@@ -23,6 +23,7 @@ routes.post('/users/signin', UsersController.signin)
 routes.put('/users/profile', isAuth, UsersController.profile)
 routes.get('/users/:id', UsersController.show)
 routes.get('/users', isAuth, isAdmin, UsersController.index)
+routes.delete('/users/:id', isAuth, isAdmin, UsersController.delete)
 
 routes.get('/orders', isAuth, isAdmin, OrdersController.index)
 routes.delete('/orders/:id', isAuth, isAdmin, OrdersController.delete)

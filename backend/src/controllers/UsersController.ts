@@ -95,6 +95,22 @@ export default {
     const updatedUser = await repository.save(user)
 
     res.status(200).send(users_view.renderOne(updatedUser, true)) 
+  },
+
+  async delete(req: Request, res: Response) {
+    const repository = getRepository(User)
+
+    const user = await repository.findOne(req.params.id)
+
+    if(!user)
+      return res.status(404).json({ message: 'Usuário não encontrado' })
+    
+    if(user.isAdmin)
+      return res.status(400).json({ message: `${user.name} é administrador e não pode ser deletado` })
+    
+    const { name } = await repository.remove(user)
+
+    res.status(200).send({ message: `Usuário ${name} deletado com sucesso` })
   }
 
 
