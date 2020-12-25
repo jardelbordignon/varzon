@@ -19,6 +19,9 @@ export default class User {
   password: string
 
   @Column()
+  isSeller: boolean
+  
+  @Column()
   isAdmin: boolean
 
   @OneToMany(() => Address, address => address.user, {cascade: ['insert', 'update']})

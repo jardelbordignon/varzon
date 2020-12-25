@@ -8,10 +8,15 @@ import {
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
   USER_DETAILS_FAIL,
+  USER_DETAILS_RESET,
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
   USER_UPDATE_PROFILE_FAIL,
   USER_UPDATE_PROFILE_RESET,
+  USER_UPDATE_CONFIG_REQUEST,
+  USER_UPDATE_CONFIG_SUCCESS,
+  USER_UPDATE_CONFIG_FAIL,
+  USER_UPDATE_CONFIG_RESET,
   USER_LIST_REQUEST,
   USER_LIST_SUCCESS,
   USER_LIST_FAIL,
@@ -65,6 +70,8 @@ export const userDetailsReducer = (state = { loading: true}, action) => {
       return { loading: false, user: action.payload}
     case USER_DETAILS_FAIL:
       return { loading: false, error: action.payload}
+    case USER_DETAILS_RESET:
+      return { loading: true }
     default:
       return state
   }
@@ -107,6 +114,21 @@ export const userDeleteReducer = (state = {}, action) => {
     case USER_DELETE_FAIL:
       return { loading: false, error: action.payload }
     case USER_DELETE_RESET:
+      return {}
+    default:
+      return state
+  }
+}
+
+export const userUpdateConfigReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_UPDATE_CONFIG_REQUEST:
+      return { loading: true }
+    case USER_UPDATE_CONFIG_SUCCESS:
+      return { loading: false, success: true }
+    case USER_UPDATE_CONFIG_FAIL:
+      return { loading: false, error: action.payload}
+    case USER_UPDATE_CONFIG_RESET:
       return {}
     default:
       return state

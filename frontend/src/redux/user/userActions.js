@@ -13,6 +13,9 @@ import {
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
   USER_UPDATE_PROFILE_FAIL,
+  USER_UPDATE_CONFIG_REQUEST,
+  USER_UPDATE_CONFIG_SUCCESS,
+  USER_UPDATE_CONFIG_FAIL,
   USER_LIST_REQUEST,
   USER_LIST_SUCCESS,
   USER_LIST_FAIL,
@@ -103,5 +106,19 @@ export const deleteUser = userId => async (dispatch, getState) => {
     dispatch({ type: USER_DELETE_SUCCESS, payload: data.message })
   } catch (error) {
     dispatch({ type: USER_DELETE_FAIL, payload: error.response?.data.message || error.message })
+  }
+}
+
+export const updateUserConfig = user => async (dispatch, getState) => {
+  console.log(user)
+  dispatch({ type: USER_UPDATE_CONFIG_REQUEST, payload: user })
+  const { userSignin: { userInfo }} = getState()
+  try {
+    const { data } = await Axios.put(`/users/config/${user.id}`, user, {
+      headers: { Authorization: 'Bearer ' + userInfo.token}
+    })
+    dispatch({ type: USER_UPDATE_CONFIG_SUCCESS, payload: data })
+  } catch (error) {
+    dispatch({ type: USER_UPDATE_CONFIG_FAIL, payload: error.response?.data.message || error.message })
   }
 }

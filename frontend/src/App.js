@@ -10,7 +10,8 @@ export default function App() {
   const dispatch = useDispatch()
 
   function signoutHandler() {
-    dispatch(signout())
+    if (window.confirm('Obrigado pela visita, espero que volte logo!\nDeseja mesmo sair?'))
+      dispatch(signout())
   }
 
   return (
@@ -21,12 +22,12 @@ export default function App() {
           <Link to='/' className='bold'>varzon</Link>
         </div>
         <div>
-          <Link to='/cart'>
-            <i className="fa fa-shopping-cart"></i>
-            { !!cartItems.length &&
+          { !!cartItems.length &&
+            <Link to='/cart'>
+              <i className="fa fa-shopping-cart"></i>
               <span className='badge'>{ cartItems.length }</span>
-            }
-          </Link>
+            </Link>
+          }
           { userInfo 
             ? (
               <div className="dropdown">
@@ -34,9 +35,9 @@ export default function App() {
                   { userInfo.name } <i className='fa fa-caret-down'></i>
                 </Link>
                 <ul className='dropdown-content'>
-                  <li><Link to='/profile'>Meus Perfil</Link></li>
-                  <li><Link to='/orderHistory'>Meus Pedidos</Link></li>
-                  <li><Link to='#' onClick={signoutHandler}>Sair</Link></li>
+                  <li><Link to='/profile'><i className='fa fa-user'/> Meus Perfil</Link></li>
+                  <li><Link to='/orderHistory'><i className='fa fa-truck'/> Meus Pedidos</Link></li>
+                  <li><Link to='#' onClick={signoutHandler}><i className='fa fa-sign-out'/> Sair</Link></li>
                 </ul>
               </div>            
             )
@@ -48,10 +49,10 @@ export default function App() {
                 Admin <i className='fa fa-caret-down'></i>
               </Link>
               <ul className='dropdown-content'>
-                <li><Link to='/dashboard'>Configurações</Link></li>
-                <li><Link to='/admin/products'>Produtos</Link></li>
-                <li><Link to='/admin/orders'>Pedidos</Link></li>
-                <li><Link to='/admin/users'>Usuários</Link></li>
+                <li><Link to='/dashboard'><i className='fa fa-cog'/> Configurações</Link></li>
+                <li><Link to='/admin/products'><i className='fa fa-shopping-cart'/> Produtos</Link></li>
+                <li><Link to='/admin/orders'><i className='fa fa-truck'/> Pedidos</Link></li>
+                <li><Link to='/admin/users'><i className='fa fa-users'/> Usuários</Link></li>
               </ul>
             </div>
           }

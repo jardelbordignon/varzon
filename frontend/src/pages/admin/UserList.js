@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import LoadingBox from '../../components/LoadingBox'
 import MessageBox from '../../components/MessageBox'
 import { listUsers, deleteUser } from '../../redux/user/userActions'
+import { USER_DETAILS_RESET } from '../../redux/user/userConsts' 
 
-export default function UserList() {
+export default function UserList(props) {
   const userList = useSelector( state => state.userList )
   const { loading, error, users } = userList
   
@@ -16,6 +17,7 @@ export default function UserList() {
 
   useEffect(() => {
     dispatch(listUsers())
+    dispatch({ type: USER_DETAILS_RESET })
   }, [dispatch, successDelete])
 
   function deleteHandler(user) {
@@ -55,7 +57,7 @@ export default function UserList() {
                     <td><i className={`fa fa-${user.isSeller ? 'check-circle-o success' : 'ban danger'}`} /></td>
                     <td><i className={`fa fa-${user.isAdmin ? 'check-circle-o success' : 'ban danger'}`} /></td>
                     <td>
-                      <button type='button' onClick={() => {}}>
+                      <button type='button' onClick={() => props.history.push(`/admin/users/${user.id}/edit`)}>
                         <i className="fa fa-edit success" />
                       </button>
                       { !user.isAdmin &&
