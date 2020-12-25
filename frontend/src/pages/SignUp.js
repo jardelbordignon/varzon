@@ -7,7 +7,7 @@ import MessageBox from '../components/MessageBox';
 import { signup } from '../redux/user/userActions';
 
 export default function SignUp(props) {
-  const [obj, setObj] = useState({name: '', email: '', password: '', passwordConfirmation: ''})
+  const [state, setState] = useState({name: '', email: '', password: '', passwordConfirmation: ''})
   const { userInfo, loading, error } = useSelector( state => state.userSignin )
   const dispatch = useDispatch()
   const redirect = props.location.search.split('=')[1] || '/'
@@ -19,12 +19,12 @@ export default function SignUp(props) {
   function submitHandler(e) {
     e.preventDefault();
 
-    if (obj.password !== obj.passwordConfirmation) {
+    if (state.password !== state.passwordConfirmation) {
       alert('Senha e confirmação não são iguais')
       return 
     } 
 
-    dispatch(signup(obj))
+    dispatch(signup(state))
   }
 
   return (
@@ -38,22 +38,22 @@ export default function SignUp(props) {
         <div>
           <label htmlFor='name'>Nome</label>
           <input placeholder='Informe seu nome' required
-            onChange={e => setObj({...obj, name: e.target.value})} />
+            onChange={e => setState({...state, name: e.target.value})} />
         </div>
         <div>
           <label htmlFor='email'>E-mail</label>
           <input type='email' placeholder='Informe seu e-mail' required
-            onChange={e => setObj({...obj, email: e.target.value})} />
+            onChange={e => setState({...state, email: e.target.value})} />
         </div>
         <div>
           <label htmlFor='password'>Senha</label>
           <input type='password' placeholder='Informe sua senha' required
-            onChange={e => setObj({...obj, password: e.target.value})} />
+            onChange={e => setState({...state, password: e.target.value})} />
         </div>
         <div>
           <label htmlFor='passwordConfirmation'>Confirmar Senha</label>
           <input type='password' placeholder='Confirme sua senha' required
-            onChange={e => setObj({...obj, passwordConfirmation: e.target.value})} />
+            onChange={e => setState({...state, passwordConfirmation: e.target.value})} />
         </div>
         <div>
           <br />

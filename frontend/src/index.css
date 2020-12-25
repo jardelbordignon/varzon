@@ -252,7 +252,7 @@ img.large {
 .dropdown-content {
   position: absolute;
   right: 0;
-  min-width: 13rem;
+  min-width: 15rem;
   padding: 1rem;
   z-index: 1;
   background-color: #203040;
@@ -260,6 +260,9 @@ img.large {
   border-radius: .5rem;
   opacity: 0;
   display: none;
+}
+.dropdown-content i {
+  margin-right: .5rem;
 }
 .dropdown:hover .dropdown-content {
   display:  block;

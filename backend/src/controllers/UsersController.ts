@@ -29,11 +29,11 @@ export default {
   },
 
   async create(req: Request, res: Response) {
-    const { name, email, password, isAdmin=false } = req.body
+    const { name, email, password, isSeller=false, isAdmin=false } = req.body
 
     const repository = getRepository(User)
   
-    const userData = { name, email, password, isAdmin }
+    const userData = { name, email, password, isSeller, isAdmin }
 
     const schema = Yup.object().shape({
       name:     Yup.string().required(),
@@ -111,6 +111,24 @@ export default {
     const { name } = await repository.remove(user)
 
     res.status(200).send({ message: `Usuário ${name} deletado com sucesso` })
+  },
+
+  async userConfig(req: Request, res: Response) {
+    const repository = getRepository(User)
+
+    let user = await repository.findOne(req.body.id)
+
+    if(!user)
+      return res.status(404).json({ message: 'Usuário não encontrado' })
+  
+    user.name     = req.body.name || user.name
+    user.email    = req.body.email || user.email
+    user.isSeller = req.body.isSeller
+    user.isAdmin  = req.body.isAdmin
+
+    await repository.save(user)
+
+    res.status(200).send({ message: 'ok'}) //.send(users_view.renderOne(user, true)) 
   }
 
 

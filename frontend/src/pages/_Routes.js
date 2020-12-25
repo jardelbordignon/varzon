@@ -17,6 +17,7 @@ import ProductList from './admin/ProductList'
 import ProductForm from './admin/ProductForm'
 import OrderList from './admin/OrderList'
 import UserList from './admin/UserList'
+import UserEdit from './admin/UserEdit'
 
 export default function Routes() {
   return (
@@ -35,7 +36,8 @@ export default function Routes() {
       <LoggedRoute path='/profile' component={Profile} />
       <LoggedRoute onlyAdmin path='/admin/products' component={ProductList} />
       <LoggedRoute onlyAdmin path='/admin/orders' component={OrderList} />
-      <LoggedRoute onlyAdmin path='/admin/users' component={UserList} />
+      <LoggedRoute onlyAdmin path='/admin/users' exact component={UserList} />
+      <LoggedRoute onlyAdmin path='/admin/users/:id/edit' component={UserEdit} />
     </>
   )
 }
