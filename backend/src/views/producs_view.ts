@@ -14,6 +14,7 @@ export default {
       rating: product.rating,
       description: product.description, 
       numReviews: product.numReviews,
+      sellerId: product.sellerId,
       images: product.images ? images_view.renderMany(product.images) : []
     }
   },

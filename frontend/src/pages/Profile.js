@@ -16,20 +16,19 @@ export default function Profile(props) {
   } = useSelector(state => state.userUpdateProfile)
 
   useEffect(() => {
-    if (!user) {
+    if (!user || user.id !== userInfo.id) {
       dispatch({ type: USER_UPDATE_PROFILE_RESET })
       dispatch(detailsUser(userInfo.id))
     } else
       setState(user)
-  }, [dispatch, userInfo.id])
+  }, [dispatch, user, userInfo.id])
 
-  // if (loading) return <LoadingBox />
-  // if (error) return <MessageBox variant='danger'>{error}</MessageBox>
-  // if (!user) return <div>Perfil não encontrado</div>
+
 
   function submitHandler(e) {
     e.preventDefault()
 
+    if (!state.password?.length) delete state.password
     if (state.password !== state.confirmPassword) {
       alert('Senha e confirmação não são iguais')
       return
@@ -79,9 +78,36 @@ export default function Profile(props) {
                   type='password'
                   onChange={e => setState({ ...state, confirmPassword: e.target.value })} />
               </div>
+              {
+                user.isSeller &&
+                <>
+                  <div>
+                    <br/>
+                    <h1>Minhas Lojas</h1>
+                  </div>
+                  <div>
+                    <label htmlFor='sellerName'>Nome da Loja</label>
+                    <input id='sellerName' placeholder='Informe o nome da loja'
+                      value={state.seller?.name || ''}
+                      onChange={e => setState({
+                        ...state, seller: {
+                          ...state.seller, name: e.target.value
+                        }})}/>
+                  </div>
+                  <div>
+                    <label htmlFor='sellerDescription'>Descrição da Loja</label>
+                    <input id='sellerDescription' placeholder='Informe a descrição da loja'
+                      value={state.seller?.description || ''}
+                      onChange={e => setState({
+                        ...state, seller: {
+                          ...state.seller, description: e.target.value
+                        }})}/>
+                  </div>
+                </>
+              }
               <div>
                 <label />
-                <button className='primary' type='submit'>Alterar</button>
+                <button className='primary' type='submit'>Salvar Alterações</button>
               </div>
             </>
           )

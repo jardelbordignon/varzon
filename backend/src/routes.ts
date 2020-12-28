@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import multer from 'multer'
 
-import { isAuth, isAdmin } from './utils/generateToken'
+import { isAuth, isAdmin, isSellerOrAdmin } from './utils/generateToken'
 import configMulter from './config/multer'
 import OrdersController from './controllers/OrdersController'
 import ProductsController from './controllers/ProductsController'
@@ -13,8 +13,8 @@ const upload = multer(configMulter)
 //routes.get('/products/seed', ProductsController.seed)
 routes.get('/products', ProductsController.index)
 routes.get('/products/:id', ProductsController.show)
-routes.post('/products', isAuth, isAdmin, upload.array('images'), ProductsController.create)
-routes.put('/products', isAuth, isAdmin, upload.array('images'), ProductsController.update)
+routes.post('/products', isAuth, isSellerOrAdmin, upload.array('images'), ProductsController.create)
+routes.put('/products', isAuth, isSellerOrAdmin, upload.array('images'), ProductsController.update)
 routes.delete('/products/:id', isAuth, isAdmin, ProductsController.delete)
 
 
@@ -26,7 +26,7 @@ routes.get('/users', isAuth, isAdmin, UsersController.index)
 routes.delete('/users/:id', isAuth, isAdmin, UsersController.delete)
 routes.put('/users/config/:id', isAuth, isAdmin, UsersController.userConfig)
 
-routes.get('/orders', isAuth, isAdmin, OrdersController.index)
+routes.get('/orders', isAuth, isSellerOrAdmin, OrdersController.index)
 routes.delete('/orders/:id', isAuth, isAdmin, OrdersController.delete)
 routes.post('/orders', isAuth, OrdersController.create)
 routes.get('/orders/mine', isAuth, OrdersController.mine)

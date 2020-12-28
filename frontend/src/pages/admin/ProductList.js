@@ -8,14 +8,15 @@ import { formatPrice } from '../../utils/formatters'
 import { PRODUCT_CREATE_RESET, PRODUCT_DELETE_RESET } from '../../redux/product/productConsts'
 
 export default function ProductList(props) {
-
   const { loading, error, products } = useSelector( state => state.productList )
   const productCreate = useSelector( state => state.productCreate )
   const { loading:loadingCreate, success:successCreate, error:errorCreate, product  } = productCreate
   const productDelete = useSelector( state => state.productDelete )
   const { loading:loadingDelete, success:successDelete, error:errorDelete } = productDelete
+  const { userInfo } = useSelector( state => state.userSignin )
   const dispatch = useDispatch()
-
+  const sellerMode = props.match.path.indexOf('/seller') >= 0
+  
   useEffect(() => {
     if (successCreate) {
       dispatch({ type: PRODUCT_CREATE_RESET })
@@ -24,7 +25,7 @@ export default function ProductList(props) {
     if (successDelete) {
       dispatch({ type: PRODUCT_DELETE_RESET })
     }
-    dispatch(listProducts())
+    dispatch(listProducts({ sellerId: sellerMode ? userInfo.id : '' }))
   }, [dispatch, props.history, product, successCreate, successDelete])
 
   function goToForm(prod) {

@@ -5,7 +5,8 @@ import * as Yup from 'yup'
 
 import User from '../models/User'
 import users_view from '../views/users_view'
-import generateToken from '../utils/generateToken'
+//import generateToken from '../utils/generateToken'
+import Seller from '../models/Seller';
 
 export default {
 
@@ -18,13 +19,13 @@ export default {
 
   async show(req: Request, res: Response) {
     const repository = getRepository(User)
-    const { id } = req.params    
-    //const user = await repository.findOneOrFail(id, { relations: ['images'] })
-    const user = await repository.findOne(id)
+
+    const user = await repository.findOne(req.params.id, { relations: ['seller'] })
 
     if(!user)
       return res.status(404).json({ message: 'Usuário não encontrado' })
     
+    console.log(user)
     return res.json(users_view.renderOne(user))
   },
 
@@ -39,7 +40,6 @@ export default {
       name:     Yup.string().required(),
       email:    Yup.string().required(),
       password: Yup.string().required(),
-      isAdmin:  Yup.boolean().required(),
     })
 
     await schema.validate(userData, { abortEarly: false })
@@ -56,33 +56,20 @@ export default {
   async signin(req: Request, res: Response) {
     const repository = getRepository(User)
     const { email, password } = req.body    
-    const user = await repository.findOne({ email })
+    const user = await repository.findOne({ email }, { relations: ['seller'] })
     
-    if (!user) {
+    if (!user || !bcrypt.compareSync(password, user.password)) {
       res.status(401).send({ message: 'E-mail e/ou senha inválidos' })
       return
     }
-
-    //if (password === user.password) {
-    if (bcrypt.compareSync(password, user.password)) {
-      // const loggedData = {
-      //   id: user.id,
-      //   name: user.name,
-      //   email: user.email,
-      //   isAdmin: user.isAdmin,
-      //   token: generateToken(user)
-      // }
-
-      res.status(200).send(users_view.renderOne(user, true))
-    } else {
-      res.status(401).send({ message: 'E-mail e/ou senha inválidos' })
-    }
+    
+    res.status(200).send(users_view.renderOne(user, { withToken:true }))
   },
 
   async profile(req: Request, res: Response) {
     const repository = getRepository(User)
 
-    const user = await repository.findOne(req.user.id)
+    const user = await repository.findOne(req.user.id, { relations: ['seller'] })
 
     if(!user)
       return res.status(404).json({ message: 'Usuário não encontrado' })
@@ -92,9 +79,18 @@ export default {
     if (req.body.password)
       user.password = bcrypt.hashSync(req.body.password, 8)
 
-    const updatedUser = await repository.save(user)
+    if (user.isSeller) {
+      const sellerRepository = getRepository(Seller)
+      const seller = await sellerRepository.findOne({ user }) || new Seller(user)
+      
+      Object.assign(seller, req.body.seller)
 
-    res.status(200).send(users_view.renderOne(updatedUser, true)) 
+      await sellerRepository.save(seller)
+    }
+
+    const updatedUser = await repository.save(user)
+    
+    res.status(200).send(users_view.renderOne(updatedUser)) 
   },
 
   async delete(req: Request, res: Response) {

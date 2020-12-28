@@ -20,10 +20,10 @@ import {
   PRODUCT_DELETE_RESET,
 } from './productConsts'
 
-export const listProducts = () => async dispatch => {
+export const listProducts = ({sellerId = ''}) => async dispatch => {
   dispatch({ type: PRODUCT_LIST_REQUEST })
   try {
-    const { data } = await Axios.get('/products')
+    const { data } = await Axios.get(`/products?sellerId=${sellerId}`)
     dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data })
   } catch (error) {
     dispatch({ type: PRODUCT_LIST_FAIL, payload: error.message })

@@ -9,7 +9,10 @@ export default {
 
   async index(req: Request, res: Response) {
     const repository:Repository<Product> = getRepository(Product)
-    const products = await repository.find({ relations: ['images'] })
+
+    const sellerFilter = req.query.sellerId && { sellerId: req.query.sellerId }
+
+    const products = await repository.find({ where: {...sellerFilter}, relations: ['images'] })
 
     return res.json(products_view.renderMany(products))
   },
@@ -47,7 +50,8 @@ export default {
   // precisa estar logado e ser admin
   async create(req: Request, res: Response) {
     //console.log(req.files)
-    const { 
+    const {
+      seller,
       name,
       price,
       category,
@@ -63,6 +67,7 @@ export default {
     const repository = getRepository(Product)
   
     const data = {
+      seller,
       name,
       price,
       category,
@@ -87,7 +92,7 @@ export default {
   async update(req: Request, res: Response) {
     const repository = getRepository(Product)
 
-    const product = req.body.id 
+    const product = req.body.id
       ? await repository.findOne(req.body.id, { relations: ['images'] })
       : new Product()
     

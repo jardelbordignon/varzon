@@ -62,6 +62,7 @@ export const detailsUser = userId => async (dispatch, getState) => {
     const { data } = await Axios.get(`/users/${userId}`, {
       headers: { Authorization: 'Bearer ' + userInfo.token}
     })
+    console.log('data', data)
     dispatch({ type: USER_DETAILS_SUCCESS, payload: data })
   } catch (error) {
     dispatch({ type: USER_DETAILS_FAIL, payload: error.response?.data.message || error.message })   
@@ -76,8 +77,8 @@ export const updateUserProfile = user => async (dispatch, getState) => {
       headers: { Authorization: 'Bearer ' + userInfo.token}
     })
     dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: data })
-    dispatch({ type: USER_SIGNIN_SUCCESS, payload: data })
-    localStorage.setItem('userInfo', JSON.stringify(data))
+    //dispatch({ type: USER_SIGNIN_SUCCESS, payload: data })
+    //localStorage.setItem('userInfo', JSON.stringify(data))
   } catch (error) {
     dispatch({ type: USER_UPDATE_PROFILE_FAIL, payload: error.response?.data.message || error.message })
   }
