@@ -8,12 +8,12 @@ import products_view from '../views/producs_view'
 export default {
 
   async index(req: Request, res: Response) {
-    const repository:Repository<Product> = getRepository(Product)
+    const repository = getRepository(Product)
 
     const sellerFilter = req.query.sellerId && { sellerId: req.query.sellerId }
 
-    const products = await repository.find({ where: {...sellerFilter}, relations: ['images'] })
-
+    const products = await repository.find({ where: {...sellerFilter}, relations: ['images', 'seller'] })
+    
     return res.json(products_view.renderMany(products))
   },
 
@@ -21,7 +21,7 @@ export default {
     const repository = getRepository(Product)
     const { id } = req.params    
     //const product = await repository.findOneOrFail(id, { relations: ['images'] })
-    const product = await repository.findOne(id, { relations: ['images'] })
+    const product = await repository.findOne(id, { relations: ['images', 'seller'] })
 
     if(!product)
       return res.status(404).json({ message: 'Produto não encontrado' })

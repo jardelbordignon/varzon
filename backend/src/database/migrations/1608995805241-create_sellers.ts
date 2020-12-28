@@ -23,6 +23,11 @@ export class createSellers1608995805241 implements MigrationInterface {
           type: 'varchar'
         },
         {
+          name: 'url',
+          type: 'varchar',
+          isUnique: true
+        },
+        {
           name: 'logo',
           type: 'varchar',
           isNullable: true

@@ -25,7 +25,7 @@ export default function Product(props) {
   if (error) return <MessageBox variant='danger'>{error}</MessageBox>
   if (!product) return <div>Produto não encontrado</div>
 
-  const {images, name, rating, numReviews, price, description, countInStock} = product
+  const {images, seller, name, rating, numReviews, price, description, countInStock} = product
 
   return (
     <div>
@@ -45,6 +45,12 @@ export default function Product(props) {
         <div className="col-1">
           <div className="card card-body">
             <ul>
+              <li>
+                <h2>
+                  <Link to={`/s/${seller.id}`} >{seller.name}</Link>
+                </h2>
+                <Rating rating={3} numReviews={30} />
+              </li>
               <li>
                 <div className="row">
                   <div>Valor</div>
