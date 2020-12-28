@@ -9,7 +9,7 @@ export class createUsers1607131356368 implements MigrationInterface {
         {
           name: 'id',
           type: 'integer',
-          unsigned: true,
+          //unsigned: true,
           isPrimary: true,
           isGenerated: true,
           generationStrategy: 'increment'
@@ -21,7 +21,7 @@ export class createUsers1607131356368 implements MigrationInterface {
         {
           name: 'email',
           type: 'varchar',
-          isUnique: true
+          //isUnique: true
         },
         {
           name: 'password',

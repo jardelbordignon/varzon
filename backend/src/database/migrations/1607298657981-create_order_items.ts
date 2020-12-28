@@ -9,7 +9,7 @@ export class createOrderItems1607298657981 implements MigrationInterface {
         {
           name: 'id',
           type: 'integer',
-          unsigned: true,
+          //unsigned: true,
           isPrimary: true,
           isGenerated: true,
           generationStrategy: 'increment'
@@ -32,25 +32,26 @@ export class createOrderItems1607298657981 implements MigrationInterface {
         },
         {
           name: 'price',
-          type: 'decimal',
-          scale: 10,
-          precision: 2
+          type: 'float(10,2)'
+          // type: 'decimal',
+          // scale: 10,
+          // precision: 2
         },
         {
           name: 'qty',
           type: 'integer'
         }
       ],
-      foreignKeys: [
-        {
-          name: 'fkOrderItems',
-          columnNames: ['orderId'],
-          referencedTableName: 'orders',
-          referencedColumnNames: ['id'],
-          onUpdate: 'CASCADE',
-          onDelete: 'CASCADE'
-        }
-      ]
+      // foreignKeys: [
+      //   {
+      //     name: 'fkOrderItems',
+      //     columnNames: ['orderId'],
+      //     referencedTableName: 'orders',
+      //     referencedColumnNames: ['id'],
+      //     onUpdate: 'CASCADE',
+      //     onDelete: 'CASCADE'
+      //   }
+      // ]
     }))
   }
 

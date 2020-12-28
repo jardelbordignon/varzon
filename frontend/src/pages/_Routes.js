@@ -1,6 +1,6 @@
 import { Route } from 'react-router-dom'
 
-import LoggedRoute from '../components/LoggedRoute'
+import ConditionedRoute from '../components/ConditionedRoute'
 
 import Home from './Home'
 import Product from './Product'
@@ -33,11 +33,13 @@ export default function Routes() {
       <Route path='/orderHistory' component={OrderHistory} />
       <Route path='/admin/productForm/:id?' component={ProductForm} />
       <Route path='/products/:id' component={Product} />
-      <LoggedRoute path='/profile' component={Profile} />
-      <LoggedRoute onlyAdmin path='/admin/products' component={ProductList} />
-      <LoggedRoute onlyAdmin path='/admin/orders' component={OrderList} />
-      <LoggedRoute onlyAdmin path='/admin/users' exact component={UserList} />
-      <LoggedRoute onlyAdmin path='/admin/users/:id/edit' component={UserEdit} />
+      <ConditionedRoute path='/profile' component={Profile} />
+      <ConditionedRoute seller path='/seller/products' component={ProductList} />
+      <ConditionedRoute seller path='/seller/orders' component={OrderList} />
+      <ConditionedRoute admin path='/admin/products' component={ProductList} />
+      <ConditionedRoute admin path='/admin/orders' component={OrderList} />
+      <ConditionedRoute admin path='/admin/users' exact component={UserList} />
+      <ConditionedRoute admin path='/admin/users/:id/edit' component={UserEdit} />
     </>
   )
 }

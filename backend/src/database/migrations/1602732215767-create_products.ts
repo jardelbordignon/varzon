@@ -24,9 +24,10 @@ export class createProducts1602732215767 implements MigrationInterface {
         },
         {
           name: 'price',
-          type: 'decimal',
-          scale: 10,
-          precision: 2
+          type: 'float(10,2)', 
+          // type: decimal
+          // scale: 10,
+          // precision: 2
         },
         {
           name: 'countInStock',
@@ -38,11 +39,12 @@ export class createProducts1602732215767 implements MigrationInterface {
         },
         {
           name: 'rating',
-          type: 'decimal',
-          scale: 2,
-          precision: 1,
+          type: 'float(2,1)', 
+          //type: decimal
+          // scale: 2,
+          // precision: 1,
           isNullable: true,
-          default: 0
+          default: 0.0
         },
         {
           name: 'numReviews',

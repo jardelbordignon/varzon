@@ -11,7 +11,7 @@ export default function Home() {
   const productList = useSelector( state => state.productList )
   const { loading, error, products } = productList
     
-  useEffect(() => dispatch(listProducts()), [dispatch])
+  useEffect(() => dispatch(listProducts({ sellerId: '' })), [dispatch])
 
   if (loading) return <LoadingBox />
   if (error) return <MessageBox variant='danger'>{error}</MessageBox>

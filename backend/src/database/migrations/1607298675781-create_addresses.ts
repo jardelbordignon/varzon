@@ -9,7 +9,7 @@ export class createAddresses1607298675781 implements MigrationInterface {
         {
           name: 'id',
           type: 'integer',
-          unsigned: true,
+          //unsigned: true,
           isPrimary: true,
           isGenerated: true,
           generationStrategy: 'increment'
@@ -56,16 +56,16 @@ export class createAddresses1607298675781 implements MigrationInterface {
         }
       ],
 
-      foreignKeys: [
-        {
-          name: 'fkUserAddress',
-          columnNames: ['userId'],
-          referencedTableName: 'users',
-          referencedColumnNames: ['id'],
-          onUpdate: 'CASCADE',
-          onDelete: 'CASCADE'
-        }
-      ]
+      // foreignKeys: [
+      //   {
+      //     name: 'fkUserAddress',
+      //     columnNames: ['userId'],
+      //     referencedTableName: 'users',
+      //     referencedColumnNames: ['id'],
+      //     onUpdate: 'CASCADE',
+      //     onDelete: 'CASCADE'
+      //   }
+      // ]
     }))
   }
 

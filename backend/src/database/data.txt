@@ -25,3 +25,12 @@ insert into images(productId, path) values (3, 'products/p3.jpg');
 insert into images(productId, path) values (4, 'products/p4.jpg');
 insert into images(productId, path) values (5, 'products/p5.jpg');
 insert into images(productId, path) values (6, 'products/p6.jpg');
+
+insert into users (name, email, password, isSeller, isAdmin)
+values ('Jardel', 'jardel@email.com', '$2a$08$c0MQU6f.ijnqyHs.bGjTO.0c6t3q69E3xY9KPu1jKUw5Jf61MGOpm', 1, 1);
+
+insert into users (name, email, password, isSeller, isAdmin)
+values ('Sabrina', 'sabrina@email.com', '$2a$08$c0MQU6f.ijnqyHs.bGjTO.0c6t3q69E3xY9KPu1jKUw5Jf61MGOpm', 1, 0);
+
+insert into users (name, email, password, isSeller, isAdmin)
+values ('John Doe', 'john@email.com', '$2a$08$c0MQU6f.ijnqyHs.bGjTO.0c6t3q69E3xY9KPu1jKUw5Jf61MGOpm', 0, 0);

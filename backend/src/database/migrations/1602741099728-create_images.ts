@@ -25,7 +25,7 @@ export class createImages1602741099728 implements MigrationInterface {
       ],
       foreignKeys: [
         {
-          name: 'fkImageProduct',
+          name: 'fkImagesProduct',
           columnNames: ['productId'],
           referencedTableName: 'products',
           referencedColumnNames: ['id'],

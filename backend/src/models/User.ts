@@ -1,7 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn, CreateDateColumn, UpdateDateColumn, OneToOne } from 'typeorm'
 
 import Address from './Address'
 import Order from './Order'
+import Seller from './Seller'
 
 @Entity('users')
 export default class User {
@@ -31,6 +32,9 @@ export default class User {
   @OneToMany(() => Order, order => order.user, {cascade: ['insert', 'update']})
   @JoinColumn({ name: 'userId'})
   orders: Order[]
+  
+  @OneToOne(() => Seller, seller => seller.user, {cascade: ['insert', 'update']})
+  seller: Seller
   
   @CreateDateColumn()
   createdAt: Date

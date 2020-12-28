@@ -61,7 +61,7 @@ export const payOrder = (order, paymentResult) => async (dispatch, getState) => 
   dispatch({ type: ORDER_PAY_REQUEST, payload: { order, paymentResult }})
   const { userSignin: { userInfo } } = getState()
   try {
-    const { data } = Axios.put(`/orders/${order.data.id}/pay`, paymentResult, {
+    const { data } = Axios.put(`/orders/${order.id}/pay`, paymentResult, {
       headers: { Authorization: 'Bearer ' +userInfo.token}
     })
     dispatch({ type: ORDER_PAY_SUCCESS, payload: data })
@@ -85,11 +85,11 @@ export const listOrderMine = () => async (dispatch, getState) => {
   }
 }
 
-export const listOrders = () => async (dispatch, getState) => {
+export const listOrders = ({ sellerId = '' }) => async (dispatch, getState) => {
   dispatch({ type: ORDER_LIST_REQUEST })
   const { userSignin: { userInfo } } = getState()
   try {
-    const { data } = await Axios.get(`/orders`, { 
+    const { data } = await Axios.get(`/orders?sellerId=${sellerId}`, { 
       headers: { Authorization: 'Bearer ' + userInfo.token }
     })
     dispatch({ type: ORDER_LIST_SUCCESS, payload: data })

@@ -6,6 +6,7 @@ declare namespace Express {
       id: number
       name: string
       isAdmin: boolean
+      isSeller: boolean
     }
   }
 }

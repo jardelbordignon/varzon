@@ -18,7 +18,8 @@ export const addToCart = (productId, qty) => async (dispatch, getState) => {
       price: product.price,
       countInStock: product.countInStock,
       productId: product.id,
-      qty
+      qty,
+      sellerId: product.sellerId
     }
   })
   // persistindo os itens do carrinho no localStorage

@@ -23,8 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 NOTES.md
 
-*.sqlite3
-*.sqlite
 /uploads/*.jpg
 /backend/dist/*
 backend/src/database/database.sqlite
+backend/src/database/data.txt

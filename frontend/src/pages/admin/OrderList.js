@@ -13,11 +13,13 @@ export default function OrderList(props) {
   const { loading, error, orders } = orderList
   const orderDelete = useSelector( state => state.orderDelete )
   const { loading:loadingDelete, error:errorDelete, success:successDelete } = orderDelete
+  const { userInfo } = useSelector( state => state.userSignin )
   const dispatch = useDispatch()
+  const sellerMode = props.match.path.indexOf('/seller') >= 0
 
   useEffect(() => {
     dispatch({ type: ORDER_DELETE_RESET })
-    dispatch(listOrders())
+    dispatch(listOrders({ sellerId: sellerMode ? userInfo.id : '' }))
   }, [dispatch, successDelete])
 
   function deleteHandler(order) {

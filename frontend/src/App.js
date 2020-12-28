@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import Routes from './pages/_Routes'
 import { signout } from './redux/user/userActions'
+import LinkUnlessCurrent from './components/LinkUnlessCurrent'
 
 export default function App() {
   const { cartItems } = useSelector( state => state.cart )
@@ -35,15 +36,26 @@ export default function App() {
                   { userInfo.name } <i className='fa fa-caret-down'></i>
                 </Link>
                 <ul className='dropdown-content'>
-                  <li><Link to='/profile'><i className='fa fa-user'/> Meus Perfil</Link></li>
+                  <li><Link to='/profile'><i className='fa fa-user'/> Meus Perfil {!!userInfo.token ? 'S':'N'}</Link></li>
                   <li><Link to='/orderHistory'><i className='fa fa-truck'/> Meus Pedidos</Link></li>
                   <li><Link to='#' onClick={signoutHandler}><i className='fa fa-sign-out'/> Sair</Link></li>
                 </ul>
-              </div>            
+              </div>
             )
-            : <Link to='/signin'>Entrar</Link>
+            : <LinkUnlessCurrent to='/signin'>Entrar</LinkUnlessCurrent>
           }
-          { userInfo && userInfo.isAdmin &&            
+          { userInfo?.isSeller &&
+            <div className="dropdown">
+              <Link to='#'>
+                Minha Loja <i className='fa fa-caret-down'></i>
+              </Link>
+              <ul className='dropdown-content'>
+                <li><Link to='/seller/products'><i className='fa fa-cog'/> Produtos</Link></li>
+                <li><Link to='/seller/orders'><i className='fa fa-truck'/> Pedidos</Link></li>
+              </ul>
+            </div>
+          }
+          { userInfo?.isAdmin &&            
             <div className="dropdown">
               <Link to='#'>
                 Admin <i className='fa fa-caret-down'></i>

@@ -11,7 +11,10 @@ export default {
 
   async index(req: Request, res: Response) {
     const repository:Repository<Order> = getRepository(Order)
-    const orders = await repository.find({ relations: ['user', 'orderItems', 'address'] })
+
+    const sellerFilter = req.query.sellerId && { sellerId: req.query.sellerId }
+
+    const orders = await repository.find({ where: {...sellerFilter}, relations: ['user', 'orderItems', 'address'] })
 
     return res.json(orders)
   },
@@ -67,10 +70,15 @@ export default {
     Object.assign(newAddress, req.body.shippingAddress)
     const address = await addressRepository.save(newAddress)
 
-    const {orderItems, paymentMethod, itemsPrice, shippingPrice, taxPrice} = req.body
-    
     const orderData = {
-      user, address, orderItems, paymentMethod, itemsPrice, shippingPrice, taxPrice
+      user, 
+      address, 
+      orderItems: req.body.orderItems, 
+      paymentMethod: req.body.paymentMethod, 
+      itemsPrice: req.body.itemsPrice, 
+      shippingPrice: req.body.shippingPrice, 
+      taxPrice: req.body.taxPrice,
+      sellerId: req.body.orderItems[0].sllerId
     }
     
     const order = repository.create(orderData)
@@ -82,6 +90,7 @@ export default {
   },
 
   async pay(req: Request, res: Response) {
+    console.log('-------------------------------------------')
     const repository = getRepository(Order)
     
     const order = await repository.findOne(req.params.id)

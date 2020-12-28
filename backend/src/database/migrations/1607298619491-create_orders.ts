@@ -9,7 +9,7 @@ export class createOrders1607298619491 implements MigrationInterface {
         {
           name: 'id',
           type: 'integer',
-          unsigned: true,
+          //unsigned: true,
           isPrimary: true,
           isGenerated: true,
           generationStrategy: 'increment'
@@ -48,21 +48,24 @@ export class createOrders1607298619491 implements MigrationInterface {
         },
         {
           name: 'itemsPrice',
-          type: 'decimal',
-          scale: 10,
-          precision: 2
+          type: 'float(10,2)'
+          // type: 'decimal',
+          // scale: 10,
+          // precision: 2
         },
         {
           name: 'shippingPrice',
-          type: 'decimal',
-          scale: 10,
-          precision: 2
+          type: 'float(10,2)'
+          // type: 'decimal',
+          // scale: 10,
+          // precision: 2
         },
         {
           name: 'taxPrice',
-          type: 'decimal',
-          scale: 10,
-          precision: 2
+          type: 'float(10,2)'
+          // type: 'decimal',
+          // scale: 10,
+          // precision: 2
         },
         {
           name: 'paidAt',
@@ -87,16 +90,16 @@ export class createOrders1607298619491 implements MigrationInterface {
         }
       ],
 
-      foreignKeys: [
-        {
-          name: 'fkUserAddress',
-          columnNames: ['userId'],
-          referencedTableName: 'users',
-          referencedColumnNames: ['id'],
-          onUpdate: 'CASCADE',
-          onDelete: 'CASCADE'
-        }
-      ]
+      // foreignKeys: [
+      //   {
+      //     name: 'fkUserAddress',
+      //     columnNames: ['userId'],
+      //     referencedTableName: 'users',
+      //     referencedColumnNames: ['id'],
+      //     onUpdate: 'CASCADE',
+      //     onDelete: 'CASCADE'
+      //   }
+      // ]
     }))
   }
 
