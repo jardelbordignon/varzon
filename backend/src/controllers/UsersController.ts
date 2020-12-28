@@ -3,10 +3,10 @@ import { Request, Response } from 'express'
 import { getRepository, Repository } from 'typeorm'
 import * as Yup from 'yup'
 
+import Seller from '../models/Seller'
 import User from '../models/User'
 import users_view from '../views/users_view'
 //import generateToken from '../utils/generateToken'
-import Seller from '../models/Seller';
 
 export default {
 
@@ -80,17 +80,19 @@ export default {
       user.password = bcrypt.hashSync(req.body.password, 8)
 
     if (user.isSeller) {
-      const sellerRepository = getRepository(Seller)
-      const seller = await sellerRepository.findOne({ user }) || new Seller(user)
-      
-      Object.assign(seller, req.body.seller)
-
-      await sellerRepository.save(seller)
+      if (!user.seller) user.seller = new Seller()
+      user.seller.url = req.body.seller.url || user.seller.url
+      user.seller.name = req.body.seller.name || user.seller.name
+      user.seller.logo = req.body.seller.logo || user.seller.logo
+      user.seller.description = req.body.seller.description || user.seller.description
     }
 
     const updatedUser = await repository.save(user)
     
-    res.status(200).send(users_view.renderOne(updatedUser)) 
+    res.status(200).send({ 
+      user: users_view.renderOne(updatedUser), 
+      message: 'Perfil atualizado com sucesso'
+    }) 
   },
 
   async delete(req: Request, res: Response) {
@@ -112,7 +114,7 @@ export default {
   async userConfig(req: Request, res: Response) {
     const repository = getRepository(User)
 
-    let user = await repository.findOne(req.body.id)
+    const user = await repository.findOne(req.body.id)
 
     if(!user)
       return res.status(404).json({ message: 'Usuário não encontrado' })

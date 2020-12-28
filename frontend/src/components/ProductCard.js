@@ -22,8 +22,13 @@ export default function ProductCard({product}) {
           <Rating rating={product.rating} numReviews={product.numReviews} />
         }
 
-        <div className='price'>
-          {formatPrice(product.price)}
+        <div className='row'>
+          <div className='price'>
+            {formatPrice(product.price)}
+          </div>
+          <div>
+            <Link to={`/s/${product.seller.id}`}>{product.seller.name}</Link>
+          </div>
         </div>
       </div>
     </div>

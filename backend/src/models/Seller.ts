@@ -9,9 +9,6 @@ export default class Seller {
   // constructor(obj?: Seller) {
   //   if (obj) Object.assign(this, obj)
   // }
-  constructor(user?: User) {
-    if (user) this.user = user
-  }
   
   @PrimaryGeneratedColumn('increment')
   id: number
@@ -21,6 +18,9 @@ export default class Seller {
   
   @Column()
   name: string
+  
+  @Column()
+  url: string
   
   @Column()
   logo: string

@@ -5,6 +5,7 @@ import LoadingBox from '../components/LoadingBox'
 import MessageBox from '../components/MessageBox'
 import { detailsUser, updateUserProfile } from '../redux/user/userActions'
 import { USER_UPDATE_PROFILE_RESET } from '../redux/user/userConsts'
+import urlize from '../utils/urlize'
 
 export default function Profile(props) {
   const [state, setState] = useState({ name: '', email: '' })
@@ -52,7 +53,7 @@ export default function Profile(props) {
             <>
               { loadingUpdate && <LoadingBox /> }
               { errorUpdate && <MessageBox variant='danger'>{errorUpdate}</MessageBox> }
-              { successUpdate && <MessageBox variant='success'>Perfil atualizado com sucesso</MessageBox>}
+              { successUpdate && <MessageBox variant='success'>{successUpdate}</MessageBox>}
               <div>
                 <label htmlFor='name'>Nome</label>
                 <input id='name' placeholder='Informe seu nome'
@@ -86,14 +87,24 @@ export default function Profile(props) {
                     <h1>Minhas Lojas</h1>
                   </div>
                   <div>
-                    <label htmlFor='sellerName'>Nome da Loja</label>
+                    <label htmlFor='sellerName'>
+                      Nome da Loja - <strong>www.nomedosite.com/{state.seller?.url}</strong>
+                    </label>
                     <input id='sellerName' placeholder='Informe o nome da loja'
                       value={state.seller?.name || ''}
-                      onChange={e => setState({
-                        ...state, seller: {
-                          ...state.seller, name: e.target.value
-                        }})}/>
+                      onChange={e => setState({...state, seller: {...state.seller, name: e.target.value }})}
+                      onBlur={e => setState({ ...state, seller: {...state.seller, url: urlize(e.target.value)}})}
+                    />
                   </div>
+                  {/* <div>
+                    <label htmlFor='sellerUrl'>URL da Loja</label>
+                    <strong>www.nomedosite.com/</strong>
+                      <input id='sellerUrl' placeholder='Informe o link da loja'
+                        value={state.seller?.url || ''}
+                        onChange={e => setState({ ...state, seller: {...state.seller, url: e.target.value}})}
+                        onBlur={e => setState({ ...state, seller: {...state.seller, url: urlize(e.target.value)}})}
+                      />
+                  </div> */}
                   <div>
                     <label htmlFor='sellerDescription'>Descrição da Loja</label>
                     <input id='sellerDescription' placeholder='Informe a descrição da loja'
