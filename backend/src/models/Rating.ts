@@ -1,6 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm'
 
-@Entity('sellers')
+@Entity('ratings')
 export default class Rating {
   
   constructor(obj?: Rating) {
@@ -20,6 +20,6 @@ export default class Rating {
   rating: number
 
   @Column()
-  newReviews: number  
+  newReviews: number
   
 }

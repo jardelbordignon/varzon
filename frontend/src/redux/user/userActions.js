@@ -22,6 +22,9 @@ import {
   USER_DELETE_REQUEST,
   USER_DELETE_SUCCESS,
   USER_DELETE_FAIL,
+  USER_TOPSELLERS_LIST_REQUEST,
+  USER_TOPSELLERS_LIST_SUCCESS,
+  USER_TOPSELLERS_LIST_FAIL,
   USER_SIGNOUT
 } from './userConsts'
 
@@ -121,5 +124,15 @@ export const updateUserConfig = user => async (dispatch, getState) => {
     dispatch({ type: USER_UPDATE_CONFIG_SUCCESS, payload: data })
   } catch (error) {
     dispatch({ type: USER_UPDATE_CONFIG_FAIL, payload: error.response?.data.message || error.message })
+  }
+}
+
+export const listTopSellers = limit => async dispatch => {
+  dispatch({ type: USER_TOPSELLERS_LIST_REQUEST, payload: limit})
+  try {
+    const { data } = await Axios.get(`/users/top-sellers/${limit}`)
+    dispatch({ type: USER_TOPSELLERS_LIST_SUCCESS, payload: data })
+  } catch (error) {
+    dispatch({ type: USER_TOPSELLERS_LIST_FAIL, payload: error.response?.data.message || error.message })
   }
 }
