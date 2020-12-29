@@ -34,15 +34,16 @@ export default function Home() {
         ? <MessageBox variant='danger'>{errorSellers}</MessageBox>
         : (
           <div>
+            { console.log(sellers) }
             { !sellers.length
               ? <MessageBox>Nenhum vendedor encontrado</MessageBox>
               : (
                 <Carousel showArrows autoPlay showThumbs={false}>
                   { sellers.map(seller => (
-                    <div key={seller.id}>
-                      <Link to={`/s/${seller.id}`}>
+                    <div key={seller.seller.id}>
+                      <Link to={`/s/${seller.seller.id}`}>
                         <img className='medium' src={seller.seller.logo} alt={seller.seller.name} />
-                        <p className='legend'>{seller.name}</p>
+                        <p className='legend'>{seller.seller.name}</p>
                       </Link>
                     </div>
                   ))}

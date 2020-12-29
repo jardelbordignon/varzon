@@ -23,16 +23,16 @@ export class createImages1602741099728 implements MigrationInterface {
           type: 'varchar'
         }
       ],
-      foreignKeys: [
-        {
-          name: 'fkImagesProduct',
-          columnNames: ['productId'],
-          referencedTableName: 'products',
-          referencedColumnNames: ['id'],
-          onUpdate: 'CASCADE',
-          onDelete: 'CASCADE'
-        }
-      ]
+      // foreignKeys: [
+      //   {
+      //     name: 'fkImagesProduct',
+      //     columnNames: ['productId'],
+      //     referencedTableName: 'products',
+      //     referencedColumnNames: ['id'],
+      //     onUpdate: 'CASCADE',
+      //     onDelete: 'CASCADE'
+      //   }
+      // ]
     }))
   }
 

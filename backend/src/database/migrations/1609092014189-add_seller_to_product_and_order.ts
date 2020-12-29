@@ -4,6 +4,7 @@ export class addSellerToProduct1609092014189 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`ALTER TABLE products ADD COLUMN sellerId int`)
+    await queryRunner.query(`UPDATE products SET sellerId = 1`)
     await queryRunner.query(`ALTER TABLE orders ADD COLUMN sellerId int`)
   }
 

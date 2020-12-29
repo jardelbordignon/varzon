@@ -8,17 +8,18 @@ interface OptsProps {
 export default {
 
   renderOne(user: User, opts?: OptsProps) {
+
     const userObj = {
       id: user.id,
       name: user.name,
       email: user.email,
-      rating: user.rating,
-      numReviews: user.numReviews,
       isAdmin: user.isAdmin,
       isSeller: user.isSeller,
-      seller: user.seller,
       createdAt: user.createdAt,
     }
+
+    if (user.isSeller)
+      Object.assign(userObj, {seller: user.seller})    
 
     if (opts?.withToken)
       Object.assign(userObj, { token: generateToken(user) })
