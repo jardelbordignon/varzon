@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { getRepository, Repository } from 'typeorm'
+import { getRepository, Like } from 'typeorm'
 import * as Yup from 'yup'
 
 import Product from '../models/Product'
@@ -11,8 +11,11 @@ export default {
     const repository = getRepository(Product)
 
     const sellerFilter = req.query.sellerId && { sellerId: req.query.sellerId }
+    const nameFilter = req.query.name && { name: Like(`%${req.query.name}%`) }
 
-    const products = await repository.find({ where: {...sellerFilter}, relations: ['images', 'seller'] })
+    const products = await repository.find({ 
+      where: {...sellerFilter, ...nameFilter}, relations: ['images', 'seller']
+    })
     
     return res.json(products_view.renderMany(products))
   },
