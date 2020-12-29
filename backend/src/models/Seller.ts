@@ -27,7 +27,13 @@ export default class Seller {
   
   @Column()
   description: string
-  
+
+  @Column()
+  rating: number
+
+  @Column()
+  numReviews: number
+
   
   @OneToOne(() => User, user => user.seller)
   @JoinColumn({ name: 'userId'})

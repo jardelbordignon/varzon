@@ -36,6 +36,21 @@ export class createSellers1608995805241 implements MigrationInterface {
           name: 'description',
           type: 'varchar',
           isNullable: true
+        },
+        {
+          name: 'rating',
+          type: 'float(2,1)', 
+          //type: decimal
+          // scale: 2,
+          // precision: 1,
+          isNullable: true,
+          default: 0.0
+        },
+        {
+          name: 'numReviews',
+          type: 'integer',
+          isNullable: true,
+          default: 0
         }
       ]
     }))

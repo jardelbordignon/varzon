@@ -21,12 +21,6 @@ export default class User {
   password: string
 
   @Column()
-  rating: number
-
-  @Column()
-  numReviews: number
-
-  @Column()
   isSeller: boolean
   
   @Column()

@@ -8,7 +8,7 @@ import MessageBox from '../components/MessageBox'
 
 export default function Cart(props) {
   const dispatch = useDispatch()
-  const { cartItems } = useSelector(state => state.cart)
+  const { error, cartItems } = useSelector(state => state.cart)
   const productId = props.match.params.id
   const qty = Number(props.location.search.split('=')[1]) || 1
 
@@ -36,6 +36,7 @@ export default function Cart(props) {
     <div className='row top'>
       <div className='col-2'>
         <h1>Carrinho de Compras</h1>
+        { error && <MessageBox variant='danger'>{error}</MessageBox> }
         <ul>
           { cartItems.map(cartItem => (
             <li key={cartItem.productId}>

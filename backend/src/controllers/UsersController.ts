@@ -22,12 +22,10 @@ export default {
 
     const users = await repository.find({ 
       where: { isSeller: true },
-      order: { rating: -1 },
+      //order: { seller.rating: -1 },
       take: Number(req.params.limit),
       relations: ['seller']
     })
-
-    console.log(users_view.renderMany(users))
 
     return res.json(users_view.renderMany(users))
   },
@@ -76,7 +74,7 @@ export default {
       res.status(401).send({ message: 'E-mail e/ou senha inválidos' })
       return
     }
-    
+
     res.status(200).send(users_view.renderOne(user, { withToken:true }))
   },
 
