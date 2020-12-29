@@ -42,7 +42,7 @@ export default function Seller(props) {
                 </div>
               </li>
               <li>
-                <Rating rating={user.seller.rating} numReviews={user.seller.numReviews} />
+                <Rating rating={user.rating} numReviews={user.numReviews} />
               </li>
               <li>
                 <a href={`mailto:${user.email}`}></a>

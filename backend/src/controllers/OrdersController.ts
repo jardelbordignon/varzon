@@ -90,7 +90,6 @@ export default {
   },
 
   async pay(req: Request, res: Response) {
-    console.log('-------------------------------------------')
     const repository = getRepository(Order)
     
     const order = await repository.findOne(req.params.id)

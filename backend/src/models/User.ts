@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn, CreateDa
 
 import Address from './Address'
 import Order from './Order'
+import Rating from './Rating'
 import Seller from './Seller'
 
 @Entity('users')
@@ -18,6 +19,12 @@ export default class User {
 
   @Column()
   password: string
+
+  @Column()
+  rating: number
+
+  @Column()
+  numReviews: number
 
   @Column()
   isSeller: boolean

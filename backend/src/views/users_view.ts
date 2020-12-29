@@ -12,6 +12,8 @@ export default {
       id: user.id,
       name: user.name,
       email: user.email,
+      rating: user.rating,
+      numReviews: user.numReviews,
       isAdmin: user.isAdmin,
       isSeller: user.isSeller,
       seller: user.seller,

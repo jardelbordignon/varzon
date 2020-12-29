@@ -16,6 +16,21 @@ export default {
 
     return res.json(users_view.renderMany(users))
   },
+  
+  async topSellers(req: Request, res: Response) {
+    const repository:Repository<User> = getRepository(User)
+
+    const users = await repository.find({ 
+      where: { isSeller: true },
+      order: { rating: -1 },
+      take: Number(req.params.limit),
+      relations: ['seller']
+    })
+
+    console.log(users_view.renderMany(users))
+
+    return res.json(users_view.renderMany(users))
+  },
 
   async show(req: Request, res: Response) {
     const repository = getRepository(User)
@@ -25,7 +40,6 @@ export default {
     if(!user)
       return res.status(404).json({ message: 'Usuário não encontrado' })
     
-    console.log(user)
     return res.json(users_view.renderOne(user))
   },
 
