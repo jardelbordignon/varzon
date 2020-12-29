@@ -1,9 +1,10 @@
-import { BrowserRouter, Link } from 'react-router-dom'
+import { BrowserRouter, Route, Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
 import Routes from './pages/_Routes'
 import { signout } from './redux/user/userActions'
 import LinkUnlessCurrent from './components/LinkUnlessCurrent'
+import SearchBox from './components/SearchBox'
 
 export default function App() {
   const { cartItems } = useSelector( state => state.cart )
@@ -21,6 +22,9 @@ export default function App() {
       <header className='row'>
         <div>
           <Link to='/' className='bold'>varzon</Link>
+        </div>
+        <div>
+          <Route render={({history}) => <SearchBox history={history} /> } />
         </div>
         <div>
           { !!cartItems.length &&

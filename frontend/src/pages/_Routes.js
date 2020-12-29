@@ -19,6 +19,7 @@ import OrderList from './admin/OrderList'
 import UserList from './admin/UserList'
 import UserEdit from './admin/UserEdit'
 import Seller from './Seller'
+import Search from './Search'
 
 export default function Routes() {
   return (
@@ -34,6 +35,7 @@ export default function Routes() {
       <Route path='/order/:id' component={Order} />
       <Route path='/orderHistory' component={OrderHistory} />
       <Route path='/products/:id' component={Product} />
+      <Route path='/search/name/:name' exact component={Search} />
       <ConditionedRoute path='/profile' component={Profile} />
       <ConditionedRoute seller path='/admin/productForm/:id?' component={ProductForm} />
       <ConditionedRoute seller path='/seller/products' exact component={ProductList} />
