@@ -40,10 +40,10 @@ export default function Home() {
               : (
                 <Carousel showArrows autoPlay showThumbs={false}>
                   { sellers.map(seller => (
-                    <div key={seller.seller.id}>
-                      <Link to={`/s/${seller.seller.id}`}>
-                        <img className='medium' src={seller.seller.logo} alt={seller.seller.name} />
-                        <p className='legend'>{seller.seller.name}</p>
+                    <div key={seller.id}>
+                      <Link to={`/s/${seller.id}`}>
+                        <img className='medium' src={seller.logo || '/images/no-image.jpg'} alt={seller.name} />
+                        <p className='legend'>{seller.name}</p>
                       </Link>
                     </div>
                   ))}

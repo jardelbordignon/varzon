@@ -6,8 +6,12 @@ import {
   productListReducer, 
   productCreateReducer, 
   productUpdateReducer, 
-  productDeleteReducer 
+  productDeleteReducer, 
 } from './product/productReducer'
+
+import { 
+  categoryListReducer,
+} from './category/categoryReducer'
 
 import { cartReducer } from './cart/cartReducer'
 
@@ -48,8 +52,6 @@ const initialState = {
 }
 
 const reducers = combineReducers({
-  productList: productListReducer,
-  productDetails: productDetailsReducer,
   cart: cartReducer,
   userSignin: userSigninReducer,
   userSignup: userSignupReducer,
@@ -66,9 +68,12 @@ const reducers = combineReducers({
   userDelete: userDeleteReducer,
   userList: userListReducer,
   userTopSellersList: userTopSellersListReducer,
+  productList: productListReducer,
+  productDetails: productDetailsReducer,
   productCreate: productCreateReducer,
   productUpdate: productUpdateReducer,
   productDelete: productDeleteReducer,
+  categoryList: categoryListReducer,
 })
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose

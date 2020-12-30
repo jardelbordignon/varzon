@@ -18,12 +18,15 @@ import {
   PRODUCT_DELETE_SUCCESS,
   PRODUCT_DELETE_FAIL,
   PRODUCT_DELETE_RESET,
+  PRODUCT_CATEGORY_LIST_REQUEST,
+  PRODUCT_CATEGORY_LIST_SUCCESS,
+  PRODUCT_CATEGORY_LIST_FAIL,
 } from './productConsts'
 
-export const listProducts = ({sellerId='', name=''}) => async dispatch => {
+export const listProducts = ({sellerId='', name='', category='',}) => async dispatch => {
   dispatch({ type: PRODUCT_LIST_REQUEST })
   try {
-    const { data } = await Axios.get(`/products?sellerId=${sellerId}&name=${name}`)
+    const { data } = await Axios.get(`/products?sellerId=${sellerId}&name=${name}&category=${category}`)
     dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data })
   } catch (error) {
     dispatch({ type: PRODUCT_LIST_FAIL, payload: error.message })

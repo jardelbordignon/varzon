@@ -36,6 +36,8 @@ export default function Routes() {
       <Route path='/orderHistory' component={OrderHistory} />
       <Route path='/products/:id' component={Product} />
       <Route path='/search/name/:name' exact component={Search} />
+      <Route path='/search/category/:category' exact component={Search} />
+      <Route path='/search/category/:category/name/:name' exact component={Search} />
       <ConditionedRoute path='/profile' component={Profile} />
       <ConditionedRoute seller path='/admin/productForm/:id?' component={ProductForm} />
       <ConditionedRoute seller path='/seller/products' exact component={ProductList} />

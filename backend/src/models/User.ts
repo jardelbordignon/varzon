@@ -2,7 +2,6 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn, CreateDa
 
 import Address from './Address'
 import Order from './Order'
-import Rating from './Rating'
 import Seller from './Seller'
 
 @Entity('users')

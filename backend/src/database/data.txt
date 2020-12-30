@@ -1,30 +1,12 @@
 
-insert into products (name, category, price, countInStock, brand, rating, numReviews, description)
-values ('Nike Slim Shirt', 'Shirts', 80, 10, 'Nike', 4, 19, 'High quality product Nike');
+insert into categories (name) VALUES ('Shirts');
+insert into categories (name) VALUES ('Pants');
 
-insert into products (name, category, price, countInStock, brand, rating, numReviews, description)
-values ('Adidas Fit Shirt', 'Shirts', 85, 0, 'Adidas', 4, 19, 'High quality product Adidas');
+insert into brands (name) VALUES ('Nike');
+insert into brands (name) VALUES ('Adidas');
+insert into brands (name) VALUES ('Lacoste');
+insert into brands (name) VALUES ('Puma');
 
-insert into products (name, category, price, countInStock, brand, rating, numReviews, description)
-values ('Lacoste Fit Shirt', 'Shirts', 95, 10, 'Lacoste', 4, 19, 'High quality product Lacoste');
-
-
-insert into products (name, category, price, countInStock, brand, rating, numReviews, description)
-values ('Lacoste Free Pant', 'Pants', 105, 0, 'Lacoste', 4.5, 19, 'High quality product Lacoste');
-
-insert into products (name, category, price, countInStock, brand, rating, numReviews, description)
-values ('Nike Slim Pant', 'Pants', 90, 10, 'Nike', 4.5, 15, 'High quality product Nike');
-
-insert into products (name, category, price, countInStock, brand, rating, numReviews, description)
-values ('Puma Slim Pant', 'Pants', 99, 10, 'Puma', 4, 14, 'High quality product Puma');
-
-
-insert into images(productId, path) values (1, 'products/p1.jpg');
-insert into images(productId, path) values (2, 'products/p2.jpg');
-insert into images(productId, path) values (3, 'products/p3.jpg');
-insert into images(productId, path) values (4, 'products/p4.jpg');
-insert into images(productId, path) values (5, 'products/p5.jpg');
-insert into images(productId, path) values (6, 'products/p6.jpg');
 
 insert into users (name, email, password, isSeller, isAdmin)
 values ('Jardel', 'jardel@email.com', '$2a$08$c0MQU6f.ijnqyHs.bGjTO.0c6t3q69E3xY9KPu1jKUw5Jf61MGOpm', 1, 1);
@@ -34,3 +16,37 @@ values ('Sabrina', 'sabrina@email.com', '$2a$08$c0MQU6f.ijnqyHs.bGjTO.0c6t3q69E3
 
 insert into users (name, email, password, isSeller, isAdmin)
 values ('John Doe', 'john@email.com', '$2a$08$c0MQU6f.ijnqyHs.bGjTO.0c6t3q69E3xY9KPu1jKUw5Jf61MGOpm', 0, 0);
+
+insert into sellers(userId, name, url, logo, description)
+values (1, 'Jardel Store', 'jardel-store', 'no-image.jpg', 'Loja do Jardel');
+
+insert into sellers(userId, name, url, logo, description)
+values (2, 'Sabrina Store', 'sabrina-store', 'no-image.jpg', 'Loja da Sabrina');
+
+
+insert into products (name, sellerId, categoryId, price, countInStock, brandId, rating, numReviews, description)
+values ('Nike Slim Shirt', 1, 1, 80, 10, 1, 4, 19, 'High quality product Nike');
+
+insert into products (name, sellerId, categoryId, price, countInStock, brandId, rating, numReviews, description)
+values ('Adidas Fit Shirt', 2, 1, 85, 0, 2, 4, 19, 'High quality product Adidas');
+
+insert into products (name, sellerId, categoryId, price, countInStock, brandId, rating, numReviews, description)
+values ('Lacoste Fit Shirt', 2, 1, 95, 10, 3, 4, 19, 'High quality product Lacoste');
+
+
+insert into products (name, sellerId, categoryId, price, countInStock, brandId, rating, numReviews, description)
+values ('Lacoste Free Pant', 2, 2, 105, 0, 3, 4.5, 19, 'High quality product Lacoste');
+
+insert into products (name, sellerId, categoryId, price, countInStock, brandId, rating, numReviews, description)
+values ('Nike Slim Pant', 2, 2, 90, 10, 1, 4.5, 15, 'High quality product Nike');
+
+insert into products (name, sellerId, categoryId, price, countInStock, brandId, rating, numReviews, description)
+values ('Puma Slim Pant', 1, 2, 99, 10, 4, 4, 14, 'High quality product Puma');
+
+
+insert into images(productId, path) values (1, 'products/p1.jpg');
+insert into images(productId, path) values (2, 'products/p2.jpg');
+insert into images(productId, path) values (3, 'products/p3.jpg');
+insert into images(productId, path) values (4, 'products/p4.jpg');
+insert into images(productId, path) values (5, 'products/p5.jpg');
+insert into images(productId, path) values (6, 'products/p6.jpg');

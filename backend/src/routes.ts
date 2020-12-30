@@ -6,11 +6,14 @@ import configMulter from './config/multer'
 import OrdersController from './controllers/OrdersController'
 import ProductsController from './controllers/ProductsController'
 import UsersController from './controllers/UsersController'
+import CategoriesController from './controllers/CategoriesController'
 
 const routes = Router()
 const upload = multer(configMulter)
 
 //routes.get('/products/seed', ProductsController.seed)
+routes.get('/categories', CategoriesController.index)
+
 routes.get('/products', ProductsController.index)
 routes.get('/products/:id', ProductsController.show)
 routes.post('/products', isAuth, isSellerOrAdmin, upload.array('images'), ProductsController.create)
