@@ -1,14 +1,21 @@
+import { useEffect, useState } from 'react'
 import { BrowserRouter, Route, Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
 import Routes from './pages/_Routes'
 import { signout } from './redux/user/userActions'
+import { listCategories } from './redux/category/categoryActions'
 import LinkUnlessCurrent from './components/LinkUnlessCurrent'
 import SearchBox from './components/SearchBox'
+import LoadingBox from './components/LoadingBox'
+import MessageBox from './components/MessageBox'
 
 export default function App() {
+  const [sidebarIsOpen, setSidebarIsOpen] = useState(false)
   const { cartItems } = useSelector( state => state.cart )
   const { userInfo } = useSelector( state => state.userSignin )
+  const categoryList = useSelector( state => state.categoryList )
+  const { loading:loadingCategories, error:errorCategories, categories } = categoryList
   const dispatch = useDispatch()
 
   function signoutHandler() {
@@ -16,10 +23,18 @@ export default function App() {
       dispatch(signout())
   }
 
+  useEffect(() => {
+    dispatch(listCategories())
+  }, [dispatch])
+  
   return (
     <BrowserRouter>
     <div className='grid-container'>
       <header className='row'>
+        <button type='button' className='open-sidebar'
+          onClick={() => setSidebarIsOpen(true)}>
+          <i className='fa fa-bars' />
+        </button>
         <div>
           <Link to='/' className='bold'>varzon</Link>
         </div>
@@ -74,6 +89,35 @@ export default function App() {
           }
         </div>
       </header>
+
+      <aside className={ sidebarIsOpen ? 'open' : ''}>
+        <ul className='categories'>
+          <li>
+            <strong>Categorias</strong>
+            <button type='button' className='close-sidebar'
+              onClick={() => setSidebarIsOpen(false)}>
+              <i className='fa fa-close' />
+            </button>
+          </li>
+          {
+            loadingCategories
+            ? <LoadingBox />
+            : errorCategories
+            ? <MessageBox variant='danger'>{errorCategories}</MessageBox>
+            : (
+              categories.map(c => (
+                <li key={c.id}>
+                  <Link
+                    to={`/search/category/${c.name}`}
+                    onClick={() => setSidebarIsOpen(false) }>
+                    {c.name}
+                  </Link>
+                </li>
+              ))
+            )
+          }
+        </ul>
+      </aside>
 
       <main>
         <Routes />

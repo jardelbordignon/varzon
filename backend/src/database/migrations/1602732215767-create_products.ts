@@ -15,34 +15,32 @@ export class createProducts1602732215767 implements MigrationInterface {
           generationStrategy: 'increment'
         },
         {
+          name: 'sellerId',
+          type: 'integer'
+        },
+        {
+          name: 'categoryId',
+          type: 'integer'
+        },
+        {
+          name: 'brandId',
+          type: 'integer'
+        },
+        {
           name: 'name',
           type: 'varchar'
         },
         {
-          name: 'category',
-          type: 'varchar'
-        },
-        {
           name: 'price',
-          type: 'float(10,2)', 
-          // type: decimal
-          // scale: 10,
-          // precision: 2
+          type: 'float(10,2)'
         },
         {
           name: 'countInStock',
           type: 'integer'
         },
         {
-          name: 'brand',
-          type: 'varchar'
-        },
-        {
           name: 'rating',
           type: 'float(2,1)', 
-          //type: decimal
-          // scale: 2,
-          // precision: 1,
           isNullable: true,
           default: 0.0
         },

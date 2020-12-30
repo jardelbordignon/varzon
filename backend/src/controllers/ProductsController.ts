@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
-import { getRepository, Like } from 'typeorm'
+import { createQueryBuilder, getRepository, Like } from 'typeorm'
 import * as Yup from 'yup'
+import Category from '../models/Category'
 
 import Product from '../models/Product'
 import products_view from '../views/producs_view'
@@ -10,11 +11,17 @@ export default {
   async index(req: Request, res: Response) {
     const repository = getRepository(Product)
 
+    let categoryFilter = {}
+    if (req.query.category) {
+      const category = await getRepository(Category).findOne({where: { name: req.query.category }})
+      if (category) 
+        categoryFilter = { categoryId: category.id }
+    }
     const sellerFilter = req.query.sellerId && { sellerId: req.query.sellerId }
     const nameFilter = req.query.name && { name: Like(`%${req.query.name}%`) }
 
     const products = await repository.find({ 
-      where: {...sellerFilter, ...nameFilter}, relations: ['images', 'seller']
+      where: {...categoryFilter, ...sellerFilter, ...nameFilter}, relations: ['images', 'seller']
     })
     
     return res.json(products_view.renderMany(products))

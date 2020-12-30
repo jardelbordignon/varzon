@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 import { listProducts } from '../redux/product/productActions'
 import LoadingBox from '../components/LoadingBox'
@@ -8,13 +8,24 @@ import MessageBox from '../components/MessageBox'
 import ProductCard from '../components/ProductCard'
 
 export default function Search(props) {
-  const { name = 'all' } = useParams()
+  const { name = 'all', category = 'all' } = useParams()
   const { loading, error, products } = useSelector( state => state.productList )
+  const categoryList = useSelector( state => state.categoryList )
+  const { loading:loadingCategories, error:errorCategories, categories } = categoryList
   const dispatch = useDispatch()
-  
+
   useEffect(() => {
-    dispatch(listProducts({ name: name !== 'all' ? name : '' }))
-  }, [dispatch])
+    dispatch(listProducts({ 
+      name: name !== 'all' ? name : '',
+      category: category !== 'all' ? category : '',
+     }))
+  }, [dispatch, name, category])
+
+  function getFilterUrl(filter) {
+    const filterCategory = filter.category || category
+    const filterName     = filter.name     || name
+    return `/search/category/${filterCategory}/name/${filterName}`
+  }
 
   return (
     <div>
@@ -34,9 +45,25 @@ export default function Search(props) {
       <div className='row top'>
         <div className='col-1'>
           <h3>Departamento</h3>
-          <ul>
-            <li>Category 1</li>
-          </ul>
+          {
+            loadingCategories
+            ? <LoadingBox />
+            : errorCategories
+            ? <MessageBox variant='danger'>{errorCategories}</MessageBox>
+            : (
+              <ul>
+                { categories.map(c => (
+                  <li key={c.id}>
+                    <Link
+                      to={getFilterUrl({ category: c.name })}
+                      className={ c.name === category ? 'active' : ''}>
+                      {c.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )
+          }
         </div>
         <div className='col-3'>
           {

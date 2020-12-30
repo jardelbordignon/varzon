@@ -15,6 +15,10 @@ export class createOrders1607298619491 implements MigrationInterface {
           generationStrategy: 'increment'
         },
         {
+          name: 'sellerId',
+          type: 'integer'
+        },
+        {
           name: 'userId',
           type: 'integer'
         },
