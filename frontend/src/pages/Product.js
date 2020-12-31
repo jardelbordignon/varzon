@@ -2,20 +2,31 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { detailsProduct } from '../redux/product/productActions'
+import { createReview, detailsProduct } from '../redux/product/productActions'
 import { formatPrice } from '../utils/formatters'
 import Rating from '../components/Rating'
 import LoadingBox from '../components/LoadingBox'
 import MessageBox from '../components/MessageBox'
+import { PRODUCT_REVIEW_CREATE_RESET } from '../redux/product/productConsts'
 
 export default function Product(props) {
+  const [stateReview, setStateReview] = useState({rating:0, comment:''})
   const [qty, setQty] = useState(1)
   const dispatch = useDispatch()
   const productDetails = useSelector( state => state.productDetails )
   const { loading, error, product } = productDetails
+  const productReviewCreate = useSelector( state => state.productReviewCreate )
+  const { loading:loadingReview, error:errorReview, success:successReview } = productReviewCreate
+  const { userInfo } = useSelector( state => state.userSignin )
   const productId = props.match.params.id
 
-  useEffect(() => dispatch(detailsProduct(productId)), [dispatch, productId])
+  useEffect(() => {
+    if (successReview) {
+      dispatch({ type: PRODUCT_REVIEW_CREATE_RESET })
+    }
+
+    dispatch(detailsProduct(productId))
+  }, [dispatch, productId, successReview])
 
   function handleAddToCart() {
     props.history.push(`/cart/${productId}?qty=${qty}`)
@@ -26,6 +37,13 @@ export default function Product(props) {
   if (!product) return <div>Produto não encontrado</div>
 
   const {images, seller, name, rating, numReviews, price, description, countInStock} = product
+
+  function submitHandler(e) {
+    e.preventDefault()
+    if (stateReview.comment && stateReview.rating) {
+      dispatch( createReview(product.id, stateReview) )
+    }
+  }
 
   return (
     <div>
@@ -92,6 +110,66 @@ export default function Product(props) {
             </ul>
           </div>
         </div>
+      </div>
+      
+      <div>
+        <h2 id='reviews'>Avaliações</h2>
+        { !product.reviews?.length && <MessageBox>Seja o primeiro a avaliar esse produto</MessageBox>}
+        <ul>
+          { product.reviews?.map( review => (
+            <li key={review.id}>
+              <strong>{review.name}</strong>
+              <Rating rating={review.rating} caption=' ' />
+              <p>{review.createdAt}</p>
+              <p>{review.comment}</p>
+            </li>
+          )) }
+          <li>
+            { userInfo
+              ?
+              (!product.reviews?.find(review => review.name === userInfo.name) && !successReview) &&
+              (
+                <form className='form' onSubmit={submitHandler}>
+                  <div>
+                    <h2>Avalie esse produto</h2>
+                  </div>
+                  <div>
+                    <label htmlFor='rating'></label>
+                    <select id='rating'
+                      value={stateReview.rating}
+                      onChange={e => setStateReview({...stateReview, rating: e.target.value })}>
+                      <option>Seleione...</option>
+                      <option value='5'>Excelente</option> 
+                      <option value='4'>Muito bom</option>
+                      <option value='3'>Bom</option>
+                      <option value='2'>Não é bom</option>
+                      <option value='1'>Ruim</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor='comment'>Comentário</label>
+                    <textarea id='comment'
+                      value={stateReview.comment}
+                      onChange={e => setStateReview({...stateReview, comment: e.target.value })}>
+                    </textarea>
+                  </div>
+                  <div>
+                    <br/>
+                    <button className='primary' type='submit'>
+                      { loadingReview ? <LoadingBox /> : 'Registrar' }
+                    </button>
+                  </div>
+                  { errorReview && <MessageBox variant='danger'>{errorReview}</MessageBox> } 
+                </form>
+              )
+              : (
+                <MessageBox>
+                  Por favor <Link to='/signin'>Entre</Link> para poder avaliar o produto.
+                </MessageBox>
+              )
+            }    
+          </li>
+        </ul>
       </div>
     </div>
   )

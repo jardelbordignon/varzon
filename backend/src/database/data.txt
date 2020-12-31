@@ -50,3 +50,6 @@ insert into images(productId, path) values (3, 'products/p3.jpg');
 insert into images(productId, path) values (4, 'products/p4.jpg');
 insert into images(productId, path) values (5, 'products/p5.jpg');
 insert into images(productId, path) values (6, 'products/p6.jpg');
+
+insert into reviews(entityId, entityType, name, comment, rating)
+values (1, 'Product', 'Sabrina de Arruda', 'Adorei o produto', 5);

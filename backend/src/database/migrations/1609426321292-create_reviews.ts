@@ -1,10 +1,11 @@
-import { MigrationInterface, QueryRunner, Table } from "typeorm";
+import {MigrationInterface, QueryRunner, Table} from "typeorm";
 
-export class createUsers1602732215764 implements MigrationInterface {
+export class createReviews1609426321292 implements MigrationInterface {
+
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.createTable(new Table({
-      name: 'users',
+    await queryRunner.createTable( new Table({
+      name: 'reviews',
       columns: [
         {
           name: 'id',
@@ -15,45 +16,43 @@ export class createUsers1602732215764 implements MigrationInterface {
           generationStrategy: 'increment'
         },
         {
+          name: 'entityId',
+          type: 'integer'
+        },
+        {
+          name: 'entityType',
+          type: 'varchar'
+        },
+        {
           name: 'name',
           type: 'varchar'
         },
         {
-          name: 'email',
-          type: 'varchar',
-          isUnique: true
-        },
-        {
-          name: 'password',
+          name: 'comment',
           type: 'varchar'
         },
         {
-          name: 'isSeller',
-          type: 'boolean',
-          default: false
-        },
-        {
-          name: 'isAdmin',
-          type: 'boolean',
-          default: false
+          name: 'rating',
+          type: 'float(2,1)'
         },
         {
           name: 'createdAt',
           type: 'timestamp',
-          default: 'CURRENT_TIMESTAMP' //'now()'
+          default: 'CURRENT_TIMESTAMP'
         },
         {
           name: 'updatedAt',
           type: 'timestamp',
-          default: 'CURRENT_TIMESTAMP', //'now()'
+          default: 'CURRENT_TIMESTAMP',
           onUpdate: 'CURRENT_TIMESTAMP'
         }
-      ]
+      ],
+
     }))
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('users')
+    await queryRunner.dropTable('reviews')
   }
-
+  
 }

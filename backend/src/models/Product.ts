@@ -2,8 +2,9 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn, CreateDa
 
 import Category from './Category'
 import Seller from './Seller'
-import Image from './Image'
 import Brand from './Brand'
+import Image from './Image'
+import Review from './Review'
 
 @Entity('products')
 export default class Product {
@@ -64,5 +65,10 @@ export default class Product {
   @OneToMany(() => Image, image => image.product, { cascade: ['insert', 'update'] })
   @JoinColumn({ name: 'productId'})
   images: Image[]
+
+  // TODO: Pesquisar e implementar polimorfismo
+  @OneToMany(() => Review, review => review.product, {cascade: ['insert', 'update']})
+  @JoinColumn({ name: 'entityId'})
+  reviews: Review[]
 
 }
