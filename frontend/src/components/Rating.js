@@ -1,6 +1,6 @@
-export default function Rating({ rating, numReviews }) {
+export default function Rating({ rating, numReviews='', caption='' }) {
   
-  if (!numReviews) return <div></div>
+  //if (!numReviews) return <div></div>
 
   return (
     <div className='rating'>
@@ -13,7 +13,11 @@ export default function Rating({ rating, numReviews }) {
           </span>
         ))
       }
-      <span>{numReviews} avaliações</span>
+      
+      { caption
+        ? <span>{caption}</span>
+        : <span>{numReviews} avaliações</span>
+      }
     </div>
   )
 }

@@ -1,27 +1,63 @@
 import { Request, Response } from 'express'
-import { createQueryBuilder, getRepository, Like } from 'typeorm'
+import { createQueryBuilder, getRepository, Like, LessThan, MoreThan, Between } from 'typeorm'
 import * as Yup from 'yup'
 import Category from '../models/Category'
 
 import Product from '../models/Product'
 import products_view from '../views/producs_view'
 
+interface OrderProps {
+  id?: 'ASC'|'DESC'
+  price?: 'ASC'|'DESC'
+  rating?: 'ASC'|'DESC'
+}
+
 export default {
 
   async index(req: Request, res: Response) {
     const repository = getRepository(Product)
 
-    let categoryFilter = {}
-    if (req.query.category) {
-      const category = await getRepository(Category).findOne({where: { name: req.query.category }})
-      if (category) 
-        categoryFilter = { categoryId: category.id }
-    }
-    const sellerFilter = req.query.sellerId && { sellerId: req.query.sellerId }
-    const nameFilter = req.query.name && { name: Like(`%${req.query.name}%`) }
+    const categoryName = req.query.category || ''
+    const sellerId = req.query.sellerId || ''
+    const name = req.query.name || ''
+    const orderBy = req.query.orderBy || ''
 
-    const products = await repository.find({ 
-      where: {...categoryFilter, ...sellerFilter, ...nameFilter}, relations: ['images', 'seller']
+    const min = Number(req.query.min) > 0 ? req.query.min : false
+    const max = Number(req.query.max) > 0 ? req.query.max : false
+
+    let categoryFilter = {}
+    if (categoryName) {
+      const category = await getRepository(Category).findOne({where: { name: categoryName }})
+      if (category) categoryFilter = { categoryId: category.id }
+    }
+    const sellerFilter = sellerId && { sellerId }
+    const nameFilter = name && { name: Like(`%${name}%`) }
+    const orderFilter:OrderProps =
+      orderBy==='lowest'
+      ? { price: 'ASC' }
+      : orderBy==='highest'
+      ? { price: 'DESC' }
+      : orderBy==='toprated'
+      ? { rating: 'DESC' }
+      : { id: 'ASC' }
+    
+    let priceFilter = {}
+    if (min && max)  priceFilter = { price: Between(min, max) }
+    if (min && !max) priceFilter = { price: MoreThan(min) }
+    if (!min && max) priceFilter = { price: LessThan(max) }
+
+    //const orderFilter = { price: 'ASC' }
+    
+    const products = await repository.find({
+
+      order: orderFilter,
+      where: {
+        ...categoryFilter,
+        ...sellerFilter,
+        ...nameFilter,
+        ...priceFilter
+      },
+      relations: ['images', 'seller']
     })
     
     return res.json(products_view.renderMany(products))
