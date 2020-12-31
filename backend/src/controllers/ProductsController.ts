@@ -4,6 +4,7 @@ import * as Yup from 'yup'
 import Category from '../models/Category'
 
 import Product from '../models/Product'
+import Review from '../models/Review'
 import products_view from '../views/producs_view'
 
 interface OrderProps {
@@ -20,7 +21,7 @@ export default {
     const categoryName = req.query.category || ''
     const sellerId = req.query.sellerId || ''
     const name = req.query.name || ''
-    const orderBy = req.query.orderBy || ''
+    const order = req.query.order || ''
 
     const min = Number(req.query.min) > 0 ? req.query.min : false
     const max = Number(req.query.max) > 0 ? req.query.max : false
@@ -33,11 +34,11 @@ export default {
     const sellerFilter = sellerId && { sellerId }
     const nameFilter = name && { name: Like(`%${name}%`) }
     const orderFilter:OrderProps =
-      orderBy==='lowest'
+      order==='lowest'
       ? { price: 'ASC' }
-      : orderBy==='highest'
+      : order==='highest'
       ? { price: 'DESC' }
-      : orderBy==='toprated'
+      : order==='toprated'
       ? { rating: 'DESC' }
       : { id: 'ASC' }
     
@@ -65,13 +66,19 @@ export default {
 
   async show(req: Request, res: Response) {
     const repository = getRepository(Product)
-    const { id } = req.params    
-    //const product = await repository.findOneOrFail(id, { relations: ['images'] })
-    const product = await repository.findOne(id, { relations: ['images', 'seller'] })
-
-    if(!product)
-      return res.status(404).json({ message: 'Produto não encontrado' })
     
+    const product = await repository.findOne(req.params.id, { relations: ['images', 'seller'] })
+    
+    if(!product)
+      return res.status(400).json({ message: 'Produto não encontrado' })
+    
+    const reviewRepository = getRepository(Review)
+    const productReviews = await reviewRepository.find({
+      where: {entityId: product.id, entityType: 'Product'}
+    })
+
+    product.reviews = productReviews
+
     return res.json(products_view.renderOne(product))
   },
 
@@ -183,6 +190,43 @@ export default {
     await repository.remove(product)
 
     return res.status(204).json({ message: 'Produto deletado com sucesso'}) 
-  }  
+  },  
+
+
+  async reviews(req: Request, res: Response) {
+    const repository = getRepository(Product)
+    const reviewRepository = getRepository(Review)
+
+    const product = await repository.findOne(req.params.id)
+    
+    if(!product)
+       return res.status(404).json({ message: 'Produto não encontrado' })
+
+    const currentUserReview = await reviewRepository.find({
+      where: {entityId: product.id, entityType: 'Product', name: req.user.name }
+    })
+
+    if (currentUserReview.length)
+      return res.status(404).json({ message: 'Você já avaliou esse produto' })
+  
+    const review = new Review(product)
+    review.name = req.user.name
+    review.comment = req.body.comment
+    review.rating = Number(req.body.rating)
+    
+    await reviewRepository.save(review)
+
+    const productReviews = await reviewRepository.find({
+      where: {entityId: product.id, entityType: 'Product' }
+    })
+    
+    product.numReviews = productReviews.length
+    product.rating = productReviews.reduce((sum, review) => review.rating + sum, 0) / productReviews.length
+    
+    await repository.save(product)
+    
+    return res.status(201).json({ review, message: 'Avaliação registrada com sucesso' })
+  },
+
 
 }

@@ -19,6 +19,7 @@ routes.get('/products/:id', ProductsController.show)
 routes.post('/products', isAuth, isSellerOrAdmin, upload.array('images'), ProductsController.create)
 routes.put('/products', isAuth, isSellerOrAdmin, upload.array('images'), ProductsController.update)
 routes.delete('/products/:id', isAuth, isAdmin, ProductsController.delete)
+routes.post('/products/:id/reviews', isAuth, ProductsController.reviews)
 
 
 routes.post('/users/signup', UsersController.create)
