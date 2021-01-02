@@ -17,6 +17,7 @@ import {
 import { cartReducer } from './cart/cartReducer'
 
 import { 
+  userAddressMapReducer,
   userDeleteReducer,
   userDetailsReducer, 
   userListReducer, 
@@ -37,8 +38,18 @@ import {
   orderDeliverReducer
 } from './order/orderReducer'
 
-const shippingAddressClean = {
-  fullName:'', street:'', number:'', complement:'', neighborhood:'', city:'', state:'', country:'', postalCode:''
+const shippingAddressInitialState = {
+  fullName:'',
+  street:'',
+  number:'',
+  complement:'',
+  neighborhood:'',
+  city:'',
+  state:'',
+  country:'',
+  postalCode:'',
+  lat:0,
+  lng:0
 }
 
 const initialState = {
@@ -47,7 +58,7 @@ const initialState = {
   },
   cart: {
     cartItems: JSON.parse(localStorage.getItem('cartItems')) || [],
-    shippingAddress: JSON.parse(localStorage.getItem('shippingAddress')) || shippingAddressClean,
+    shippingAddress: JSON.parse(localStorage.getItem('shippingAddress')) || shippingAddressInitialState,
     paymentMethod: null //'PayPal'
   }
 }
@@ -76,6 +87,7 @@ const reducers = combineReducers({
   productDelete: productDeleteReducer,
   categoryList: categoryListReducer,
   productReviewCreate: productReviewCreateReducer,
+  userAddressMap: userAddressMapReducer,
 })
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose

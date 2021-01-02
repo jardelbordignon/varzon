@@ -20,6 +20,7 @@ import UserList from './admin/UserList'
 import UserEdit from './admin/UserEdit'
 import Seller from './Seller'
 import Search from './Search'
+import Map from './Map'
 
 export default function Routes() {
   return (
@@ -41,6 +42,7 @@ export default function Routes() {
       <Route path='/search/category/:category/name/:name' exact component={Search} />
       <Route path='/search/category/:category/name/:name/min/:min/max/:max' exact component={Search} /> */}
       <ConditionedRoute path='/profile' component={Profile} />
+      <ConditionedRoute path='/map' component={Map} />
       <ConditionedRoute seller path='/admin/productForm/:id?' component={ProductForm} />
       <ConditionedRoute seller path='/seller/products' exact component={ProductList} />
       <ConditionedRoute seller path='/seller/orders' exact component={OrderList} />
