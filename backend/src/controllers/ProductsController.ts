@@ -22,7 +22,9 @@ export default {
     const sellerId = req.query.sellerId || ''
     const name = req.query.name || ''
     const order = req.query.order || ''
-
+    
+    const pageSize = 3
+    const page = Number(req.query.page) || 1
     const min = Number(req.query.min) > 0 ? req.query.min : false
     const max = Number(req.query.max) > 0 ? req.query.max : false
 
@@ -47,8 +49,17 @@ export default {
     if (min && !max) priceFilter = { price: MoreThan(min) }
     if (!min && max) priceFilter = { price: LessThan(max) }
 
-    //const orderFilter = { price: 'ASC' }
-    
+    const count = await repository.count({
+
+      order: orderFilter,
+      where: {
+        ...categoryFilter,
+        ...sellerFilter,
+        ...nameFilter,
+        ...priceFilter
+      }
+    })
+
     const products = await repository.find({
 
       order: orderFilter,
@@ -58,10 +69,13 @@ export default {
         ...nameFilter,
         ...priceFilter
       },
+      skip: pageSize * (page -1),
+      take: pageSize,
       relations: ['images', 'seller']
     })
     
-    return res.json(products_view.renderMany(products))
+    const pages = Math.ceil(count / pageSize)
+    return res.json({products: products_view.renderMany(products), page, pages })
   },
 
   async show(req: Request, res: Response) {

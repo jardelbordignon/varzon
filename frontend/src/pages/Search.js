@@ -12,7 +12,7 @@ import Rating from '../components/Rating'
 export default function Search(props) {
   const [filterState, setFilterState] = useState({})
   //const { name = 'all', category = 'all', min = 0, max = 0 } = useParams()
-  const { loading, error, products } = useSelector( state => state.productList )
+  const { loading, error, products, pages, page } = useSelector( state => state.productList )
   const categoryList = useSelector( state => state.categoryList )
   const { loading:loadingCategories, error:errorCategories, categories } = categoryList
   const dispatch = useDispatch()
@@ -20,10 +20,11 @@ export default function Search(props) {
   useEffect(() => {
     async function setFilterStateByUrlParams() {
       const urlParams = window.location.pathname.split('/')
-      const filterStateByUrlParams = {min:0, max:0, rating:0, order:'newest'}
+      const filterStateByUrlParams = {min:0, max:0, rating:0, order:'newest', page:1}
       urlParams.forEach((param, index) => {
-        if (['name', 'category', 'min', 'max'].includes(param)) {
-          const paramValue = [param]=='min' || [param]=='max' ? Number(urlParams[index+1]) : urlParams[index+1]
+        if (['name', 'category', 'min', 'max', 'order', 'page'].includes(param)) {
+          let paramValue = urlParams[index+1]
+          if (['min', 'max', 'order', 'page'].includes([param])) paramValue = Number(paramValue)
           Object.assign(filterStateByUrlParams, { [param]: paramValue })
         }
       })
@@ -40,12 +41,13 @@ export default function Search(props) {
 
 
   function getFilterUrl(filter) {
-    const name     = filter.name     || filterState.name     || null
-    const category = filter.category || filterState.category || null
-    const min      = filter.min      || filterState.min      || null
-    const max      = filter.max      || filterState.max      || null
-    const rating   = filter.rating   || filterState.rating   || null
+    const name     = filter.name     || filterState.name
+    const category = filter.category || filterState.category
+    const min      = filter.min      || filterState.min
+    const max      = filter.max      || filterState.max
+    const rating   = filter.rating   || filterState.rating
     const order    = filter.order    || filterState.order
+    const page     = filter.page     || filterState.page
 
     let url = '/search'
     if (name && filter.name != 'all')         url += `/name/${name}`
@@ -54,7 +56,7 @@ export default function Search(props) {
     if (!!Number(max) && max > 0)             url += `/max/${max}`
     if (!!Number(rating) && rating > 0)       url += `/rating/${rating}`
     if (order != 'newest')                    url += `/order/${order}`
-
+    if (!!Number(page) && page > 1)           url += `/page/${page}`
     
     return url
   }
@@ -165,12 +167,38 @@ export default function Search(props) {
             : error
             ? <MessageBox variant='danger'>{error}</MessageBox>
             : (
+              <>
               <div className='row center'>
                 { !products.length
                   ? <MessageBox>Nenhum produto encontrado</MessageBox>
                   : products.map(product => <ProductCard key={product.id} product={product} />)
                 }
               </div>
+              { pages > 1 &&
+                <div className='row center pagination'>
+                  <Link key='prev'
+                    to={page > 1 && getFilterUrl({ page: page -1 })}
+                    onClick={() => page > 1 &&  setFilterState({...filterState, page: page-1})}>
+                    <i className='fa fa-chevron-left' />
+                  </Link>
+                  {
+                    [...Array(pages).keys()].map(x => (
+                      <Link key={x+1}
+                        className={x+1 === page ? 'active' : ''}
+                        to={getFilterUrl({ page: x+1 })}
+                        onClick={() => setFilterState({...filterState, page: x+1})}>
+                        {x+1}
+                      </Link>
+                    ))
+                  }
+                  <Link key='next'
+                    to={page < pages && getFilterUrl({ page: page +1 })}
+                    onClick={() => page < pages && setFilterState({...filterState, page: page+1})}>
+                    <i className='fa fa-chevron-right' />
+                  </Link>
+                </div>
+              }
+              </>
             )
           }
         </div>

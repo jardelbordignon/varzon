@@ -413,3 +413,16 @@ label.new-image:hover i { color:#2020a0; }
   border-left: 0;
   outline: none;
 }
+
+/* Pagination */
+.pagination a {
+  padding: 1rem;
+  margin: .5rem;
+  border-radius: .5rem;
+  border: .1rem solid #a4a4a4;
+  
+  font-size: 1.6rem;
+  font-family: Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

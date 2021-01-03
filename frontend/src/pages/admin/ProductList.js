@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link, useParams } from 'react-router-dom'
 
 import { listProducts, createProduct, deleteProduct } from '../../redux/product/productActions'
 import LoadingBox from '../../components/LoadingBox'
@@ -8,13 +9,14 @@ import { formatPrice } from '../../utils/formatters'
 import { PRODUCT_CREATE_RESET, PRODUCT_DELETE_RESET } from '../../redux/product/productConsts'
 
 export default function ProductList(props) {
-  const { loading, error, products } = useSelector( state => state.productList )
+  const { loading, error, products, page, pages } = useSelector( state => state.productList )
   const productCreate = useSelector( state => state.productCreate )
   const { loading:loadingCreate, success:successCreate, error:errorCreate, product  } = productCreate
   const productDelete = useSelector( state => state.productDelete )
   const { loading:loadingDelete, success:successDelete, error:errorDelete } = productDelete
   const { userInfo } = useSelector( state => state.userSignin )
   const dispatch = useDispatch()
+  const { pageNumber = 1 } = useParams()
   const sellerMode = props.match.path.indexOf('/seller') >= 0
   
   useEffect(() => {
@@ -25,8 +27,8 @@ export default function ProductList(props) {
     if (successDelete) {
       dispatch({ type: PRODUCT_DELETE_RESET })
     }
-    dispatch(listProducts({ sellerId: sellerMode ? userInfo.id : '' }))
-  }, [dispatch, props.history, product, successCreate, successDelete])
+    dispatch(listProducts({ page: pageNumber, sellerId: sellerMode ? userInfo.id : '' }))
+  }, [dispatch, props.history, product, successCreate, successDelete, sellerMode, userInfo.id, pageNumber])
 
   function goToForm(prod) {
     let url = '/admin/productForm'
@@ -60,6 +62,7 @@ export default function ProductList(props) {
         : error
         ? <MessageBox variant='danger'>{error}</MessageBox>
         : (
+          <>
           <table className='table'>
             <thead>
               <tr>
@@ -91,6 +94,29 @@ export default function ProductList(props) {
               )) }
             </tbody>
           </table>
+
+          { pages > 1 &&
+            <div className='row center pagination'>
+              <Link key='prev'
+                to={page > 1 && `/admin/products/page/${page -1}`}>
+                <i className='fa fa-chevron-left' />
+              </Link>
+              {
+                [...Array(pages).keys()].map(x => (
+                  <Link key={x+1}
+                    className={x+1 === page ? 'active' : ''}
+                    to={`/admin/products/page/${x+1}`} >
+                    {x+1}
+                  </Link>
+                ))
+              }
+              <Link key='next'
+                to={page < pages && `/admin/products/page/${page +1}`}>
+                <i className='fa fa-chevron-right' />
+              </Link>
+            </div>
+          }
+          </>
         )
       }
     
