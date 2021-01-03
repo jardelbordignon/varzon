@@ -88,6 +88,9 @@ export default {
     
     user.name = req.body.name || user.name
     user.email = req.body.email || user.email
+    user.isSeller = !!req.body.isSeller
+    user.isAdmin = !!req.body.isAdmin
+    
     if (req.body.password)
       user.password = bcrypt.hashSync(req.body.password, 8)
 

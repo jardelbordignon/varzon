@@ -63,7 +63,7 @@ export const detailsUser = userId => async (dispatch, getState) => {
   const { userSignin: { userInfo }} = getState()
   try {
     const { data } = await Axios.get(`/users/${userId}`, {
-      headers: { Authorization: 'Bearer ' + userInfo.token}
+      headers: { Authorization: 'Bearer ' + userInfo?.token}
     })
     console.log('data', data)
     dispatch({ type: USER_DETAILS_SUCCESS, payload: data })
