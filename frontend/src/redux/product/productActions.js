@@ -25,11 +25,13 @@ import {
   PRODUCT_CATEGORY_LIST_FAIL,
 } from './productConsts'
 
-export const listProducts = ({sellerId='', name='', category='', min=0, max=0, order=''}) => async dispatch => {
+export const listProducts = (
+    {page='', sellerId='', name='', category='', min=0, max=0, order=''}
+  ) => async dispatch => {
   dispatch({ type: PRODUCT_LIST_REQUEST })
   try {
     const { data } = await Axios.get(
-      `/products?sellerId=${sellerId}&name=${name}&category=${category}&min=${min}&max=${max}&order=${order}`
+      `/products?page=${page}&sellerId=${sellerId}&name=${name}&category=${category}&min=${min}&max=${max}&order=${order}`
     )
     dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data })
   } catch (error) {

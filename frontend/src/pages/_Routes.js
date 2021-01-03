@@ -47,6 +47,7 @@ export default function Routes() {
       <ConditionedRoute seller path='/seller/products' exact component={ProductList} />
       <ConditionedRoute seller path='/seller/orders' exact component={OrderList} />
       <ConditionedRoute admin path='/admin/products' component={ProductList} />
+      <ConditionedRoute admin path='/admin/products/page/:pageNumber' component={ProductList} />
       <ConditionedRoute admin path='/admin/orders' component={OrderList} />
       <ConditionedRoute admin path='/admin/users' exact component={UserList} />
       <ConditionedRoute admin path='/admin/users/:id/edit' component={UserEdit} />
